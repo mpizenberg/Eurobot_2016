@@ -122,6 +122,68 @@ void __attribute__((interrupt,auto_psv)) _T4Interrupt(void) {
     _T4IF = 0;  // baisse du flag
 }
 
+/**********************************************/
+// CN interrupt for ultrasson 
+
+void __attribute__ ((__interrupt__, no_auto_psv)) _CNInterrupt(void)
+{
+    uint32_t val32;
+    
+    // baisse le flag puis récup des etats de pins, 
+    // si les pins rebougent durant ce laps tres court, ça redéclenchera une IT directe apres,
+    // mais avec old_ ça doit tenir
+    IFS1bits.CNIF = 0; // Clear CN interrupt
+    uint8_t Etat_Pin_Ultrason = PIN_ULTRASON;
+
+
+
+    // si Etat_Ultrason mérite que l'on s'occupe de lui
+    if (Etat_Ultrason & (U_ETAT_WAIT1 + U_ETAT_WAIT0 + U_ETAT_WAIT0_OVERSHOOT)) {
+        if (Etat_Pin_Ultrason) {
+            if (Etat_Ultrason & U_ETAT_WAIT1) {
+                //if (!count_Debug_Ultrason && Debug_Ultrason) { printf("$START_MESURE;"); }
+                TMR4 = 0;                       // restart du timer pour la mesure
+                Etat_Ultrason = U_ETAT_WAIT0;
+            }
+        } else {
+            if (Etat_Ultrason & U_ETAT_WAIT0) {     // si attente standard => récup mesure
+                PIN_CN_ULTRASON_IE = 0;     // desactivation de cette IT
+                Mesure_Timer_Ultrason = TMR4;       // 1 = 0.2us
+                //if (!count_Debug_Ultrason && Debug_Ultrason) { printf("$END_MESURE;"); }
+                // à base de vitesse du son (/2 pour l'aller-retour)  340.29 m/s
+                // => 1 coup = 34 us 
+                // pour avoir distance en mm, il faut diviser par 29.39
+                // donc multiplication par 1115 puis division par 32768 (2^15)
+                // passage obligé en 32 bits
+                val32 = 1115 * (uint32_t)(Mesure_Timer_Ultrason);
+                Mesure_Distance_Ultrason = (uint16_t)((val32 >> 15));
+                if (Sector_Ultrason) {
+                    if (Mesure_Distance_Ultrason < (ULTRASON_THRESOLD - ULTRASON_THRESOLD_TRIGGER)) {
+                        if (Ative_Motion_Free_Ultrason) {
+                            motion_free();
+                        }
+                        Sector_Ultrason = 0;            // passage en sector  occupé
+                        DetectUltrason();		// on previent la PI
+                    }
+                } else {
+                    if (Mesure_Distance_Ultrason > (ULTRASON_THRESOLD + ULTRASON_THRESOLD_TRIGGER)) {
+                        Sector_Ultrason = 1;    // passage en sector ok
+                        ReleaseUltrason();              // on previent la PI
+                    }
+                }
+                Etat_Ultrason = U_ETAT_WAIT_FOR_RESTART;   // attente fin du timer pour restart...
+            } else if (Etat_Ultrason & U_ETAT_WAIT0_OVERSHOOT) {    // si attente overshoot => fabrication d'une mesure max
+                //if (!count_Debug_Ultrason && Debug_Ultrason) { printf("$END_MESURE_OVER;"); }
+                PIN_CN_ULTRASON_IE = 0;     // desactivation de cette IT
+                Mesure_Timer_Ultrason = 0xFFFF;
+                Mesure_Distance_Ultrason = 3000;            // 3m
+                Etat_Ultrason = U_ETAT_WAIT_FOR_RESTART;    // attente fin du timer pour restart...
+            }
+        }
+    }
+}
+
+
 void Start_Stop_Debug_Ultrason(void)
 {
     if (Debug_Ultrason) {

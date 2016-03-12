@@ -203,12 +203,17 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d){
      * celles autorisées par l'accélération max
      */
     // distance et angle restants à parcourir
+    // r�cup consigne
     float x_o = pos_asserv.pos_order.x; // consigne en x
     float y_o = pos_asserv.pos_order.y; // consigne en y
+    // r�cup position actuelle
     float x = odo->state->pos.x;
     float y = odo->state->pos.y;
+    // calcul distance
     float d = sqrt((x_o-x)*(x_o-x) + (y_o-y)*(y_o-y));
+    // calcul angle
     float dt = principal_angle(atan2f(y_o-y,x_o-x) - odo->state->pos.t);
+    
     float v_o, vt_o;
     float epsi = PI * 0.1;
 

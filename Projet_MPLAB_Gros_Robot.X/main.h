@@ -19,3 +19,4 @@
 
 #endif	/* MAIN_H */
 
+void Debug_Asserv_Start(void);

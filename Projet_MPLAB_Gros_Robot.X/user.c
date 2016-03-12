@@ -52,6 +52,9 @@ void Init_All(int callback){
     TRISAbits.TRISA9 = 1;
     
     TRIS_TEAM = 1;  // input for bouton jaune/vert
+    
+    TRIS_LAISSE = 1;            // input for laisse
+    
     Init_CN();
 
     if(callback) {

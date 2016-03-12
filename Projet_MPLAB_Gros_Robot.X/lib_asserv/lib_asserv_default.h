@@ -33,7 +33,7 @@
 #endif
 
 #ifndef DEFAULT_PERIOD
-#define DEFAULT_PERIOD 0.008
+#define DEFAULT_PERIOD 0.005
 #endif
 
 /*############################################################################*/

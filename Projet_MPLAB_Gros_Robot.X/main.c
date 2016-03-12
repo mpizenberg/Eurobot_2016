@@ -53,3 +53,15 @@ int main(int argc, char** argv) {
     }
 }
 
+
+void Debug_Asserv_Start(void)
+{
+    Position MOVE;
+    
+    //asserv_init();
+    MOVE.t = 0;
+    MOVE.x = 1;
+    MOVE.y = 0;
+    motion_pos(MOVE);
+    
+}

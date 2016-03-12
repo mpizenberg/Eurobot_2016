@@ -5,11 +5,11 @@
 /* User Level #define Macros                                                  */
 /******************************************************************************/
 #define led _LATA2
-#define PIN_LAISSE _RC3         // 5V num 4
+#define PIN_LAISSE _RC3
+#define TRIS_LAISSE _TRISC3
 #define PIN_TEAM _RA4
 #define TRIS_TEAM _TRISA4 
 // ultrason : en RC4 // defini dans ultrason .h
-#define BOUTON_COULEUR _RA9
 
 /******************************************************************************/
 /* System Level #define Macros                                                */
