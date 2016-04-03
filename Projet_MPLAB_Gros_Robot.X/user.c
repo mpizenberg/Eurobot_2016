@@ -51,7 +51,7 @@ void Init_All(int callback){
     Init_Ultrasons();
     TRISAbits.TRISA9 = 1;
     
-    TRIS_TEAM = 1;  // input for bouton jaune/vert
+    TRIS_TEAM = 1;  // input for bouton vert/violet(rouge)
     
     TRIS_LAISSE = 1;            // input for laisse
     
