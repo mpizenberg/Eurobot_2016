@@ -10,15 +10,18 @@
 
 
 
-#define rabd           7  // le rabateur
-#define rabg           14  // le rabateur
-#define pince          9  // la pince
-#define asc            11 // l'ascenceur
-#define tub            1    // le reservoir
-#define clapl          4    // old clap
-#define clapr          22
-#define popcorn_d           17
-#define popcorn_g           20
+#define Fish_AvG			7	// bras de pêche Avant-Gauche
+#define Fish_AvD			14	// 				 Avant-Droit
+#define Fish_ArG			9	// 				 Arrière-Gauche
+#define Fish_ArD            11	// 				 Arrière-Droit
+#define Magnet_AvG          1	// Bras d'aimants de pêche Avant-Gauche
+#define Magnet_AvD          4	// 						   Avant-Droit
+#define Magnet_AvG          22	//						   Arrière-Gauche
+#define Magnet_AvD          17	// 						   Arrière-Droit
+#define Bras_G				20	// Bras pour Sable de Gauche
+#define Bras_C				20	// 					Centrale
+#define Bras_D				20	// 					de Droite
+#define Bras_parasol		17	// Bras pour la Funny Action
 
 // CLLC
 // CLRO
@@ -29,35 +32,27 @@
 void Add_Action_AX12(char Action_ToDo);
 void Faire_Actions_AX12(void);
 
-#define AX12_INIT_AX12           1
+#define AX12_INIT_AX12			1
 void Init_ax12(void);
-#define AX12_CHARG_SPOT          2
-void charg_spot(void);
-#define AX12_CHARG_LAST_SPOT     3
-void charg_last_spot(void);
-#define AX12_RELEASE             4
-void release (void);
-#define AX12_CLOSE_CLAWS         5
-void close_claws(void);
-#define AX12_OPEN_CLAWS          6
-void open_claws(void);
-#define AX12_OPEN_POPCORN_D      9
-void open_popcorn_d(void);
-#define AX12_CLOSE_POPCORN_D     10
-void close_popcorn_d(void);
-#define AX12_CLOSE_TUB           11 //CLTB asynchrone
-void close_tub(void);            
-#define AX12_CLOSE_CLAPR         12
-void close_clap_r(void);
-#define AX12_OPEN_CLAPR          13
-void open_clap_r(void);
-#define AX12_CLOSE_CLAPL         14
-void close_clap_l(void);
-#define AX12_OPEN_CLAPL          15
-void open_clap_l(void);
-#define AX12_OPEN_POPCORN_G      16
-void open_popcorn_g(void);
-#define AX12_CLOSE_POPCORN_G     17
-void close_popcorn_g(void);
+#define AX12_DEPLOY_FISH_AV		2		// Déploiement de bras de pêche.
+void Deploy_fish_Av(void);
+#define AX12_DEPLOY_FISH_Ar		3		// idem
+void Deploy_fish_Ar(void);
+#define AX12_MOVEUP_FISH_AV		4		// Levage (sans ranger !) de bras de pêche
+void Moveup_fish_Av(void);				// pour évacuer le poisson de l'eau.
+#define AX12_MOVEUP_FISH_AR		5		// idem
+void Moveup_fish_Ar(void);
+#define AX12_RLZ_FISH_AV		6		// Ouverture du bras supérieur pour lacher les poissons.
+void Rlz_fish_Av(void);
+#define AX12_RLZ_FISH_AR		7		// idem
+void Rlz_fish_Ar(void);            
+#define AX12_OPEN_BRAS          8		// Ouvertures des bras (milieu + G ou D) pour prendre du sable
+void Open_bras(void);
+#define AX12_OPENFULL_BRAS		9		// Ouverture des bras pour fermer les portes.
+void Openfull_bras(void);
+#define AX12_CLOSE_BRAS 	    10		// Fermeture des bras pour attraper le sable.
+void Close_bras(void);
+#define AX12_FUNNY_ACTION 	    11		// Déploiement du bras pour ouvrir le parasol.
+void Funny_action(void);
 
 #endif	/* ACTIONS_AX12_H */
