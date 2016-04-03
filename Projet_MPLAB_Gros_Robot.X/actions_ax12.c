@@ -51,47 +51,26 @@ void Faire_Actions_AX12(void)
             case AX12_INIT_AX12 :
                 Init_ax12();
                 break;
-            case AX12_CHARG_SPOT :
-                charg_spot();
+            case AX12_DEPLOY_FISH_AV :
+                Deploy_fish_Av();
                 break;
-            case AX12_CHARG_LAST_SPOT :
-                charg_last_spot();
+            case AX12_DEPLOY_FISH_AR :
+                Deploy_fish_Ar();
                 break;
-            case AX12_RELEASE:
-                release();
+            case AX12_RLZ_FISH_AV:
+                Rlz_fish_AvG();
                 break;
-            case AX12_CLOSE_CLAWS:
-                close_claws();
+            case AX12_RLZ_FISH_AR:
+                Rlz_fish_Ar();
                 break;
-            case AX12_OPEN_CLAWS:
-                open_claws();
+            case AX12_OPEN_BRAS:
+                Open_bras();
                 break;
-            case AX12_OPEN_POPCORN_D:
-                open_popcorn_d();
+            case AX12_OPENFULL_BRAS:
+                Openfull_bras();
                 break;
-            case AX12_CLOSE_POPCORN_D:
-                close_popcorn_d();
-                break;
-            case AX12_OPEN_POPCORN_G:
-                open_popcorn_g();
-                break;
-            case AX12_CLOSE_POPCORN_G:
-                close_popcorn_g();
-                break;
-            case AX12_CLOSE_TUB:
-                close_tub();
-                break;
-            case AX12_CLOSE_CLAPR:
-                close_clap_r();
-                break;
-            case AX12_OPEN_CLAPR:
-                open_clap_r();
-                break;
-            case AX12_CLOSE_CLAPL:
-                close_clap_l();
-                break;
-            case AX12_OPEN_CLAPL:
-                open_clap_l();
+            case AX12_CLOSE_BRAS:
+                Close_bras();
                 break;
         }
         Num_Action_Done = num;
@@ -99,251 +78,218 @@ void Faire_Actions_AX12(void)
 }
 
 
-
-
-
 void Init_ax12() {
-    
-    
-    
-    
 
-    PutAX(rabd, AX_TORQUE_LIMIT, maxtork_claw);
-    __delay_ms(delay_ax);
-    PutAX(rabg, AX_TORQUE_LIMIT, maxtork_claw);
-    __delay_ms(delay_ax);
-    PutAX(pince, AX_TORQUE_LIMIT, 850);
-    __delay_ms(delay_ax);
-    PutAX(asc, AX_TORQUE_LIMIT, 800);
-    __delay_ms(delay_ax);
-    PutAX(tub, AX_TORQUE_LIMIT, 600);
-    __delay_ms(delay_ax);
-    PutAX(clapr, AX_TORQUE_LIMIT, maxtork_claw);
-    __delay_ms(delay_ax);
-    PutAX(clapl, AX_TORQUE_LIMIT, maxtork_claw);
-    __delay_ms(delay_ax);
-    PutAX(popcorn_d, AX_TORQUE_LIMIT, maxtork_claw);
-    __delay_ms(delay_ax);
-    PutAX(popcorn_g, AX_TORQUE_LIMIT, maxtork_claw);
-    __delay_ms(delay_ax);
+    PutAX(Fish_AvG, 	AX_TORQUE_LIMIT, maxtork_claw);
+						__delay_ms(delay_ax);
+    PutAX(Fish_AvD, 	AX_TORQUE_LIMIT, maxtork_claw);
+						__delay_ms(delay_ax);
+	PutAX(Fish_ArG, 	AX_TORQUE_LIMIT, maxtork_claw);
+						__delay_ms(delay_ax);
+	PutAX(Fish_ArD, 	AX_TORQUE_LIMIT, maxtork_claw);
+						__delay_ms(delay_ax);
+	PutAX(Magnet_AvG, 	AX_TORQUE_LIMIT, maxtork_claw);
+						__delay_ms(delay_ax);
+    PutAX(Magnet_AvD, 	AX_TORQUE_LIMIT, maxtork_claw);
+						__delay_ms(delay_ax);
+	PutAX(Magnet_ArG, 	AX_TORQUE_LIMIT, maxtork_claw);
+						__delay_ms(delay_ax);
+	PutAX(Magnet_ArD, 	AX_TORQUE_LIMIT, maxtork_claw);
+						__delay_ms(delay_ax);
+	PutAX(Bras_G, 		AX_TORQUE_LIMIT, maxtork_claw);
+						__delay_ms(delay_ax);
+	PutAX(Bras_C, 		AX_TORQUE_LIMIT, maxtork_claw);
+						__delay_ms(delay_ax);	
+	PutAX(Bras_D, 		AX_TORQUE_LIMIT, maxtork_claw);
+						__delay_ms(delay_ax);
+	PutAX(Bras_parasol, AX_TORQUE_LIMIT, maxtork_claw);
+						__delay_ms(delay_ax);
+	
+	PutAX(Fish_AvG, 	AX_MOVING_SPEED, maxspeed_claw);
+						__delay_ms(delay_ax);
+    PutAX(Fish_AvD, 	AX_MOVING_SPEED, maxspeed_claw);
+						__delay_ms(delay_ax);
+	PutAX(Fish_ArG, 	AX_MOVING_SPEED, maxspeed_claw);
+						__delay_ms(delay_ax);
+	PutAX(Fish_ArD, 	AX_MOVING_SPEED, maxspeed_claw);
+						__delay_ms(delay_ax);
+	PutAX(Magnet_AvG, 	AX_MOVING_SPEED, maxspeed_claw);
+						__delay_ms(delay_ax);
+    PutAX(Magnet_AvD, 	AX_MOVING_SPEED, maxspeed_claw);
+						__delay_ms(delay_ax);
+	PutAX(Magnet_ArG, 	AX_MOVING_SPEED, maxspeed_claw);
+						__delay_ms(delay_ax);
+	PutAX(Magnet_ArD, 	AX_MOVING_SPEED, maxspeed_claw);
+						__delay_ms(delay_ax);
+	PutAX(Bras_G, 		AX_MOVING_SPEED, maxspeed_claw);
+						__delay_ms(delay_ax);
+	PutAX(Bras_C, 		AX_MOVING_SPEED, maxspeed_claw);
+						__delay_ms(delay_ax);	
+	PutAX(Bras_D, 		AX_MOVING_SPEED, maxspeed_claw);
+						__delay_ms(delay_ax);
+	PutAX(Bras_parasol, AX_MOVING_SPEED, maxspeed_claw);
+						__delay_ms(delay_ax);
 
 
-    PutAX(rabd, AX_MOVING_SPEED, maxspeed_claw);
-    __delay_ms(delay_ax);
-    PutAX(rabg, AX_MOVING_SPEED, maxspeed_claw);
-    __delay_ms(delay_ax);
-    PutAX(pince, AX_MOVING_SPEED, 400);
-    __delay_ms(delay_ax);
-    PutAX(asc, AX_MOVING_SPEED, 600);
-    __delay_ms(delay_ax);
-    PutAX(tub, AX_MOVING_SPEED, 450);
-    __delay_ms(delay_ax);
-    PutAX(clapl, AX_MOVING_SPEED, 1000);
-    __delay_ms(delay_ax);
-    PutAX(clapr, AX_MOVING_SPEED, 1000);
-    __delay_ms(delay_ax);
-    PutAX(popcorn_d, AX_MOVING_SPEED, maxspeed_claw);
-    __delay_ms(delay_ax);
-    PutAX(popcorn_g, AX_MOVING_SPEED, maxspeed_claw);
-    __delay_ms(delay_ax);
-
-
-    PutAX(clapl, AX_GOAL_POSITION, 520);
-    __delay_ms(40);
-    PutAX(clapr, AX_GOAL_POSITION, 504);
-    __delay_ms(40);
-    PutAX(asc, AX_GOAL_POSITION, 320);
-    __delay_ms(500);
-    PutAX(rabd,AX_GOAL_POSITION,200);
-    __delay_ms(700);
-    PutAX(rabg,AX_GOAL_POSITION,750);
-    __delay_ms(700);
-    //PutAX(rabd, AX_GOAL_POSITION, 620);
-    //__delay_ms(500);
-    //PutAX(rabg, AX_GOAL_POSITION, 390);
-    //__delay_ms(500);
-    PutAX(pince, AX_GOAL_POSITION, 260);
-    __delay_ms(40);
-    PutAX(tub, AX_GOAL_POSITION, 350);
-    __delay_ms(40);
-
-    PutAX(popcorn_g, AX_GOAL_POSITION, 194); //412
-    __delay_ms(40);
-    PutAX(popcorn_d, AX_GOAL_POSITION, 830);
-    __delay_ms(40);
+	// PutAX(Fish_AvG, 	AX_GOAL_POSITION, /*position init*/);
+						// __delay_ms(/*delay optimal*/);
+    // PutAX(Fish_AvD, 	AX_GOAL_POSITION, /*position init*/);
+						// __delay_ms(/*delay optimal*/);
+	// PutAX(Fish_ArG, 	AX_GOAL_POSITION, /*position init*/);
+						// __delay_ms(/*delay optimal*/);
+	// PutAX(Fish_ArD, 	AX_GOAL_POSITION, /*position init*/);
+						// __delay_ms(/*delay optimal*/);
+	// PutAX(Magnet_AvG, 	AX_GOAL_POSITION, /*position init*/);
+						// __delay_ms(/*delay optimal*/);
+    // PutAX(Magnet_AvD, 	AX_GOAL_POSITION, /*position init*/);
+						// __delay_ms(/*delay optimal*/);
+	// PutAX(Magnet_ArG, 	AX_GOAL_POSITION, /*position init*/);
+						// __delay_ms(/*delay optimal*/);
+	// PutAX(Magnet_ArD, 	AX_GOAL_POSITION, /*position init*/);
+						// __delay_ms(/*delay optimal*/);
+	// PutAX(Bras_G, 		AX_GOAL_POSITION, /*position init*/);
+						// __delay_ms(/*delay optimal*/);
+	// PutAX(Bras_C, 		AX_GOAL_POSITION, /*position init*/);
+						// __delay_ms(/*delay optimal*/);	
+	// PutAX(Bras_D, 		AX_GOAL_POSITION, /*position init*/);
+						// __delay_ms(/*delay optimal*/);
+	// PutAX(Bras_parasol, AX_GOAL_POSITION, /*position init*/);
+						// __delay_ms(/*delay optimal*/);
 
 }
 
-void charg_spot(void)
+ void Deploy_fish_Av(void)		// Déploie le bras de pêche Avant.
+ {
+    if(!PIN_TEAM)
+        // PutAX(Fish_AvG,AX_GOAL_POSITION,/*TBA*/);
+    else
+        // PutAX(Fish_AvD,AX_GOAL_POSITION,/*TBA*/);
+	
+    // __delay_ms(/*TBA*/);
+ }
+
+ void Deploy_fish_Ar(void)		// Déploie le bras de pêche Arriere.
+ {
+    if(!PIN_TEAM)
+        // PutAX(Fish_ArG,AX_GOAL_POSITION,/*TBA*/);
+    else
+        // PutAX(Fish_ArD,AX_GOAL_POSITION,/*TBA*/);
+	
+    // __delay_ms(/*TBA*/);
+ }
+
+ void Moveup_fish_Av(void)		// Releve legerement le bras de pêche Avant.
+ {
+    if(!PIN_TEAM)
+        // PutAX(Fish_AvG,AX_GOAL_POSITION,/*TBA*/);
+    else
+        // PutAX(Fish_AvD,AX_GOAL_POSITION,/*TBA*/);
+	
+    // __delay_ms(/*TBA*/);
+ }
+
+ void Moveup_fish_Ar(void)		// Releve legerement le bras de pêche Arriere.
+ {
+    if(!PIN_TEAM)
+        // PutAX(Fish_ArG,AX_GOAL_POSITION,/*TBA*/);
+    else
+        // PutAX(Fish_ArD,AX_GOAL_POSITION,/*TBA*/);
+	
+    __delay_ms(/*TBA*/);
+}
+
+ void Rlz_fish_Av(void)		// Leve le bras d'aimants Avant.
+ {
+    if(!PIN_TEAM)
+	{
+		// PutAX(Fish_AvG,AX_GOAL_POSITION,/*TBA*/);	// Positionnement du bras.
+		// __delay_ms(/*TBA*/);
+		// PutAX(Magnet_AvG,AX_GOAL_POSITION,/*TBA*/);	// Lâchez les poissons !!!!
+		// __delay_ms(/*TBA*/);
+		// PutAX(Magnet_AvG,AX_GOAL_POSITION,/*TBA*/);	// Rangement du bras a aimants.
+		// __delay_ms(/*TBA*/);
+		// PutAX(Fish_AvG,AX_GOAL_POSITION,/*TBA*/);	// Rangement du bras de pêche.
+	}
+    else
+    {
+		// PutAX(Fish_AvD,		AX_GOAL_POSITION,/*TBA*/);	// Positionnement du bras.
+							// __delay_ms(/*TBA*/);
+		// PutAX(Magnet_AvD,	AX_GOAL_POSITION,/*TBA*/);	// Lâchez les poissons !!!!
+							// __delay_ms(/*TBA*/);
+		// PutAX(Magnet_AvD,	AX_GOAL_POSITION,/*TBA*/);	// Rangement du bras a aimants.
+							// __delay_ms(/*TBA*/);
+		// PutAX(Fish_AvD,		AX_GOAL_POSITION,/*TBA*/);	// Rangement du bras de pêche.
+	}
+		// __delay_ms(/*TBA*/);
+ }
+
+void Rlz_fish_Ar(void)		// Leve le bras d'aimants Avant.
 {
-//int k;
-    if(!PIN_TEAM) {
-        PutAX(rabd,AX_GOAL_POSITION,330); //rabat la piece 700      //300
-        __delay_ms(700);
-        PutAX(rabd,AX_GOAL_POSITION,620); //reouvre
-        __delay_ms(500);
-        PutAX(rabg,AX_GOAL_POSITION,820); //rabat la piece 700      //850
-        __delay_ms(700);
-        PutAX(rabg,AX_GOAL_POSITION,390); //reouvre
-        __delay_ms(50);
-    }
-    else {
-        PutAX(rabg,AX_GOAL_POSITION,820); //rabat la piece 700      //850
-        __delay_ms(700);
-        PutAX(rabg,AX_GOAL_POSITION,390); //reouvre
-        __delay_ms(500);
-        PutAX(rabd,AX_GOAL_POSITION,330); //rabat la piece 700      //300
-        __delay_ms(700);
-        PutAX(rabd,AX_GOAL_POSITION,620); //reouvre
-        __delay_ms(50);
-    }
-
-    //if (PORTAbits.RA9 == 1) {
-
-        PutAX(tub,AX_GOAL_POSITION,350); //reouvre legerement le tub
-        __delay_ms(50);
-        PutAX(pince,AX_GOAL_POSITION,255); //ouvre la pince
-        __delay_ms(50);
-        PutAX(asc,AX_GOAL_POSITION,945); //descent la pince
-        __delay_ms(700);
-        PutAX(pince,AX_GOAL_POSITION,170); //ferme la pince
-        __delay_ms(300);
-        PutAX(asc,AX_GOAL_POSITION,320); //remonte la pince
-        __delay_ms(850);
-        PutAX(tub,AX_GOAL_POSITION,270); //referme le tube
-        __delay_ms(300);
-        SendDone();
-        PutAX(pince,AX_GOAL_POSITION,255); //ouvre la pince
-        __delay_ms(50);
-        // TRY PEPINO
-        PutAX(asc,AX_GOAL_POSITION,410); //descend un peu la pince
-        __delay_ms(150);
-        PutAX(pince,AX_GOAL_POSITION,170); //ferme la pince
-        __delay_ms(150);
-        PutAX(tub,AX_GOAL_POSITION,320); //reouvre legerement le tub
-        __delay_ms(50);
-        PutAX(asc,AX_GOAL_POSITION,320); //remonte la pince
-        __delay_ms(300);
-        PutAX(tub,AX_GOAL_POSITION,270); //referme le tube
-        __delay_ms(100);
-        PutAX(pince,AX_GOAL_POSITION,255); //ouvre la pince
-        __delay_ms(50);
-
-
-    //}
-   // else {
-   //     SendFailAX12();
-   // }
+    if(!PIN_TEAM)
+	{
+		// PutAX(Fish_ArG,		AX_GOAL_POSITION,/*TBA*/);	// Positionnement du bras.
+							// __delay_ms(/*TBA*/);
+		// PutAX(Magnet_ArG,	AX_GOAL_POSITION,/*TBA*/);	// Lâchez les poissons !!!!
+							// __delay_ms(/*TBA*/);
+		// PutAX(Magnet_ArG,	AX_GOAL_POSITION,/*TBA*/);	// Rangement du bras a aimants.
+							// __delay_ms(/*TBA*/);
+		// PutAX(Fish_ArG,		AX_GOAL_POSITION,/*TBA*/);	// Rangement du bras de pêche.
+	}
+    else
+    {
+		// PutAX(Fish_ArD,		AX_GOAL_POSITION,/*TBA*/);	// Positionnement du bras.
+							// __delay_ms(/*TBA*/);
+		// PutAX(Magnet_ArD,	AX_GOAL_POSITION,/*TBA*/);	// Lâchez les poissons !!!!
+							// __delay_ms(/*TBA*/);
+		// PutAX(Magnet_ArD,	AX_GOAL_POSITION,/*TBA*/);	// Rangement du bras a aimants.
+							// __delay_ms(/*TBA*/);
+		// PutAX(Fish_ArD,		AX_GOAL_POSITION,/*TBA*/);	// Rangement du bras de pêche.
+	}
+		// __delay_ms(/*TBA*/);
 }
 
-void charg_last_spot(void)
+void Open_bras(void)
 {
-    if(PIN_TEAM) {
-        PutAX(rabd,AX_GOAL_POSITION,330); //rabat la piece 700      //300
-        __delay_ms(700);
-        PutAX(rabd,AX_GOAL_POSITION,620); //reouvre
-        __delay_ms(500);
-        PutAX(rabg,AX_GOAL_POSITION,820); //rabat la piece 700      //850
-        __delay_ms(700);
-        PutAX(rabg,AX_GOAL_POSITION,390); //reouvre
-        __delay_ms(50);
+    if(!PIN_TEAM)
+	{
+        // PutAX(rabd,AX_GOAL_POSITION,330); //rabat la piece
+        // __delay_ms(700);
+        // PutAX(rabd,AX_GOAL_POSITION,620); //reouvre
+        // __delay_ms(500);
+        // PutAX(rabg,AX_GOAL_POSITION,820); //rabat la piece
+        // __delay_ms(700);
+        // PutAX(rabg,AX_GOAL_POSITION,390); //reouvre
+        // __delay_ms(50);
     }
-    else {
-        PutAX(rabg,AX_GOAL_POSITION,820); //rabat la piece 700      //850
-        __delay_ms(700);
-        PutAX(rabg,AX_GOAL_POSITION,390); //reouvre
-        __delay_ms(500);
-        PutAX(rabd,AX_GOAL_POSITION,330); //rabat la piece 700      //300
-        __delay_ms(700);
-        PutAX(rabd,AX_GOAL_POSITION,620); //reouvre
-        __delay_ms(50);
+    else
+	{
+        // PutAX(rabg,AX_GOAL_POSITION,820); //rabat la piece
+        // __delay_ms(700);
+        // PutAX(rabg,AX_GOAL_POSITION,390); //reouvre
+        // __delay_ms(500);
+        // PutAX(rabd,AX_GOAL_POSITION,330); //rabat la piece
+        // __delay_ms(700);
+        // PutAX(rabd,AX_GOAL_POSITION,620); //reouvre
+        // __delay_ms(50);
     }
-    PutAX(pince,AX_GOAL_POSITION,255); //ouvre la pince
-    __delay_ms(50);
-    PutAX(asc,AX_GOAL_POSITION,945); //descent la pince
-    __delay_ms(800);
-    PutAX(pince,AX_GOAL_POSITION,170); //ferme la pince
-    __delay_ms(50);
 
     SendDone();
 }
 
-void release (void) {
-
-    PutAX(pince,AX_GOAL_POSITION,255); //entre-ouvre pince
-    __delay_ms(300);
-    PutAX(asc,AX_GOAL_POSITION,600); //remonte la pince
-    __delay_ms(600);
-    PutAX(tub,AX_GOAL_POSITION,320); //reouvre legerement le tub
-    __delay_ms(500);
-    PutAX(tub,AX_GOAL_POSITION,700); //ouvre reservoir
-    __delay_ms(100);
-    PutAX(pince,AX_GOAL_POSITION,350); //ouvre pince
-    __delay_ms(300);
+void Openfull_bras (void) 
+{	// Ouverture à 180° des bras pour fermer les portes.
 
     SendDone();
 }
 
-void close_claws(void) { // fonction qui permet la fermeture des pinces à la volée
-    PutAX(rabd,AX_GOAL_POSITION,200);
-    __delay_ms(500);
-    PutAX(rabg,AX_GOAL_POSITION,750);
-    __delay_ms(50);
+void Close_bras(void)
+{ // Resserrage des bras contre les blocs de sable.
+
 }
 
-void open_claws(void) { // fonction qui permet la fermeture des pinces à la volée
-    PutAX(rabg, AX_GOAL_POSITION, 390);
-    __delay_ms(500);
-    PutAX(rabd, AX_GOAL_POSITION, 620);
-    __delay_ms(50);
+void Funny_action(void)
+{ // Déploiement du bras pour tendre le 'parasol'.
+
 }
 
-void open_clap_r(void) {
-    PutAX(clapr,AX_GOAL_POSITION,194); //rabat la piece 700
-    __delay_ms(100);
-}
-
-void close_clap_r(void) {
-    PutAX(clapr,AX_GOAL_POSITION,504); //rabat la piece 700
-    __delay_ms(100);
-}
-
-void open_clap_l(void) {
-    PutAX(clapl,AX_GOAL_POSITION,830); //rabat la piece 700
-    __delay_ms(100);
-}
-
-void close_clap_l(void) {
-    PutAX(clapl,AX_GOAL_POSITION,520); //rabat la piece 700
-    __delay_ms(100);
-}
-
-void open_popcorn_d(void) {
-    PutAX(popcorn_d,AX_GOAL_POSITION,830); //rabat la piece 700
-    __delay_ms(50);
-    SendDone();
-}
-
-void close_popcorn_d(void) {
-    PutAX(popcorn_d,AX_GOAL_POSITION,500); //rabat la piece 700
-    __delay_ms(50);
-    SendDone();
-}
-
-void open_popcorn_g(void) {
-    PutAX(popcorn_g,AX_GOAL_POSITION,194); //rabat la piece 700
-    __delay_ms(50);
-    SendDone();
-}
-
-void close_popcorn_g(void) {
-    PutAX(popcorn_g,AX_GOAL_POSITION,522); //ferme l'attrape popkorn
-    __delay_ms(50);
-    SendDone();
-}
-
-void close_tub(void) { // fonction qui permet de refermer le tub de manière asynchrone
-    PutAX(tub,AX_GOAL_POSITION,270); //referme le tube
-    __delay_ms(250);
-}
 /******************************************************************************/
