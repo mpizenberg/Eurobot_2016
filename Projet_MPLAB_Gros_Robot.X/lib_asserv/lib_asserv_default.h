@@ -29,7 +29,7 @@
 /*############################################################################*/
 
 #ifndef DEFAULT_ODO_COEFS
-#define DEFAULT_ODO_COEFS {54327, 0.000018407, 0.287}
+#define DEFAULT_ODO_COEFS {54327, 0.000018407, 0.26}
 #endif
 
 #ifndef DEFAULT_PERIOD

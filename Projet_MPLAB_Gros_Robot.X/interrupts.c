@@ -176,8 +176,7 @@ void Init_CN()
 // 5 ms
 void __attribute__((interrupt,auto_psv)) _T2Interrupt(void) {
     
-    
-
+   
     // compteurs QEI gauche et droit
     static int tics_g, tics_d;
     // commandes gauches et droite
@@ -187,9 +186,9 @@ void __attribute__((interrupt,auto_psv)) _T2Interrupt(void) {
     tics_g = (int)POS1CNT;
     tics_d = (int)POS2CNT;
     // effectuer un pas de déplacement
-   motion_step(tics_g,tics_d, &commande_g, &commande_d);
+    motion_step(tics_g,tics_d, &commande_g, &commande_d);
     // mettre ici les pwm gauche et droit
-   PWM_Moteurs(commande_g, commande_d);
+    PWM_Moteurs(commande_g, commande_d);
 
    _T2IF = 0;   // on baisse le flag
 }
@@ -224,7 +223,8 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
             Active_Delay_90 = 1;
             Delay_90 = 0;
             SendStart();
-            Debug_Asserv_Start();
+            //Debug_Asserv_Start();
+            //Debug_PWM_Start();
         }
     } else {
         if (Count_Laisse == 30) {

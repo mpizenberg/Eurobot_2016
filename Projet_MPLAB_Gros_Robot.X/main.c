@@ -47,6 +47,9 @@ int main(int argc, char** argv) {
     Init_All(0);
 
     
+    // Code de test qui fait bouger le robot doucement :
+    // Debug_Asserv_Start();
+    
     while (1) // boucle principale
     {
         Faire_Actions_AX12();
@@ -56,12 +59,11 @@ int main(int argc, char** argv) {
 
 void Debug_Asserv_Start(void)
 {
-    Position MOVE;
+    Speed MOVE;
     
     //asserv_init();
-    MOVE.t = 0;
-    MOVE.x = 1;
-    MOVE.y = 0;
-    motion_pos(MOVE);
+    MOVE.vt = 0.0;
+    MOVE.v = 0.5;
+    motion_speed(MOVE);
     
 }
