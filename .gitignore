@@ -4,32 +4,6 @@
 *.swp
 *.orig
 
-# MPLAB-X files
-*.d
-*.pre
-*.p1
-*.lst
-*.sym
-*.obj
-*.o
-*.sdb
-*.obj
-*.dmp
-*.map
-
-*.hex
-*.elf
-*.o
-*.xml
-*.bash
-*.mk
-*genesis.properties
-
-# MPLAB-X folders
-nbproject/
-build/
-dist/
-
 # Sublime text
 *.sublime-project
 *.sublime-workspace
