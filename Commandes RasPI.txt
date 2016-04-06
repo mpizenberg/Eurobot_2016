@@ -13,19 +13,3 @@ OPNB	+=Open_bras
 OPFB	+=Openfull_bras
 CLOB	+=Close_bras
 FUNA	+=Funny_action
-
-
-ID des AX-12
-
-#define Fish_AvG		4	// bras de pÃªche Avant-Gauche
-#define Fish_AvD		1	// 				 Avant-Droit
-#define Fish_ArG		42	// 				 ArriÃ¨re-Gauche
-#define Fish_ArD                14	// 				 ArriÃ¨re-Droit
-#define Magnet_AvG              7	// Bras d'aimants de pÃªche Avant-Gauche
-#define Magnet_AvD              17	// 				Avant-Droit
-#define Magnet_ArG              20	//				ArriÃ¨re-Gauche
-#define Magnet_ArD              23	// 				ArriÃ¨re-Droit
-#define Bras_G			11	// Bras pour Sable de Gauche
-#define Bras_C			21	// 		Centrale
-#define Bras_D			9	// 		de Droite
-#define Bras_parasol		16	// Bras pour la Funny Action
