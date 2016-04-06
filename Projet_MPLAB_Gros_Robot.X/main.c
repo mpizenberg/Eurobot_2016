@@ -64,6 +64,6 @@ void Debug_Asserv_Start(void)
     //asserv_init();
     MOVE.vt = 0.0;
     MOVE.v = 0.5;
-    motion_speed(MOVE);
+    //motion_speed(MOVE);
     
 }

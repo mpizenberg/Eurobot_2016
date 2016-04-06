@@ -8,14 +8,16 @@
 #include "main.h"
 
 
-#define maxtork_claw 650
+#define maxtork_claw 400
 #define maxspeed_claw 800
 #define delay_ax 30
+#define delay_debug 250
 
 /******************************************************************************/
 /*************************** Arm Specification ********************************/
 /******************************************************************************/
 
+// PIN TEAM = COTE D'EQUIPE VERT !!
 
 /******************************************************************************/
 /****************************** Init Position *********************************/
@@ -71,6 +73,9 @@ void Faire_Actions_AX12(void)
                 break;
             case AX12_CLOSE_BRAS:
                 Close_bras();
+                break;
+            case AX12_FUNNY_ACTION:
+                Funny_action();
                 break;
         }
         Num_Action_Done = num;
@@ -131,30 +136,33 @@ void Init_ax12() {
 						__delay_ms(delay_ax);
 
 
-	// PutAX(Fish_AvG, 	AX_GOAL_POSITION, /*position init*/);
-						// __delay_ms(/*delay optimal*/);
-        // PutAX(Fish_AvD, 	AX_GOAL_POSITION, /*position init*/);
-						// __delay_ms(/*delay optimal*/);
-	// PutAX(Fish_ArG, 	AX_GOAL_POSITION, /*position init*/);
-						// __delay_ms(/*delay optimal*/);
-	// PutAX(Fish_ArD, 	AX_GOAL_POSITION, /*position init*/);
-						// __delay_ms(/*delay optimal*/);
-	// PutAX(Magnet_AvG, 	AX_GOAL_POSITION, /*position init*/);
-						// __delay_ms(/*delay optimal*/);
-        // PutAX(Magnet_AvD, 	AX_GOAL_POSITION, /*position init*/);
-						// __delay_ms(/*delay optimal*/);
-	// PutAX(Magnet_ArG, 	AX_GOAL_POSITION, /*position init*/);
-						// __delay_ms(/*delay optimal*/);
-	// PutAX(Magnet_ArD, 	AX_GOAL_POSITION, /*position init*/);
-						// __delay_ms(/*delay optimal*/);
-	// PutAX(Bras_G, 		AX_GOAL_POSITION, /*position init*/);
-						// __delay_ms(/*delay optimal*/);
-	// PutAX(Bras_C, 		AX_GOAL_POSITION, /*position init*/);
-						// __delay_ms(/*delay optimal*/);	
-	// PutAX(Bras_D, 		AX_GOAL_POSITION, /*position init*/);
-						// __delay_ms(/*delay optimal*/);
-	// PutAX(Bras_parasol, AX_GOAL_POSITION, /*position init*/);
-						// __delay_ms(/*delay optimal*/);
+	 PutAX(Fish_AvG, 	AX_GOAL_POSITION, 520);
+						 __delay_ms(delay_ax);
+         PutAX(Fish_AvD, 	AX_GOAL_POSITION, 492);
+						 __delay_ms(delay_ax);
+	 PutAX(Fish_ArG, 	AX_GOAL_POSITION, 195);
+						 __delay_ms(delay_ax);
+	 PutAX(Fish_ArD, 	AX_GOAL_POSITION, 834);
+                                                 __delay_ms(delay_ax);
+	 PutAX(Magnet_AvG, 	AX_GOAL_POSITION, 215);
+						 __delay_ms(delay_ax);
+         PutAX(Magnet_AvD, 	AX_GOAL_POSITION, 830);
+						 __delay_ms(delay_ax);
+	 PutAX(Magnet_ArG, 	AX_GOAL_POSITION, 812);
+						 __delay_ms(delay_ax);
+	 PutAX(Magnet_ArD, 	AX_GOAL_POSITION, 820);
+						 __delay_ms(delay_ax);
+	 PutAX(Bras_G, 		AX_GOAL_POSITION, 830);
+						 __delay_ms(delay_ax);
+        if(!PIN_TEAM)
+            PutAX(Bras_C, 		AX_GOAL_POSITION, 650);
+        else
+            PutAX(Bras_C, 		AX_GOAL_POSITION, 600);
+						 __delay_ms(delay_ax);
+	 PutAX(Bras_D, 		AX_GOAL_POSITION, 200);
+						 __delay_ms(delay_ax);
+	 PutAX(Bras_parasol, AX_GOAL_POSITION, 470);
+						 __delay_ms(delay_ax);
 
 }
 
