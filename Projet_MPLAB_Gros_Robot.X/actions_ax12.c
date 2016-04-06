@@ -58,7 +58,7 @@ void Faire_Actions_AX12(void)
                 Deploy_fish_Ar();
                 break;
             case AX12_RLZ_FISH_AV:
-                //Rlz_fish_AvG();
+                Rlz_fish_Av();
                 break;
             case AX12_RLZ_FISH_AR:
                 Rlz_fish_Ar();
@@ -90,7 +90,7 @@ void Init_ax12() {
 						__delay_ms(delay_ax);
 	PutAX(Magnet_AvG, 	AX_TORQUE_LIMIT, maxtork_claw);
 						__delay_ms(delay_ax);
-    PutAX(Magnet_AvD, 	AX_TORQUE_LIMIT, maxtork_claw);
+        PutAX(Magnet_AvD, 	AX_TORQUE_LIMIT, maxtork_claw);
 						__delay_ms(delay_ax);
 	PutAX(Magnet_ArG, 	AX_TORQUE_LIMIT, maxtork_claw);
 						__delay_ms(delay_ax);
@@ -107,7 +107,7 @@ void Init_ax12() {
 	
 	PutAX(Fish_AvG, 	AX_MOVING_SPEED, maxspeed_claw);
 						__delay_ms(delay_ax);
-    PutAX(Fish_AvD, 	AX_MOVING_SPEED, maxspeed_claw);
+        PutAX(Fish_AvD, 	AX_MOVING_SPEED, maxspeed_claw);
 						__delay_ms(delay_ax);
 	PutAX(Fish_ArG, 	AX_MOVING_SPEED, maxspeed_claw);
 						__delay_ms(delay_ax);
@@ -115,7 +115,7 @@ void Init_ax12() {
 						__delay_ms(delay_ax);
 	PutAX(Magnet_AvG, 	AX_MOVING_SPEED, maxspeed_claw);
 						__delay_ms(delay_ax);
-    PutAX(Magnet_AvD, 	AX_MOVING_SPEED, maxspeed_claw);
+        PutAX(Magnet_AvD, 	AX_MOVING_SPEED, maxspeed_claw);
 						__delay_ms(delay_ax);
 	PutAX(Magnet_ArG, 	AX_MOVING_SPEED, maxspeed_claw);
 						__delay_ms(delay_ax);
@@ -133,7 +133,7 @@ void Init_ax12() {
 
 	// PutAX(Fish_AvG, 	AX_GOAL_POSITION, /*position init*/);
 						// __delay_ms(/*delay optimal*/);
-    // PutAX(Fish_AvD, 	AX_GOAL_POSITION, /*position init*/);
+        // PutAX(Fish_AvD, 	AX_GOAL_POSITION, /*position init*/);
 						// __delay_ms(/*delay optimal*/);
 	// PutAX(Fish_ArG, 	AX_GOAL_POSITION, /*position init*/);
 						// __delay_ms(/*delay optimal*/);
@@ -141,7 +141,7 @@ void Init_ax12() {
 						// __delay_ms(/*delay optimal*/);
 	// PutAX(Magnet_AvG, 	AX_GOAL_POSITION, /*position init*/);
 						// __delay_ms(/*delay optimal*/);
-    // PutAX(Magnet_AvD, 	AX_GOAL_POSITION, /*position init*/);
+        // PutAX(Magnet_AvD, 	AX_GOAL_POSITION, /*position init*/);
 						// __delay_ms(/*delay optimal*/);
 	// PutAX(Magnet_ArG, 	AX_GOAL_POSITION, /*position init*/);
 						// __delay_ms(/*delay optimal*/);
@@ -160,41 +160,44 @@ void Init_ax12() {
 
  void Deploy_fish_Av(void)		// Déploie le bras de pêche Avant.
  {
-    //if(!PIN_TEAM)
-        // PutAX(Fish_AvG,AX_GOAL_POSITION,/*TBA*/);
-    //else
-        // PutAX(Fish_AvD,AX_GOAL_POSITION,/*TBA*/);
-	
+    if(!PIN_TEAM)
+    {    // PutAX(Fish_AvG,AX_GOAL_POSITION,/*TBA*/);
+    }
+    else
+    {    // PutAX(Fish_AvD,AX_GOAL_POSITION,/*TBA*/);
+    }
     // __delay_ms(/*TBA*/);
  }
 
  void Deploy_fish_Ar(void)		// Déploie le bras de pêche Arriere.
  {
-    //if(!PIN_TEAM)
-        // PutAX(Fish_ArG,AX_GOAL_POSITION,/*TBA*/);
-    //else
-        // PutAX(Fish_ArD,AX_GOAL_POSITION,/*TBA*/);
-	
+    if(!PIN_TEAM)
+    {    // PutAX(Fish_ArG,AX_GOAL_POSITION,/*TBA*/);
+    }
+    else
+    {    // PutAX(Fish_ArD,AX_GOAL_POSITION,/*TBA*/);
+    }
     // __delay_ms(/*TBA*/);
  }
 
  void Moveup_fish_Av(void)		// Releve legerement le bras de pêche Avant.
  {
-    //if(!PIN_TEAM)
-        // PutAX(Fish_AvG,AX_GOAL_POSITION,/*TBA*/);
-    //else
-        // PutAX(Fish_AvD,AX_GOAL_POSITION,/*TBA*/);
-	
+    if(!PIN_TEAM)
+    {    // PutAX(Fish_AvG,AX_GOAL_POSITION,/*TBA*/);
+    }else
+    {    // PutAX(Fish_AvD,AX_GOAL_POSITION,/*TBA*/);
+    }
     // __delay_ms(/*TBA*/);
  }
 
  void Moveup_fish_Ar(void)		// Releve legerement le bras de pêche Arriere.
  {
-    // if(!PIN_TEAM)
-        // PutAX(Fish_ArG,AX_GOAL_POSITION,/*TBA*/);
-    // else
-        // PutAX(Fish_ArD,AX_GOAL_POSITION,/*TBA*/);
-	
+    if(!PIN_TEAM)
+    {    // PutAX(Fish_ArG,AX_GOAL_POSITION,/*TBA*/);
+    }
+    else
+    {    // PutAX(Fish_ArD,AX_GOAL_POSITION,/*TBA*/);
+    }
     // __delay_ms(/*TBA*/);
 }
 
@@ -273,13 +276,11 @@ void Open_bras(void)
         // __delay_ms(50);
     }
 
-    SendDone();
 }
 
 void Openfull_bras (void) 
 {	// Ouverture à 180° des bras pour fermer les portes.
 
-    SendDone();
 }
 
 void Close_bras(void)
