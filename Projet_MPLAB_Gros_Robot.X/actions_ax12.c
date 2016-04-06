@@ -58,7 +58,7 @@ void Faire_Actions_AX12(void)
                 Deploy_fish_Ar();
                 break;
             case AX12_RLZ_FISH_AV:
-                Rlz_fish_AvG();
+                //Rlz_fish_AvG();
                 break;
             case AX12_RLZ_FISH_AR:
                 Rlz_fish_Ar();
@@ -160,9 +160,9 @@ void Init_ax12() {
 
  void Deploy_fish_Av(void)		// Déploie le bras de pêche Avant.
  {
-    if(!PIN_TEAM)
+    //if(!PIN_TEAM)
         // PutAX(Fish_AvG,AX_GOAL_POSITION,/*TBA*/);
-    else
+    //else
         // PutAX(Fish_AvD,AX_GOAL_POSITION,/*TBA*/);
 	
     // __delay_ms(/*TBA*/);
@@ -170,9 +170,9 @@ void Init_ax12() {
 
  void Deploy_fish_Ar(void)		// Déploie le bras de pêche Arriere.
  {
-    if(!PIN_TEAM)
+    //if(!PIN_TEAM)
         // PutAX(Fish_ArG,AX_GOAL_POSITION,/*TBA*/);
-    else
+    //else
         // PutAX(Fish_ArD,AX_GOAL_POSITION,/*TBA*/);
 	
     // __delay_ms(/*TBA*/);
@@ -180,9 +180,9 @@ void Init_ax12() {
 
  void Moveup_fish_Av(void)		// Releve legerement le bras de pêche Avant.
  {
-    if(!PIN_TEAM)
+    //if(!PIN_TEAM)
         // PutAX(Fish_AvG,AX_GOAL_POSITION,/*TBA*/);
-    else
+    //else
         // PutAX(Fish_AvD,AX_GOAL_POSITION,/*TBA*/);
 	
     // __delay_ms(/*TBA*/);
@@ -190,12 +190,12 @@ void Init_ax12() {
 
  void Moveup_fish_Ar(void)		// Releve legerement le bras de pêche Arriere.
  {
-    if(!PIN_TEAM)
+    // if(!PIN_TEAM)
         // PutAX(Fish_ArG,AX_GOAL_POSITION,/*TBA*/);
-    else
+    // else
         // PutAX(Fish_ArD,AX_GOAL_POSITION,/*TBA*/);
 	
-    __delay_ms(/*TBA*/);
+    // __delay_ms(/*TBA*/);
 }
 
  void Rlz_fish_Av(void)		// Leve le bras d'aimants Avant.

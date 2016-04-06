@@ -16,8 +16,8 @@
 #define Fish_ArD            11	// 				 Arrière-Droit
 #define Magnet_AvG          1	// Bras d'aimants de pêche Avant-Gauche
 #define Magnet_AvD          4	// 						   Avant-Droit
-#define Magnet_AvG          22	//						   Arrière-Gauche
-#define Magnet_AvD          17	// 						   Arrière-Droit
+#define Magnet_ArG          22	//						   Arrière-Gauche
+#define Magnet_ArD          17	// 						   Arrière-Droit
 #define Bras_G				20	// Bras pour Sable de Gauche
 #define Bras_C				20	// 					Centrale
 #define Bras_D				20	// 					de Droite
@@ -36,7 +36,7 @@ void Faire_Actions_AX12(void);
 void Init_ax12(void);
 #define AX12_DEPLOY_FISH_AV		2		// Déploiement de bras de pêche.
 void Deploy_fish_Av(void);
-#define AX12_DEPLOY_FISH_Ar		3		// idem
+#define AX12_DEPLOY_FISH_AR		3		// idem
 void Deploy_fish_Ar(void);
 #define AX12_MOVEUP_FISH_AV		4		// Levage (sans ranger !) de bras de pêche
 void Moveup_fish_Av(void);				// pour évacuer le poisson de l'eau.
