@@ -109,13 +109,13 @@ void Init_ax12() {
     PutAX(Bras_parasol, AX_TORQUE_LIMIT, maxtork_claw);
                         __delay_ms(delay_ax);
 
-    PutAX(Fish_AvG, 	AX_MOVING_SPEED, maxspeed_claw);
+    PutAX(Fish_AvG, 	AX_MOVING_SPEED, 70);
                         __delay_ms(delay_ax);
-    PutAX(Fish_AvD, 	AX_MOVING_SPEED, maxspeed_claw);
+    PutAX(Fish_AvD, 	AX_MOVING_SPEED, 70);
                         __delay_ms(delay_ax);
-    PutAX(Fish_ArG, 	AX_MOVING_SPEED, maxspeed_claw);
+    PutAX(Fish_ArG, 	AX_MOVING_SPEED, 70);
                         __delay_ms(delay_ax);
-    PutAX(Fish_ArD, 	AX_MOVING_SPEED, maxspeed_claw);
+    PutAX(Fish_ArD, 	AX_MOVING_SPEED, 70);
                         __delay_ms(delay_ax);
     PutAX(Magnet_AvG, 	AX_MOVING_SPEED, maxspeed_claw);
                         __delay_ms(delay_ax);
@@ -164,70 +164,77 @@ void Init_ax12() {
 
  void Deploy_fish_Av(void)		// Déploie le bras de pêche Avant.
  {
-    if(!PIN_TEAM)
-    {    // PutAX(Fish_AvG,AX_GOAL_POSITION,/*TBA*/);
+    if(!PIN_TEAM)       // Côté Vert.
+    {    
+        PutAX(Fish_AvG,AX_GOAL_POSITION,220);
     }
-    else
-    {    // PutAX(Fish_AvD,AX_GOAL_POSITION,/*TBA*/);
+    else                // Côté Violet.
+    {
+        PutAX(Fish_AvD,AX_GOAL_POSITION,800);
     }
-    // __delay_ms(/*TBA*/);
+    __delay_ms(1500);
  }
 
  void Deploy_fish_Ar(void)		// Déploie le bras de pêche Arriere.
  {
     if(!PIN_TEAM)
-    {    // PutAX(Fish_ArG,AX_GOAL_POSITION,/*TBA*/);
+    {    
+        PutAX(Fish_ArG,AX_GOAL_POSITION,500);
     }
     else
-    {    // PutAX(Fish_ArD,AX_GOAL_POSITION,/*TBA*/);
+    {    
+        PutAX(Fish_ArD,AX_GOAL_POSITION,520);
     }
-    // __delay_ms(/*TBA*/);
+    __delay_ms(1500);
  }
 
  void Moveup_fish_Av(void)		// Releve legerement le bras de pêche Avant.
  {
     if(!PIN_TEAM)
-    {    // PutAX(Fish_AvG,AX_GOAL_POSITION,/*TBA*/);
-    }else
-    {    // PutAX(Fish_AvD,AX_GOAL_POSITION,/*TBA*/);
+    {    
+        PutAX(Fish_AvG,AX_GOAL_POSITION,300);
     }
-    // __delay_ms(/*TBA*/);
+    else
+    {    
+        PutAX(Fish_AvD,AX_GOAL_POSITION,700);
+    }
+    __delay_ms(1500);
  }
 
  void Moveup_fish_Ar(void)		// Releve legerement le bras de pêche Arriere.
  {
     if(!PIN_TEAM)
-    {    // PutAX(Fish_ArG,AX_GOAL_POSITION,/*TBA*/);
+    {    
+        PutAX(Fish_ArG,AX_GOAL_POSITION,420);
     }
     else
-    {    // PutAX(Fish_ArD,AX_GOAL_POSITION,/*TBA*/);
+    {
+        PutAX(Fish_ArD,AX_GOAL_POSITION,620);
     }
-    // __delay_ms(/*TBA*/);
+    __delay_ms(1500);
 }
 
  void Rlz_fish_Av(void)		// Leve le bras d'aimants Avant.
  {
+    Deploy_fish_Av();   // Positionnement des bras.
     if(!PIN_TEAM)
 	{
-		// PutAX(Fish_AvG,AX_GOAL_POSITION,/*TBA*/);	// Positionnement du bras.
-		// __delay_ms(/*TBA*/);
-		// PutAX(Magnet_AvG,AX_GOAL_POSITION,/*TBA*/);	// Lâchez les poissons !!!!
-		// __delay_ms(/*TBA*/);
-		// PutAX(Magnet_AvG,AX_GOAL_POSITION,/*TBA*/);	// Rangement du bras a aimants.
-		// __delay_ms(/*TBA*/);
-		// PutAX(Fish_AvG,AX_GOAL_POSITION,/*TBA*/);	// Rangement du bras de pêche.
+		PutAX(Magnet_AvG,       AX_GOAL_POSITION,512);	// Lâchez les poissons !!!!
+		__delay_ms(200);
+		PutAX(Magnet_AvG, 	AX_GOAL_POSITION, 215); // Rangement du bras a aimants.
+                __delay_ms(delay_ax);                           	
+                PutAX(Fish_AvG, 	AX_GOAL_POSITION, 520); // Rangement du bras de pêche.
+
 	}
     else
     {
-		// PutAX(Fish_AvD,		AX_GOAL_POSITION,/*TBA*/);	// Positionnement du bras.
-							// __delay_ms(/*TBA*/);
-		// PutAX(Magnet_AvD,	AX_GOAL_POSITION,/*TBA*/);	// Lâchez les poissons !!!!
-							// __delay_ms(/*TBA*/);
-		// PutAX(Magnet_AvD,	AX_GOAL_POSITION,/*TBA*/);	// Rangement du bras a aimants.
-							// __delay_ms(/*TBA*/);
-		// PutAX(Fish_AvD,		AX_GOAL_POSITION,/*TBA*/);	// Rangement du bras de pêche.
+		PutAX(Magnet_AvD,       AX_GOAL_POSITION,512);	// Lâchez les poissons !!!!
+		__delay_ms(200);
+		PutAX(Magnet_AvD, 	AX_GOAL_POSITION, 930); // Rangement du bras a aimants.
+                __delay_ms(delay_ax);                           	
+                PutAX(Fish_AvD, 	AX_GOAL_POSITION, 492); // Rangement du bras de pêche.
 	}
-		// __delay_ms(/*TBA*/);
+                __delay_ms(1500);
  }
 
 void Rlz_fish_Ar(void)		// Leve le bras d'aimants Avant.

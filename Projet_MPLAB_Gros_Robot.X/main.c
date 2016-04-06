@@ -49,7 +49,15 @@ int main(int argc, char** argv) {
     
     // Code de test qui fait bouger le robot doucement :
     // Debug_Asserv_Start();
-    
+// Moveup_fish_Ar();				// pour évacuer le poisson de l'eau.
+// Moveup_fish_Av();
+// Rlz_fish_Av();
+// Rlz_fish_Ar();
+// Open_bras();
+// Openfull_bras();
+// Close_bras();
+// Funny_action();
+
     while (1) // boucle principale
     {
         Faire_Actions_AX12();
