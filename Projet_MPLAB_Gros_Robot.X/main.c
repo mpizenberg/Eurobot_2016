@@ -46,21 +46,14 @@ _FPOR(PWMPIN_ON);
 int main(int argc, char** argv) {
     Init_All(0);
 
-    
+     __delay_ms(1000);
     // Code de test qui fait bouger le robot doucement :
-    // Debug_Asserv_Start();
-// Moveup_fish_Ar();				// pour évacuer le poisson de l'eau.
-// Moveup_fish_Av();
-// Rlz_fish_Av();
-// Rlz_fish_Ar();
-// Open_bras();
-// Openfull_bras();
-// Close_bras();
-// Funny_action();
+    // Debug_Asserv_Start(); 
 
     while (1) // boucle principale
     {
         Faire_Actions_AX12();
+
     }
 }
 
@@ -72,6 +65,6 @@ void Debug_Asserv_Start(void)
     //asserv_init();
     MOVE.vt = 0.0;
     MOVE.v = 0.5;
-    //motion_speed(MOVE);
+    motion_speed(MOVE);
     
 }

@@ -134,15 +134,7 @@ void Init_ax12() {
     PutAX(Bras_parasol, AX_MOVING_SPEED, maxspeed_claw);
                         __delay_ms(delay_ax);
 
-
-    PutAX(Fish_AvG, 	AX_GOAL_POSITION, 520);
-                        __delay_ms(delay_ax);
-    PutAX(Fish_AvD, 	AX_GOAL_POSITION, 492);
-                        __delay_ms(delay_ax);
-    PutAX(Fish_ArG, 	AX_GOAL_POSITION, 195);
-                        __delay_ms(delay_ax);
-    PutAX(Fish_ArD, 	AX_GOAL_POSITION, 834);
-                        __delay_ms(delay_ax);
+                     
     PutAX(Magnet_AvG, 	AX_GOAL_POSITION, 215);
                         __delay_ms(delay_ax);
     PutAX(Magnet_AvD, 	AX_GOAL_POSITION, 830);
@@ -150,6 +142,14 @@ void Init_ax12() {
     PutAX(Magnet_ArG, 	AX_GOAL_POSITION, 812);
                         __delay_ms(delay_ax);
     PutAX(Magnet_ArD, 	AX_GOAL_POSITION, 820);
+                        __delay_ms(delay_ax);
+    PutAX(Fish_AvG, 	AX_GOAL_POSITION, 520);
+                        __delay_ms(delay_ax);
+    PutAX(Fish_AvD, 	AX_GOAL_POSITION, 492);
+                        __delay_ms(delay_ax);
+    PutAX(Fish_ArG, 	AX_GOAL_POSITION, 195);
+                        __delay_ms(delay_ax);
+    PutAX(Fish_ArD, 	AX_GOAL_POSITION, 834);
                         __delay_ms(delay_ax);
     PutAX(Bras_G, 	AX_GOAL_POSITION, 830);
                         __delay_ms(delay_ax);
@@ -237,71 +237,81 @@ void Init_ax12() {
                 __delay_ms(1500);
  }
 
-void Rlz_fish_Ar(void)		// Leve le bras d'aimants Avant.
-{
+ void Rlz_fish_Ar(void)		// Leve le bras d'aimants Avant.
+ {
+    Deploy_fish_Ar();   // Positionnement des bras.
     if(!PIN_TEAM)
 	{
-		// PutAX(Fish_ArG,		AX_GOAL_POSITION,/*TBA*/);	// Positionnement du bras.
-							// __delay_ms(/*TBA*/);
-		// PutAX(Magnet_ArG,	AX_GOAL_POSITION,/*TBA*/);	// Lâchez les poissons !!!!
-							// __delay_ms(/*TBA*/);
-		// PutAX(Magnet_ArG,	AX_GOAL_POSITION,/*TBA*/);	// Rangement du bras a aimants.
-							// __delay_ms(/*TBA*/);
-		// PutAX(Fish_ArG,		AX_GOAL_POSITION,/*TBA*/);	// Rangement du bras de pêche.
+		PutAX(Magnet_ArG,       AX_GOAL_POSITION,712);	// Lâchez les poissons !!!!
+		__delay_ms(200);
+		PutAX(Magnet_ArG, 	AX_GOAL_POSITION, 812); // Rangement du bras a aimants.
+                __delay_ms(delay_ax);
+                PutAX(Fish_ArG, 	AX_GOAL_POSITION, 195); // Rangement du bras de pêche.
+
 	}
     else
     {
-		// PutAX(Fish_ArD,		AX_GOAL_POSITION,/*TBA*/);	// Positionnement du bras.
-							// __delay_ms(/*TBA*/);
-		// PutAX(Magnet_ArD,	AX_GOAL_POSITION,/*TBA*/);	// Lâchez les poissons !!!!
-							// __delay_ms(/*TBA*/);
-		// PutAX(Magnet_ArD,	AX_GOAL_POSITION,/*TBA*/);	// Rangement du bras a aimants.
-							// __delay_ms(/*TBA*/);
-		// PutAX(Fish_ArD,		AX_GOAL_POSITION,/*TBA*/);	// Rangement du bras de pêche.
+		PutAX(Magnet_ArD,       AX_GOAL_POSITION,700);	// Lâchez les poissons !!!!
+		__delay_ms(200);
+		PutAX(Magnet_ArD, 	AX_GOAL_POSITION, 820); // Rangement du bras a aimants.
+                __delay_ms(delay_ax);
+                PutAX(Fish_ArD, 	AX_GOAL_POSITION, 834); // Rangement du bras de pêche.
 	}
-		// __delay_ms(/*TBA*/);
-}
+                __delay_ms(1500);
+ }
+
 
 void Open_bras(void)
 {
     if(!PIN_TEAM)
 	{
-        // PutAX(rabd,AX_GOAL_POSITION,330); //rabat la piece
-        // __delay_ms(700);
-        // PutAX(rabd,AX_GOAL_POSITION,620); //reouvre
-        // __delay_ms(500);
-        // PutAX(rabg,AX_GOAL_POSITION,820); //rabat la piece
-        // __delay_ms(700);
-        // PutAX(rabg,AX_GOAL_POSITION,390); //reouvre
-        // __delay_ms(50);
+         PutAX(Bras_D,AX_GOAL_POSITION,512);
+         __delay_ms(700);
+         PutAX(Bras_C,AX_GOAL_POSITION,350); //reouvre
+         __delay_ms(500);
+
     }
     else
 	{
-        // PutAX(rabg,AX_GOAL_POSITION,820); //rabat la piece
-        // __delay_ms(700);
-        // PutAX(rabg,AX_GOAL_POSITION,390); //reouvre
-        // __delay_ms(500);
-        // PutAX(rabd,AX_GOAL_POSITION,330); //rabat la piece
-        // __delay_ms(700);
-        // PutAX(rabd,AX_GOAL_POSITION,620); //reouvre
-        // __delay_ms(50);
+           PutAX(Bras_G,AX_GOAL_POSITION,512);
+         __delay_ms(700);
+         PutAX(Bras_C,AX_GOAL_POSITION,1000); //reouvre
+         __delay_ms(500);
     }
 
 }
 
 void Openfull_bras (void) 
 {	// Ouverture à 180° des bras pour fermer les portes.
-
+     PutAX(Bras_D,AX_GOAL_POSITION,800);
+     PutAX(Bras_C,AX_GOAL_POSITION,670);
+      PutAX(Bras_G,AX_GOAL_POSITION,200);
 }
 
 void Close_bras(void)
 { // Resserrage des bras contre les blocs de sable.
+    if(!PIN_TEAM)
+	{
+         PutAX(Bras_D,AX_GOAL_POSITION,487);
+         __delay_ms(700);
+         PutAX(Bras_C,AX_GOAL_POSITION,375);
+         __delay_ms(500);
+
+    }
+    else
+	{
+         PutAX(Bras_G,AX_GOAL_POSITION,535);
+         __delay_ms(700);
+         PutAX(Bras_C,AX_GOAL_POSITION,965);
+         __delay_ms(500);
+    }
 
 }
 
 void Funny_action(void)
 { // Déploiement du bras pour tendre le 'parasol'.
-
+    PutAX(Bras_parasol, AX_GOAL_POSITION, 222);
+    __delay_ms(700);
 }
 
 /******************************************************************************/
