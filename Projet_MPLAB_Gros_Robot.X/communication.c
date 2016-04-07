@@ -215,10 +215,10 @@ void SelectActionFromPi()
 		&& ReceivedStringFromPi[3]=='A' 
 		&& ReceivedStringFromPi[4]=='R')
         {
-			Add_Action_AX12(AX12_RLZ_FISH_AR);
+            Add_Action_AX12(AX12_RLZ_FISH_AR);
         }
 
-		// OPNB
+	// OPNB
         if(ReceivedStringFromPi[1]=='O' 
 		&& ReceivedStringFromPi[2]=='P' 
 		&& ReceivedStringFromPi[3]=='N' 
@@ -234,6 +234,15 @@ void SelectActionFromPi()
 		&& ReceivedStringFromPi[4]=='B')
         {
             Add_Action_AX12(AX12_OPENFULL_BRAS);
+        }
+
+        // CATB
+        if(ReceivedStringFromPi[1]=='C'
+		&& ReceivedStringFromPi[2]=='A'
+		&& ReceivedStringFromPi[3]=='T'
+		&& ReceivedStringFromPi[4]=='B')
+        {
+            Add_Action_AX12(AX12_CATCH_BRAS);
         }
 
         // CLOB
@@ -439,8 +448,8 @@ void SendTeam (int team)
 {
     __delay_ms(50);
     switch(team) {
-        case 0 : printf("$YELL;");  break;
-        case 1 : printf("$GREE;");  break;
+        case 0 : printf("$VIOL;");  break;
+        case 1 : printf("$VERT;");  break;
     }
     __delay_ms(50);
 }

@@ -46,9 +46,9 @@ _FPOR(PWMPIN_ON);
 int main(int argc, char** argv) {
     Init_All(0);
 
-     __delay_ms(1000);
+     Open_bras();
     // Code de test qui fait bouger le robot doucement :
-    // Debug_Asserv_Start(); 
+    Debug_Asserv_Start(); 
 
     while (1) // boucle principale
     {
@@ -66,5 +66,12 @@ void Debug_Asserv_Start(void)
     MOVE.vt = 0.0;
     MOVE.v = 0.5;
     motion_speed(MOVE);
+    __delay_ms(2000);
+    Close_bras();
     
+    MOVE.v = -0.5;
+    motion_speed(MOVE);
+    __delay_ms(2000);
+    MOVE.v = 0;
+    motion_speed(MOVE);
 }
