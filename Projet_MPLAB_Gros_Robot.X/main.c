@@ -46,13 +46,14 @@ _FPOR(PWMPIN_ON);
 int main(int argc, char** argv) {
     Init_All(0);
 
-    
+     __delay_ms(1000);
     // Code de test qui fait bouger le robot doucement :
-    // Debug_Asserv_Start();
-    
+    // Debug_Asserv_Start(); 
+
     while (1) // boucle principale
     {
         Faire_Actions_AX12();
+
     }
 }
 

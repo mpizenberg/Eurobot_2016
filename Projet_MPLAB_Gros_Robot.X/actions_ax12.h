@@ -21,7 +21,7 @@
 #define Bras_G                  11	// Bras pour Sable de Gauche
 #define Bras_C                  21	//                  Centrale
 #define Bras_D                  9	//                  de Droite
-#define Bras_paraso             16	// Bras pour la Funny Action
+#define Bras_parasol            16	// Bras pour la Funny Action
 
 // CLLC
 // CLRO
