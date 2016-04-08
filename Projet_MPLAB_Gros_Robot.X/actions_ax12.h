@@ -48,11 +48,13 @@ void Rlz_fish_Av(void);
 void Rlz_fish_Ar(void);            
 #define AX12_OPEN_BRAS              8		// Ouvertures des bras (milieu + G ou D) pour prendre du sable
 void Open_bras(void);
-#define AX12_OPENFULL_BRAS          9 		// Ouverture des bras pour fermer les portes.
+#define AX12_CATCH_BRAS             9		// Légère refermeture des bras pour prendre du sable
+void Catch_bras(void);
+#define AX12_OPENFULL_BRAS          10 		// Ouverture des bras pour fermer les portes.
 void Openfull_bras(void);
-#define AX12_CLOSE_BRAS 	    10		// Fermeture des bras pour attraper le sable.
+#define AX12_CLOSE_BRAS 	    11		// Fermeture des bras (init).
 void Close_bras(void);
-#define AX12_FUNNY_ACTION 	    11		// DÃ©ploiement du bras pour ouvrir le parasol.
+#define AX12_FUNNY_ACTION 	    12		// DÃ©ploiement du bras pour ouvrir le parasol.
 void Funny_action(void);
 
 #endif	/* ACTIONS_AX12_H */

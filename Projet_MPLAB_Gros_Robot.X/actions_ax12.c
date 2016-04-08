@@ -67,6 +67,9 @@ void Faire_Actions_AX12(void)
             case AX12_OPEN_BRAS:
                 Open_bras();
                 break;
+            case AX12_CATCH_BRAS:
+                Catch_bras();
+                break;
             case AX12_OPENFULL_BRAS:
                 Openfull_bras();
                 break;
@@ -158,7 +161,7 @@ void Init_ax12() {
     PutAX(Bras_D, 	AX_GOAL_POSITION, 200);
                         __delay_ms(delay_ax);
     PutAX(Bras_parasol, AX_GOAL_POSITION, 470);
-                        __delay_ms(delay_ax);
+                        __delay_ms(1000);
 
 }
 
@@ -288,7 +291,7 @@ void Openfull_bras (void)
       PutAX(Bras_G,AX_GOAL_POSITION,200);
 }
 
-void Close_bras(void)
+void Catch_bras(void)
 { // Resserrage des bras contre les blocs de sable.
     if(!PIN_TEAM)
 	{
@@ -306,6 +309,16 @@ void Close_bras(void)
          __delay_ms(500);
     }
 
+}
+
+void Close_bras(void)
+{ // Rangement des bras.
+    PutAX(Bras_G, 	AX_GOAL_POSITION, 830);
+                        __delay_ms(delay_ax);
+    PutAX(Bras_C, 	AX_GOAL_POSITION, 670);
+                        __delay_ms(delay_ax);
+    PutAX(Bras_D, 	AX_GOAL_POSITION, 200);
+                        __delay_ms(delay_ax);
 }
 
 void Funny_action(void)
