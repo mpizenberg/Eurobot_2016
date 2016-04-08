@@ -208,7 +208,7 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
     static uint8_t Etat_Laisse = 1;
     static uint8_t Count_Laisse = 30;
     uint8_t Etat_Pin_Laisse = PIN_LAISSE;
-    
+    /*
     if (Etat_Pin_Laisse) {
         if (Count_Laisse < 30)
             Count_Laisse ++;
@@ -233,7 +233,7 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
             Delay_90 = 0;
         }
     }
-    
+    */
     
     if (Delay_TimeOut_AX12) {
         Delay_TimeOut_AX12 --;

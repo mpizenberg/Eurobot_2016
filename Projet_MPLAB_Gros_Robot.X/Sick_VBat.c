@@ -181,7 +181,8 @@ void __attribute__ ((interrupt, auto_psv)) _ADC1Interrupt(void)
                 Old_Sector[channel] = 1;        // on repasse en zone "sûre"
                 ReleaseSick(channel);			// on previent la PI
             }
-        } else {    // if old = 1   // si, pour l'instant, il n'y a pas de truc "pres"
+        }
+        else {    // if old = 1   // si, pour l'instant, il n'y a pas de truc "pres"
             if ( (val16 < (Threshold[channel] - MARGIN_SICK))  && (val16 > SICK_LIMIT_MIN)  ) {   // si on vient de detecter un truc
                Old_Sector[channel] = 0;     // on passe en zone "pas sûre"
                if (Motion_Free_Activ_Each & (0x01<<channel)) {      // vérif sick par sick
@@ -193,7 +194,10 @@ void __attribute__ ((interrupt, auto_psv)) _ADC1Interrupt(void)
 
         if (debug_sick_on) {
             if (i_debug_sick == 3000) {
-                printf ("Sick 1 : %ld\nSick 2 : %ld\nSick 3 : %ld\nSick 4 : %ld;", (Sum_Value_Sick[0]), (Sum_Value_Sick[1]), (Sum_Value_Sick[2]), (Sum_Value_Sick[3]) );
+                printf ("Sick 1 : %ld\n"
+                        "Sick 2 : %ld\n"
+                        "Sick 3 : %ld\n"
+                        "Sick 4 : %ld;", (Sum_Value_Sick[0]), (Sum_Value_Sick[1]), (Sum_Value_Sick[2]), (Sum_Value_Sick[3]) );
                 i_debug_sick = 0;
             } else {
                 i_debug_sick ++;

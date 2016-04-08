@@ -28,11 +28,11 @@
 #define AN_CH_SICK_AVANT_GAUCHE   4 //AN4		=> // an_sick 4
 #define AN_CH_V_BAT               0
 
-#define SICK_AV_DROIT   2   //sick 3
-#define SICK_AV_GAUCHE  3   //sick 4
+
 #define SICK_AR_DROIT   0   //sick 1
 #define SICK_AR_GAUCHE  1   //sick 2
-
+#define SICK_AV_DROIT   2   //sick 3
+#define SICK_AV_GAUCHE  3   //sick 4
 
 
 #define DEFAULT_THRESHOLD 420 // 300 ~> 16 cm
