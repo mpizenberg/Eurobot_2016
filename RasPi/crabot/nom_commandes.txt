@@ -1,10 +1,10 @@
-﻿INIT	Init_All()		//
-MOVE	motion_pos()	//
-ANGLE	motion_angle()	//
-FREE	motion_free()	//
-AXIN	+=AX12_INIT_AX12		//
-DFAV	+=Deploy_fish_Av		//
-DFAR	+=Deploy_fish_Ar		//
+﻿INIT	Init_All()			//
+MOVE	motion_pos()			// fait 
+ANGLE	motion_angle()			// fait 
+FREE	motion_free()			//
+AXIN	+=AX12_INIT_AX12		// fait 
+DFAV	+=Deploy_fish_Av		// fait 
+DFAR	+=Deploy_fish_Ar		// fait
 MFAV	+=Moveup_fish_Av		//
 MFAR	+=Moveup_fish_Ar		//
 RFAV	+=Rlz_fish_Av			//Lâché de poisson et rangement du bras.

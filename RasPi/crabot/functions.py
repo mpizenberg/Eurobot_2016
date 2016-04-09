@@ -8,11 +8,11 @@ Sicks=0
 
 def get_ans(ser):
 	global Sicks
-	s=ser.read(1).decode("ascii")
+	s=ser.read(1)
 	chaine=""
 	while s!=';' :
 		chaine += s
-		s=ser.read(1).decode("ascii")
+		s=ser.read(1)
 	chaine += s
 	if chaine=="$DSI0;":
 		Sicks+=1
@@ -38,17 +38,6 @@ def get_ans(ser):
 	sleep(0.1)
 	return chaine
 
-def move_pos(ser,x,y):
-	angle="0"
-	command = "$MOVE,"+str(x)+","+str(y)+","+angle+";"
-	ser.write(bytes(command, "ascii"))
-	print (command) #affiche dans la console
-
-def rotate(ser,angle):
-	command = "$ANGL,"+str(angle)+";"
-	ser.write(bytes(command, "ascii"))
-	print (command) #affiche dans la console
-
 def reset_pic():
 	GPIO.setmode(GPIO.BCM)
 	GPIO.setup(17, GPIO.OUT)
@@ -57,70 +46,92 @@ def reset_pic():
 	GPIO.output(17, False)
 	sleep(6) # temps d'init du pic
 
-def spot_catch(ser): # attraper un spot
-	command = "$CHAR;"
-	ser.write(bytes(command, "ascii"))
-	print (command)
+
+def move_pos(ser,x,y):
+	angle="0"
+	command = "$MOVE,"+str(x)+","+str(y)+","+angle+";"
+	ser.write(command)
+	print (command) #affiche dans la console
+
+def rotate(ser,angle):
+	command = "$ANGL,"+str(angle)+";"
+	ser.write(command)
+	print (command) #affiche dans la console
+
+def motion_free(ser):
+	command = "$FREE;"
+	print command
+	ser.write(command)
 
 def init_ax(ser):
 	command = "$AXIN;"
-	ser.write(bytes(command, "ascii"))
-	print (command)
-	
-
-def spot_catch_last(ser):
-	command = "$CHAL;"
-	ser.write(bytes(command, "ascii"))
-	print (command)
-
-def spot_release(ser):
-	command = "$RELE;"
-	ser.write(bytes(command, "ascii"))
+	ser.write(command)
 	print (command)
 
 def ask_team(ser):
 	command = "$TEAM;"
-	ser.write(bytes(command, "ascii"))
+	ser.write(command)
 	print (command)
 	s=get_ans(ser)
-	if s=="$YELL;":
+	if s=="$VIL;":
 		team=1
 	else:
 		team=-1
 	return team
 
-def pince_open(ser):
-	command = "$OPES;"
-	ser.write(bytes(command, "ascii"))
-	print (command)
+#listes des actions propres au robot
 
-def pince_close(ser):
-	command = "$CLOS;"
-	ser.write(bytes(command, "ascii"))
-	print (command)
+def deploy_fish_av(ser): # deploie les bras pour la peche a l avant
+	command = "$DFAV;"
+	print command
+	ser.write(command)
 
-def tube_close(ser):
-	command = "$CLTB;"
-	ser.write(bytes(command, "ascii"))
-	print (command)
+def deploy_fish_ar(ser): # deploie les bras pour la peche a l arriere
+	command = "$DFAR;"
+	print command
+	ser.write(command)
 
-def clap_open(ser):
-	command = "$CLAO;"
-	ser.write(bytes(command, "ascii"))
-	print (command)
+def moveup_fish_av(ser): # souleve un peu les bras avant pour emmener les poissons dans le filet
+	command = "$MFAV;"
+	print command
+	ser.write(command)
 
-def clap_close(ser):
-	command = "$CLAC;"
-	ser.write(bytes(command, "ascii"))
-	print (command)
+def moveup_fish_ar(ser): # souleve un peu les bras arriere pour emmener les poissons dans le filet
+	command = "$MFAR;"
+	print command
+	ser.write(command)
 
-def pop_open(ser):
-	command = "$POPO;"# haha !
-	ser.write(bytes(command, "ascii"))
-	print (command)
+def rlz_fish_av(ser): # lache les poissons dans le filet et range les bras avant 
+	command = "$RFAV;"
+	print command
+	ser.write(command)
 
-def pop_close(ser):
-	command = "$POPC;"
-	ser.write(bytes(command, "ascii"))
-	print (command)
+def rlz_fish_ar(ser): # lache les poissons dans le filet et range les bras arriere 
+	command = "$RFAR;"
+	print command
+	ser.write(command)
 
+def open_bras(ser): # ouvre les petit bras du robot pour prendre blocs de sable
+	command = "$OPNB;"
+	print command
+	ser.write(command)
+
+def open_full_bras(ser): #ouvre les bras en entier pour pouvoir pousser les portes
+	command = "$OPFB;"
+	print command
+	ser.write(command)
+
+def close_bras(ser): # referme les bras
+	command = "$CLOB;"
+	print command
+	ser.write(command)
+
+def catch(ser): # referme un peu les bras pour serrer les blocs
+	command = "$CATB;"
+	print command
+	ser.write(command)
+
+def funny_action(ser): # demarre la funny action
+	command = "$FUNA;"
+	print command
+	ser.write(command)
