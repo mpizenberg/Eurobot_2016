@@ -73,7 +73,7 @@ def ask_team(ser):
 	ser.write(command)
 	print (command)
 	s=get_ans(ser)
-	if s=="$VIL;":
+	if s=="$VIOL;":
 		team=1
 	else:
 		team=-1
