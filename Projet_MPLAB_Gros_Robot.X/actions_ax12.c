@@ -10,7 +10,7 @@
 
 #define maxtork_claw 650
 #define maxspeed_claw 800
-#define delay_ax 30
+#define delay_min_ax 30
 
 /******************************************************************************/
 /*************************** Arm Specification ********************************/
@@ -84,86 +84,87 @@ void Faire_Actions_AX12(void)
     }
 }
 
-
 void Init_ax12() {
 
     PutAX(Fish_AvG, 	AX_TORQUE_LIMIT, maxtork_claw);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Fish_AvD, 	AX_TORQUE_LIMIT, maxtork_claw);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Fish_ArG, 	AX_TORQUE_LIMIT, maxtork_claw);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Fish_ArD, 	AX_TORQUE_LIMIT, maxtork_claw);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Magnet_AvG, 	AX_TORQUE_LIMIT, maxtork_claw);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Magnet_AvD, 	AX_TORQUE_LIMIT, maxtork_claw);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Magnet_ArG, 	AX_TORQUE_LIMIT, maxtork_claw);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Magnet_ArD, 	AX_TORQUE_LIMIT, maxtork_claw);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Bras_G, 	AX_TORQUE_LIMIT, maxtork_claw);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Bras_C, 	AX_TORQUE_LIMIT, maxtork_claw);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Bras_D, 	AX_TORQUE_LIMIT, maxtork_claw);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Bras_parasol, AX_TORQUE_LIMIT, maxtork_claw);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
 
     PutAX(Fish_AvG, 	AX_MOVING_SPEED, 70);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Fish_AvD, 	AX_MOVING_SPEED, 70);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Fish_ArG, 	AX_MOVING_SPEED, 70);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Fish_ArD, 	AX_MOVING_SPEED, 70);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Magnet_AvG, 	AX_MOVING_SPEED, maxspeed_claw);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Magnet_AvD, 	AX_MOVING_SPEED, maxspeed_claw);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Magnet_ArG, 	AX_MOVING_SPEED, maxspeed_claw);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Magnet_ArD, 	AX_MOVING_SPEED, maxspeed_claw);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Bras_G, 	AX_MOVING_SPEED, maxspeed_claw);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Bras_C, 	AX_MOVING_SPEED, maxspeed_claw);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Bras_D, 	AX_MOVING_SPEED, maxspeed_claw);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Bras_parasol, AX_MOVING_SPEED, maxspeed_claw);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
 
                      
     PutAX(Magnet_AvG, 	AX_GOAL_POSITION, 215);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Magnet_AvD, 	AX_GOAL_POSITION, 830);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Magnet_ArG, 	AX_GOAL_POSITION, 812);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Magnet_ArD, 	AX_GOAL_POSITION, 820);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Fish_AvG, 	AX_GOAL_POSITION, 520);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Fish_AvD, 	AX_GOAL_POSITION, 492);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Fish_ArG, 	AX_GOAL_POSITION, 195);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Fish_ArD, 	AX_GOAL_POSITION, 834);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Bras_G, 	AX_GOAL_POSITION, 830);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Bras_C, 	AX_GOAL_POSITION, 670);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Bras_D, 	AX_GOAL_POSITION, 200);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Bras_parasol, AX_GOAL_POSITION, 470);
-                        __delay_ms(1000);
+                        __delay_ms(delay_min_ax);
 
 }
+
+// PIN TEAM = 1 pour violet, 0 pour vert
 
  void Deploy_fish_Av(void)		// Déploie le bras de pêche Avant.
  {
@@ -175,7 +176,7 @@ void Init_ax12() {
     {
         PutAX(Fish_AvD,AX_GOAL_POSITION,800);
     }
-    __delay_ms(1500);
+    __delay_ms(delay_min_ax);
  }
 
  void Deploy_fish_Ar(void)		// Déploie le bras de pêche Arriere.
@@ -188,7 +189,7 @@ void Init_ax12() {
     {    
         PutAX(Fish_ArD,AX_GOAL_POSITION,520);
     }
-    __delay_ms(1500);
+    __delay_ms(delay_min_ax);
  }
 
  void Moveup_fish_Av(void)		// Releve legerement le bras de pêche Avant.
@@ -201,20 +202,20 @@ void Init_ax12() {
     {    
         PutAX(Fish_AvD,AX_GOAL_POSITION,700);
     }
-    __delay_ms(1500);
+    __delay_ms(delay_min_ax);
  }
 
  void Moveup_fish_Ar(void)		// Releve legerement le bras de pêche Arriere.
  {
     if(!PIN_TEAM)
-    {    
+    {
         PutAX(Fish_ArG,AX_GOAL_POSITION,420);
     }
     else
     {
         PutAX(Fish_ArD,AX_GOAL_POSITION,620);
     }
-    __delay_ms(1500);
+    __delay_ms(delay_min_ax);
 }
 
  void Rlz_fish_Av(void)		// Leve le bras d'aimants Avant.
@@ -225,19 +226,18 @@ void Init_ax12() {
 		PutAX(Magnet_AvG,       AX_GOAL_POSITION,512);	// Lâchez les poissons !!!!
 		__delay_ms(200);
 		PutAX(Magnet_AvG, 	AX_GOAL_POSITION, 215); // Rangement du bras a aimants.
-                __delay_ms(delay_ax);                           	
-                PutAX(Fish_AvG, 	AX_GOAL_POSITION, 520); // Rangement du bras de pêche.
-
+        __delay_ms(delay_min_ax);                           	
+        PutAX(Fish_AvG, 	AX_GOAL_POSITION, 520); // Rangement du bras de pêche.
 	}
     else
     {
 		PutAX(Magnet_AvD,       AX_GOAL_POSITION,512);	// Lâchez les poissons !!!!
 		__delay_ms(200);
 		PutAX(Magnet_AvD, 	AX_GOAL_POSITION, 930); // Rangement du bras a aimants.
-                __delay_ms(delay_ax);                           	
-                PutAX(Fish_AvD, 	AX_GOAL_POSITION, 492); // Rangement du bras de pêche.
+        __delay_ms(delay_min_ax);                           	
+        PutAX(Fish_AvD, 	AX_GOAL_POSITION, 492); // Rangement du bras de pêche.
 	}
-                __delay_ms(1500);
+    __delay_ms(delay_min_ax);
  }
 
  void Rlz_fish_Ar(void)		// Leve le bras d'aimants Avant.
@@ -245,22 +245,21 @@ void Init_ax12() {
     Deploy_fish_Ar();   // Positionnement des bras.
     if(!PIN_TEAM)
 	{
-		PutAX(Magnet_ArG,       AX_GOAL_POSITION,712);	// Lâchez les poissons !!!!
-		__delay_ms(200);
-		PutAX(Magnet_ArG, 	AX_GOAL_POSITION, 812); // Rangement du bras a aimants.
-                __delay_ms(delay_ax);
-                PutAX(Fish_ArG, 	AX_GOAL_POSITION, 195); // Rangement du bras de pêche.
-
+        PutAX(Magnet_ArG,       AX_GOAL_POSITION,712);	// Lâchez les poissons !!!!
+        __delay_ms(200);
+        PutAX(Magnet_ArG, 	AX_GOAL_POSITION, 812); // Rangement du bras a aimants.
+        __delay_ms(delay_min_ax);
+        PutAX(Fish_ArG, 	AX_GOAL_POSITION, 195); // Rangement du bras de pêche.
 	}
     else
     {
 		PutAX(Magnet_ArD,       AX_GOAL_POSITION,700);	// Lâchez les poissons !!!!
 		__delay_ms(200);
 		PutAX(Magnet_ArD, 	AX_GOAL_POSITION, 820); // Rangement du bras a aimants.
-                __delay_ms(delay_ax);
-                PutAX(Fish_ArD, 	AX_GOAL_POSITION, 834); // Rangement du bras de pêche.
+        __delay_ms(delay_min_ax);
+        PutAX(Fish_ArD, 	AX_GOAL_POSITION, 834); // Rangement du bras de pêche.
 	}
-                __delay_ms(1500);
+    __delay_ms(delay_min_ax);
  }
 
 
@@ -268,63 +267,61 @@ void Open_bras(void)
 {
     if(!PIN_TEAM)
 	{
-         PutAX(Bras_D,AX_GOAL_POSITION,512);
-         __delay_ms(700);
-         PutAX(Bras_C,AX_GOAL_POSITION,350); //reouvre
-         __delay_ms(500);
-
+        PutAX(Bras_D,AX_GOAL_POSITION,512);
+        __delay_ms(delay_min_ax);
+        PutAX(Bras_C,AX_GOAL_POSITION,350); //reouvre
     }
     else
 	{
-           PutAX(Bras_G,AX_GOAL_POSITION,512);
-         __delay_ms(700);
-         PutAX(Bras_C,AX_GOAL_POSITION,1000); //reouvre
-         __delay_ms(500);
+        PutAX(Bras_G,AX_GOAL_POSITION,512);
+        __delay_ms(delay_min_ax);
+        PutAX(Bras_C,AX_GOAL_POSITION,1000); //reouvre
     }
-
+    __delay_ms(delay_min_ax);
+    SendDone();
 }
 
 void Openfull_bras (void) 
 {	// Ouverture à 180° des bras pour fermer les portes.
-     PutAX(Bras_D,AX_GOAL_POSITION,800);
-     PutAX(Bras_C,AX_GOAL_POSITION,670);
-      PutAX(Bras_G,AX_GOAL_POSITION,200);
+    PutAX(Bras_D,AX_GOAL_POSITION,800);
+    __delay_ms(delay_min_ax);
+    PutAX(Bras_C,AX_GOAL_POSITION,670);
+    __delay_ms(delay_min_ax);
+    PutAX(Bras_G,AX_GOAL_POSITION,200);
+    __delay_ms(delay_min_ax);
 }
 
 void Catch_bras(void)
 { // Resserrage des bras contre les blocs de sable.
     if(!PIN_TEAM)
 	{
-         PutAX(Bras_D,AX_GOAL_POSITION,487);
-         __delay_ms(700);
-         PutAX(Bras_C,AX_GOAL_POSITION,375);
-         __delay_ms(500);
-
+        PutAX(Bras_D,AX_GOAL_POSITION,487);
+        __delay_ms(700);
+        PutAX(Bras_C,AX_GOAL_POSITION,375);
     }
     else
 	{
-         PutAX(Bras_G,AX_GOAL_POSITION,535);
-         __delay_ms(700);
-         PutAX(Bras_C,AX_GOAL_POSITION,965);
-         __delay_ms(500);
+        PutAX(Bras_G,AX_GOAL_POSITION,535);
+        __delay_ms(700);
+        PutAX(Bras_C,AX_GOAL_POSITION,965);
     }
-
+    __delay_ms(delay_min_ax);
 }
 
 void Close_bras(void)
 { // Rangement des bras.
     PutAX(Bras_G, 	AX_GOAL_POSITION, 830);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Bras_C, 	AX_GOAL_POSITION, 670);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
     PutAX(Bras_D, 	AX_GOAL_POSITION, 200);
-                        __delay_ms(delay_ax);
+                        __delay_ms(delay_min_ax);
 }
 
 void Funny_action(void)
 { // Déploiement du bras pour tendre le 'parasol'.
     PutAX(Bras_parasol, AX_GOAL_POSITION, 222);
-    __delay_ms(700);
+    __delay_ms(delay_min_ax);
 }
 
 /******************************************************************************/

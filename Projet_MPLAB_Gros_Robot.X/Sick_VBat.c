@@ -123,9 +123,10 @@ void InitSick_VBat()
 
     //Configuration du Timer 5, pour l'ADC
     // OpenTimer5(T5_ON & T5_GATE_OFF & T5_PS_1_256 & T5_SOURCE_INT, 15625); from 2014
-    OpenTimer5(T5_ON & T5_GATE_OFF & T5_PS_1_8 & T5_SOURCE_INT, 3125 ); // for 2015
+    OpenTimer5(T5_ON & T5_GATE_OFF & T5_PS_1_8 & T5_SOURCE_INT, 3124 ); // for 2015
     // FCY = 40Meg
     // prescaller à 8 et comparaison à 3125 => 40M / (8*3125) = 1600 => 1600 départ de comparaison / sec
+    // on mets un tout petit peu moins pour que �a se d�sinchronise avec les IT de base
     // avec 4 canaux, ça fait 400 detections / sec 
     // attention : (moyennage sur 16)
 

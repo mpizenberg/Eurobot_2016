@@ -448,8 +448,8 @@ void SendTeam (int team)
 {
     __delay_ms(50);
     switch(team) {
-        case 0 : printf("$VIOL;");  break;
-        case 1 : printf("$VERT;");  break;
+        case 0 : printf("$VERT;");  break;
+        case 1 : printf("$VIOL;");  break;
     }
     __delay_ms(50);
 }
