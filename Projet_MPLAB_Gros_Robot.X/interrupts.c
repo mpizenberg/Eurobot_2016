@@ -205,36 +205,20 @@ void __attribute__((interrupt, no_auto_psv)) _SPI2Interrupt(void)
 // every ms
 void __attribute__((interrupt,auto_psv)) _T3Interrupt(void) 
 {
-    ///////////////////////////////////////:
-    //////   Gestion de la laisse    //////
-    ///////////////////////////////////////
-
-    ///////////////////////////////////////
-    // L'interruption se faisant toutes les ms,
-    // pour éviter les erreurs on veut que la laisse
-    // ne soit plus vue (Etat_Pin_Laisse) pendant au moins 30 ms.
-    //
-    // Au bout de ces 30 ms,
     static uint8_t Etat_Laisse = 1;
     static uint8_t Count_Laisse = 30;
     uint8_t Etat_Pin_Laisse = PIN_LAISSE;
-    
-    if (Etat_Pin_Laisse) 
-    { // Si la laisse est là, on maintient le compteur à 30.
+    /*
+    if (Etat_Pin_Laisse) {
         if (Count_Laisse < 30)
             Count_Laisse ++;
-    }
-    else
-    { // S'il n'y a pas la laisse, on décrémente le compteur.
+    } else {
         if (Count_Laisse)
             Count_Laisse --;
     }
     
-    if (Etat_Laisse)
-    {
-        if (!Count_Laisse)
-        {   // Si le compteur atteint 0 (= pas de laisse pendant 30 ms)
-            // Alors on active le décompte des 90s et on start.
+    if (Etat_Laisse) {
+        if (!Count_Laisse) {
             Etat_Laisse = 0;
             Active_Delay_90 = 1;
             Delay_90 = 0;
@@ -242,17 +226,14 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
             //Debug_Asserv_Start();
             //Debug_PWM_Start();
         }
-    }
-    else
-    {   // Si on remet la Laisse, le décompte remonte et on peut réinit le robot.
-        if (Count_Laisse == 30)
-        {
+    } else {
+        if (Count_Laisse == 30) {
             Etat_Laisse = 1;
             Active_Delay_90 = 0;
             Delay_90 = 0;
         }
     }
-    
+    */
     
     if (Delay_TimeOut_AX12) {
         Delay_TimeOut_AX12 --;
