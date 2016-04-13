@@ -1,0 +1,8 @@
+sur le telephone, dans partage de connection
+	* mettre le nom du reseau : 7Robot
+	* mdp : $DPgMfgNTpd;
+
+puis pour se connceter avec un ordinateur a la raspi:
+	* mettre le pc sur le meme reseau que la raspi
+	* faire ssh pi@crabot ou pi@crabot.local si le premier ne fonctionne pas
+	* mdp 7robot
