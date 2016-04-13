@@ -147,6 +147,9 @@ void motion_step(int tics_g, int tics_d, float *commande_g, float *commande_d){
     // int needToSendDone = 0;
     if (!motion_initialized){*commande_g = 0; *commande_d = 0;}
     else {
+        if (debug_mode){
+            debug_pos_xy_asserv();
+        }
         // maj de l'odométrie
         odo_step((Odo*)(&odo), tics_g, tics_d);
         // on appelle la bonne fonction d'asservissement

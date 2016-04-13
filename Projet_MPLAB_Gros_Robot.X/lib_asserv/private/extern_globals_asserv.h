@@ -25,3 +25,4 @@ extern volatile int debug_mode;
 extern volatile int debug_count;
 //extern volatile SpeedDebug speedDebug;
 //extern volatile PosDebug posDebug;
+extern volatile PosXYDebug posXYDebug;

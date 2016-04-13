@@ -96,7 +96,7 @@
 /*############################################################################*/
 
 #ifndef DEFAULT_DEBUG_MODE
-#define DEFAULT_DEBUG_MODE 0
+#define DEFAULT_DEBUG_MODE 1
 #endif
 
 #endif // _LIB_ASSERV_DEFAULT_H_
