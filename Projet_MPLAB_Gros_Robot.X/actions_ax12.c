@@ -278,7 +278,6 @@ void Open_bras(void)
         PutAX(Bras_C,AX_GOAL_POSITION,1000); //reouvre
     }
     __delay_ms(delay_min_ax);
-    SendDone();
 }
 
 void Openfull_bras (void) 

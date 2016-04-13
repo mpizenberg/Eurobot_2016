@@ -205,10 +205,10 @@ void __attribute__((interrupt, no_auto_psv)) _SPI2Interrupt(void)
 // every ms
 void __attribute__((interrupt,auto_psv)) _T3Interrupt(void) 
 {
-    static uint8_t Etat_Laisse = 1;
-    static uint8_t Count_Laisse = 30;
+    static uint8_t Etat_Laisse = 0;
+    static uint8_t Count_Laisse = 0;
     uint8_t Etat_Pin_Laisse = PIN_LAISSE;
-    /*
+    
     if (Etat_Pin_Laisse) {
         if (Count_Laisse < 30)
             Count_Laisse ++;
@@ -233,7 +233,6 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
             Delay_90 = 0;
         }
     }
-    */
     
     if (Delay_TimeOut_AX12) {
         Delay_TimeOut_AX12 --;
