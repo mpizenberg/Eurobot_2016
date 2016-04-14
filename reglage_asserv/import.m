@@ -1,4 +1,3 @@
-clear;
 
 x10 = import_data('x_10.csv');
 x20 = import_data('x_20.csv');
