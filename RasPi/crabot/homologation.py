@@ -19,7 +19,6 @@ while answer != "$STRT;":
 team = functions.ask_team(ser)
 
 functions.open_bras(ser)
-functions.funny_action(ser)
 
 functions.move_pos(ser,0.85,0)
 
