@@ -264,7 +264,7 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d){
         // Pour pouvoir freiner suffisament vite il faut que la deceleration
         // autorisee par ce calcul de vitesse ne depasse pas la deceleration
         // maximale autorisee
-        v_o  = 0.8 * deceleration_max * d;
+        v_o  = 0.9 * deceleration_max * d;
 
         // Pour ne pas tourner autour de la position, il faut corriger plus rapidement
         // l'ecart angulaire que l'ecart de distance.
@@ -292,18 +292,21 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d){
 
 // asservissement en angle
 void angle_asserv_step(Odo *odo, float *commande_g, float *commande_d){
-    // angle restant à parcourir
+    // angle restant a parcourir
     float dt = principal_angle(angle_asserv.angle_order - odo->state->pos.t);
     float vt_o;
+    // contraintes
+    float at_max = motionConstraint.a_max.at;
+    float deceleration_max = at_max;
 
-    // si on est arrivé on ne bouge plus
+    // si on est arrive on ne bouge plus
     if (fabs(dt) < 0.02) {
         angle_asserv.done = 1;
         *commande_g = 0;
         *commande_d = 0;
     } else {
-        // calcul de la vitesse angulaire nécessaire
-        vt_o = 2 * dt;
+        // calcul de la vitesse angulaire necessaire
+        vt_o = 0.9 * deceleration_max * dt;
         // appel de l'asserve en vitesse avec les bonnes consignes
         speed_asserv.speed_order.v = 0;
         speed_asserv.speed_order.vt = vt_o;
