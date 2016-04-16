@@ -17,17 +17,17 @@
 typedef struct {
     float d;
     float dt;
-} DistanceDebug;
+} Distance;
 
 // Un asservissement en position connait les asserv en vitesse des roues gauche et droite
 typedef struct {
     Position pos_order;
+    Distance distance;
     float stop_distance;
     float kp; // coef proportionnel qui doit être plus petit que l'accélération max
     MotionState *state;
     MotionConstraint *constraint;
     int done;
-    DistanceDebug distance;
 } PositionAsserv;
 
 // Un asservissement en vitesse

@@ -50,7 +50,7 @@ void asserv_init(){
     pos_asserv.state = (MotionState*)(&motionState);
     pos_asserv.constraint = (MotionConstraint*)(&motionConstraint);
     pos_asserv.done = 0;
-    pos_asserv.distance = (DistanceDebug){0,0};
+    pos_asserv.distance = (Distance){0,0};
     // initialisation de l'asservissement en vitesse
     speed_asserv.speed_order = (Speed){0,0};
     speed_asserv.speed_order_constrained = (Speed){0,0};
