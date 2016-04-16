@@ -230,7 +230,7 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d){
 
     // hysteresis pour eviter les allers retours
     float epsi;
-    int derriere;
+    int derriere, sens_rotation;
 
     // si on est arrive on ne bouge plus
     if (d < pos_asserv.stop_distance) {
@@ -268,16 +268,17 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d){
 
         // Pour ne pas tourner autour de la position, il faut corriger plus rapidement
         // l'ecart angulaire que l'ecart de distance.
-        // En supposant que les variables sont independantes
-        // (ce qui n'est biensur pas le cas en verite mais ca simplifie le raisonnement)
-        // les temps pour corriger l'ecart angulaire et la distance sont:
-        //     t_distance = | d  / v  |
-        //     t_angle    = | dt / vt |
-        // Si on souhaite par exemple t_angle = 1/2 * t_distance, ca donne:
-        //     |dt/vt| = 1/2 * |d/v|
-        //     |vt/dt| = 2 * |v/d|
-        //     vt = 2 * dt/|d| * |v|
-        vt_o = 2 * dt * fabs(v/d);
+        // Pour un petit deplacement "delta", et une petite variation angulaire "dtheta",
+        // on peut ecrire
+        //     dtheta = tan(dtheta) = delta / rayon
+        // Le rayon de courbure vaut donc
+        //     rayon = v/vt
+        // Il est donc imperatif d'avoir un rayon de courbure inferieur a la moitie
+        // de la distance |d| qui nous separe de la consigne.
+        // En choisissant par exemple rayon = |d|/2 , on obtient
+        //     |vt| = 2 * |v/d|
+        if (dt>0) sens_rotation=1 else sens_rotation=-1;
+        vt_o = sens_rotation * 2 * fabs(v_o/d);
 
         // appel de l'asserve en vitesse avec les bonnes consignes
         speed_asserv.speed_order.v = v_o;
