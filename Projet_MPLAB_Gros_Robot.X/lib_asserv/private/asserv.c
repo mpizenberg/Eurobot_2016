@@ -86,12 +86,18 @@ void constrain_speed(float v, float vt, float *v_constrained, float *vt_constrai
 
     // calcul des contraintes
     float period = DEFAULT_PERIOD;
-    *v_constrained = limit_float(v,  *v_constrained-a_max*period,  *v_constrained+a_max*period);
+
+    // contraintes liees a l'acceleration et vitesse absolues
+    *v_constrained = limit_float(v,  v_c_old-a_max*period,  v_c_old+a_max*period);
     *v_constrained = limit_float(*v_constrained,-v_max,v_max);
+
+    // contraintes liees a l'acceleration et vitesse angulaires
     *vt_constrained = limit_float(vt,   *vt_constrained-at_max*period,   *vt_constrained+at_max*period);
     *vt_constrained = limit_float(*vt_constrained,-vt_max,vt_max);
 
+    // contraintes liees a l'acceleration v_vt_max (priorite a la vitesse angulaire)
     if (fabs((*v_constrained)*(*vt_constrained)) > v_vt_max){
+        // v_constrained ne peut pas valoir 0 mais peut etre positif ou negatif
         if (*v_constrained>0){
             *v_constrained = limit_float(
                     v_vt_max/fabs(*vt_constrained),
@@ -107,7 +113,7 @@ void constrain_speed(float v, float vt, float *v_constrained, float *vt_constrai
     }
 }
 
-// contraindre les vitesses et accélérations autorisées
+// contraint la consigne de vitesse avec la fonction precedente constrain_speed
 void constrain_speed_order(){
 
     // vitesse consigne(o comme order) et consigne contrainte(oc)

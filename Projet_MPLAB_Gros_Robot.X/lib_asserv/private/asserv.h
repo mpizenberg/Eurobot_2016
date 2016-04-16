@@ -65,6 +65,7 @@ void set_asserv_seq_mode();
 
 // contraindre les vitesses et accélérations autorisées
 void constrain_speed(float v, float vt, float *v_constrained, float *vt_constrained);
+// contraint la consigne de vitesse avec la fonction precedente constrain_speed
 void constrain_speed_order();
 
 // effectue un pas d'asservissement
