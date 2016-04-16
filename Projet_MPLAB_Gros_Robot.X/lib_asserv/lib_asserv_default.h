@@ -67,14 +67,6 @@
 #define DEFAULT_PID_MAX_INT_ALPHA 0.8
 #endif
 
-// valeurs max de l'intégrale en vitesse et vitesse angulaire
-#ifndef DEFAULT_PID_MAX_INT_DELTA
-#define DEFAULT_PID_MAX_INT_DELTA 0.5
-#endif
-#ifndef DEFAULT_PID_MAX_INT_ALPHA
-#define DEFAULT_PID_MAX_INT_ALPHA 5
-#endif
-
 // conditions d'arrêt des PID en vitesse et vitesse angulaire
 #ifndef DEFAULT_PID_EPS_DELTA
 #define DEFAULT_PID_EPS_DELTA {0.02,0.02}
