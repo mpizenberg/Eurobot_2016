@@ -12,12 +12,12 @@
 /*                                  Motion                                    */
 /*############################################################################*/
 
-#ifndef DEFAULT_CONSTRAINT_V_MAX
-#define DEFAULT_CONSTRAINT_V_MAX {1.2, 6} // 1.2 normal, 0.5 homologation
+#ifndef DEFAULT_CONSTRAINT_V_MAX // {v, vt}
+#define DEFAULT_CONSTRAINT_V_MAX {0.8, 1.6}
 #endif
 
-#ifndef DEFAULT_CONSTRAINT_A_MAX
-#define DEFAULT_CONSTRAINT_A_MAX {0.55, 1, 0.30}
+#ifndef DEFAULT_CONSTRAINT_A_MAX // {a, at, v_vt}
+#define DEFAULT_CONSTRAINT_A_MAX {0.7, 1.4, 0.3}
 #endif
 
 #ifndef BLOCK_LIMIT
