@@ -198,71 +198,95 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d){
      * On calcule les consignes de vitesse et vitesse angulaire
      * en fonction de la position actuelle et de la consigne de position.
      *
-     * Idées :
-     * La priorité à la rotation
-     * on doit avoir une décroissance des consignes de vitesse plus lente que
-     * celles autorisées par l'accélération max
+     * Idees :
+     * La priorite a�la rotation
+     *   -> l'acceleration angulaire max doit permettre cette priorite
+     * On doit avoir une decroissance des consignes de vitesse plus lente que
+     * celles autorisees par la deceleration max
      */
-    // distance et angle restants à parcourir
-    // r�cup consigne
+
+    // recuperation de la consigne (o pour "order") en position
     float x_o = pos_asserv.pos_order.x; // consigne en x
     float y_o = pos_asserv.pos_order.y; // consigne en y
-    // r�cup position actuelle
+
+    // recuperation de la position et vitesse courantes
     float x = odo->state->pos.x;
     float y = odo->state->pos.y;
-    // calcul distance
-    float d = sqrt((x_o-x)*(x_o-x) + (y_o-y)*(y_o-y));
-    // calcul angle
-    float dt = principal_angle(atan2f(y_o-y,x_o-x) - odo->state->pos.t);
-    
-    float v_o, vt_o;
-    float epsi = PI * 0.1;
+    float v = odo->state->speed.v;
+    float vt = odo->state->speed.vt;
 
-    // si on est arrivé on ne bouge plus
+    // contraintes
+    float a_max = motionConstraint.a_max.a;
+    float deceleration_max = a_max;
+
+    // calcul de la distance a la consigne en position
+    float d = sqrt((x_o-x)*(x_o-x) + (y_o-y)*(y_o-y));
+
+    // calcul de la deviation angulaire par rapport a la consigne en position
+    float dt = principal_angle(atan2f(y_o-y,x_o-x) - odo->state->pos.t);
+
+    // declaration des consignes en vitesse et vitesse angulaire
+    float v_o, vt_o;
+
+    // hysteresis pour eviter les allers retours
+    float epsi;
+    int derriere;
+
+    // si on est arrive on ne bouge plus
     if (d < pos_asserv.stop_distance) {
         pos_asserv.done = 1;
         *commande_g = 0;
         *commande_d = 0;
     }
     else {
-        // si |dt| > pi/2 , on calcul beta = dt-pi et c'est beta la nouvelle consigne
-        // calcul de la consigne de vitesse et vitesse angulaire
-        // on met en plus une sorte d'hysteresis pour éviter les aller-retour
-        if (motionState.speed.v > 0){
-            if (fabs(dt)>PI/2+epsi) {
-                d = -d;
-                dt = principal_angle(dt+PI);
-            }
+        // On determine dans un premier temps si le robot doit plutot avancer
+        // ou reculer pour atteindre la consigne de position. Pour cela, il suffit
+        // de regarder la valeur de l'ecart angulaire "dt" a la consigne:
+        //     - si |dt| < pi/2 , l'objectif est en face de nous.
+        //     - si |dt| > pi/2 , il est derriere.
+        // On ajoute en plus un hysteresis pour eviter les allers retours
+        // quand l'objectif est quasiment a angle droit sur le cote (|dt| proche de PI/2)
+
+        epsi = 0.1 * PI/2;
+        if (v > 0){
+            derriere = fabs(dt) > PI/2 + epsi;
         } else {
-            if (fabs(dt)>PI/2-epsi) {
-                d = -d;
-                dt = principal_angle(dt+PI);
-            }
+            derriere = fabs(dt) > PI/2 - epsi;
         }
-        
-        if (fabs(d)<0.1){
-            v_o = pos_asserv.kp * d/1 * (1-0.636619772*fabs(dt)); // 0.636619772 = 1/(pi/2)
-            vt_o = pos_asserv.kp * 20 * dt * fabs(d);
-        } else {
-            v_o = pos_asserv.kp * d/1;
-            vt_o = 2 * pos_asserv.kp * dt;
+
+        if (derriere){
+            d = -d;
+            dt = principal_angle(dt+PI);
         }
-        // appliquer les contraintes puis revérifier la priorité rotation
-        // v_oc = speed_asserv.speed_order_constrained.v;
-        // vt_oc = speed_asserv.speed_order_constrained.vt;
-        // constrain_speed(v_o, vt_o, &v_oc, &vt_oc);
-        //if (fabs(d)>0.1 && fabs(dt)>0.05){v_oc = 0.2*d*fabs(vt_oc/dt);} // si dt > 3°
+
+        // On veut determiner des consignes en vitesse et en vitesse angulaire
+        // qui permettront de se rapprocher de la consigne de position.
+        // Pour pouvoir freiner suffisament vite il faut que la deceleration
+        // autorisee par ce calcul de vitesse ne depasse pas la deceleration
+        // maximale autorisee
+        v_o  = 0.8 * deceleration_max * d;
+
+        // Pour ne pas tourner autour de la position, il faut corriger plus rapidement
+        // l'ecart angulaire que l'ecart de distance.
+        // En supposant que les variables sont independantes
+        // (ce qui n'est biensur pas le cas en verite mais ca simplifie le raisonnement)
+        // les temps pour corriger l'ecart angulaire et la distance sont:
+        //     t_distance = | d  / v  |
+        //     t_angle    = | dt / vt |
+        // Si on souhaite par exemple t_angle = 1/2 * t_distance, ca donne:
+        //     |dt/vt| = 1/2 * |d/v|
+        //     |vt/dt| = 2 * |v/d|
+        //     vt = 2 * dt/|d| * |v|
+        vt_o = 2 * dt * fabs(v/d);
 
         // appel de l'asserve en vitesse avec les bonnes consignes
         speed_asserv.speed_order.v = v_o;
         speed_asserv.speed_order.vt = vt_o;
         speed_asserv_step(odo,commande_g,commande_d);
 
-        // mode debug
-        if (debug_mode){
-            pos_asserv.distance.d = d;
-            pos_asserv.distance.dt = dt;
-        }
+        // maj de la distance � la consigne
+        pos_asserv.distance.d = d;
+        pos_asserv.distance.dt = dt;
     }
 }
 
