@@ -74,10 +74,6 @@ void set_asserv_speed_mode(){asserv_mode = ASSERV_MODE_SPEED;}
 void set_asserv_angle_mode(){asserv_mode = ASSERV_MODE_ANGLE;}
 void set_asserv_seq_mode(){asserv_mode = ASSERV_MODE_SEQUENCE;}
 
-// obtenir les consignes en vitesse et vitesse angulaire
-float get_cons_v(){return speed_asserv.speed_order_constrained.v;}
-float get_cons_vt(){return speed_asserv.speed_order_constrained.vt;}
-
 // observer les contraintes aux vitesse et vitesse angulaire
 void constrain_speed(float v, float vt, float *v_constrained, float *vt_constrained){
     // contraintes
