@@ -25,7 +25,7 @@ void asserv_init(){
     // PID pour l'asserv en vitesse (delta)
     Pid pid_delta;
     PidCoefs coefs_delta = DEFAULT_PID_COEFS_DELTA;
-    PidState state_delta = {0,0,0,0,0,DEFAULT_PID_MAX_INT_DELTA};
+    PidState state_delta = {0,0,0,0,0,0,DEFAULT_PID_MAX_INT_DELTA};
     PidEps eps_delta = DEFAULT_PID_EPS_DELTA;
     pid_set_coefs(&pid_delta,coefs_delta);
     pid_set_state(&pid_delta, state_delta);
@@ -35,7 +35,7 @@ void asserv_init(){
     // PID pour l'asserv en vitesse angulaire (alpha)
     Pid pid_alpha;
     PidCoefs coefs_alpha = DEFAULT_PID_COEFS_ALPHA;
-    PidState state_alpha = {0,0,0,0,0,DEFAULT_PID_MAX_INT_ALPHA};
+    PidState state_alpha = {0,0,0,0,0,0,DEFAULT_PID_MAX_INT_ALPHA};
     PidEps eps_alpha = DEFAULT_PID_EPS_ALPHA;
     pid_set_coefs(&pid_alpha,coefs_alpha);
     pid_set_state(&pid_alpha, state_alpha);
