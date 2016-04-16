@@ -51,41 +51,33 @@
 /*                                   PID                                      */
 /*############################################################################*/
 
-// 4 asserv différentes (position et vitese pour chaque roue) donc 4 PID
-#ifndef DEFAULT_PID_COEFS_DELTA
-#define DEFAULT_PID_COEFS_DELTA {100,20,0,0,0} //{200,70,900,0.3,0.8}{130,90,3000,0.5,0.9}{200,30,30,0,0}{200,20,0,0,0}
+// 2 PID lies a l'asserve en vitesse (delta: vitess absolue, alpha: vitesse angulaire)
+#ifndef DEFAULT_PID_COEFS_DELTA // {kp, ki, kd, mu_p}
+#define DEFAULT_PID_COEFS_DELTA {100,20,0,0}
 #endif
-#ifndef DEFAULT_PID_COEFS_ALPHA
-#define DEFAULT_PID_COEFS_ALPHA {23,9.5,0,0,0} //{10,5,30,0,0.7}{20,10,0,0,0}
+#ifndef DEFAULT_PID_COEFS_ALPHA // {kp, ki, kd, mu_p}
+#define DEFAULT_PID_COEFS_ALPHA {23,9.5,0,0}
 #endif
 
-// valeurs max de l'intégrale en position et en vitesse
+// valeurs max de l'intégrale en vitesse et vitesse angulaire
 #ifndef DEFAULT_PID_MAX_INT_DELTA
-#define DEFAULT_PID_MAX_INT_DELTA 0.7 // 0.7
+#define DEFAULT_PID_MAX_INT_DELTA 0.7
 #endif
 #ifndef DEFAULT_PID_MAX_INT_ALPHA
 #define DEFAULT_PID_MAX_INT_ALPHA 0.8
 #endif
-/*
-#ifndef DEFAULT_PID_COEFS_VG
-#define DEFAULT_PID_COEFS_VG {400,4,50,0.7,0.7}
-#endif
-#ifndef DEFAULT_PID_COEFS_VD
-#define DEFAULT_PID_COEFS_VD {400,4,50,0.7,0.7}
-#endif
- */
 
-// valeurs max de l'intégrale en position et en vitesse
+// valeurs max de l'intégrale en vitesse et vitesse angulaire
 #ifndef DEFAULT_PID_MAX_INT_DELTA
-#define DEFAULT_PID_MAX_INT_DELTA 0.5 // 0.7
+#define DEFAULT_PID_MAX_INT_DELTA 0.5
 #endif
 #ifndef DEFAULT_PID_MAX_INT_ALPHA
 #define DEFAULT_PID_MAX_INT_ALPHA 5
 #endif
 
-// ainsi que les conditions d'arrêt des PID en position et vitesse
+// conditions d'arrêt des PID en vitesse et vitesse angulaire
 #ifndef DEFAULT_PID_EPS_DELTA
-#define DEFAULT_PID_EPS_DELTA {0.02,0.02}//0.02
+#define DEFAULT_PID_EPS_DELTA {0.02,0.02}
 #endif
 #ifndef DEFAULT_PID_EPS_ALPHA
 #define DEFAULT_PID_EPS_ALPHA {0.02,0.02}
