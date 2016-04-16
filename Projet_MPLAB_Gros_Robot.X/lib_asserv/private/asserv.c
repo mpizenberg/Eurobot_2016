@@ -169,12 +169,16 @@ void speed_asserv_step(Odo *odo, float *commande_g, float *commande_d){
     constrain_speed_order();
 
     // maj des consignes des PID
-    pid_set_order((Pid*)(&(speed_asserv.pid_delta)), speed_asserv.speed_order_constrained.v);
-    pid_set_order((Pid*)(&(speed_asserv.pid_alpha)), speed_asserv.speed_order_constrained.vt);
-    pid_maj((Pid*)(&(speed_asserv.pid_delta)), odo->state->speed.v);
-    pid_maj((Pid*)(&(speed_asserv.pid_alpha)), odo->state->speed.vt);
-    commande_delta = pid_process((Pid*)(&(speed_asserv.pid_delta)));
-    commande_alpha = pid_process((Pid*)(&(speed_asserv.pid_alpha)));
+    pid_set_order(&(speed_asserv.pid_delta), speed_asserv.speed_order_constrained.v);
+    pid_set_order(&(speed_asserv.pid_alpha), speed_asserv.speed_order_constrained.vt);
+
+    // maj des valeurs des PID
+    pid_maj(&(speed_asserv.pid_delta), odo->state->speed.v);
+    pid_maj(&(speed_asserv.pid_alpha), odo->state->speed.vt);
+
+    // calcul des sorties des PID
+    commande_delta = pid_process(&(speed_asserv.pid_delta));
+    commande_alpha = pid_process(&(speed_asserv.pid_alpha));
 
     // renvoie des commandes gauche et droite
     *commande_g = commande_delta - commande_alpha;
