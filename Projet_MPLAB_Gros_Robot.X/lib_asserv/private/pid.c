@@ -14,7 +14,6 @@ void pid_set_kp(Pid *pid, float kp){pid->coefs.kp = kp;}
 void pid_set_ki(Pid *pid, float ki){pid->coefs.ki = ki;}
 void pid_set_kd(Pid *pid, float kd){pid->coefs.kd = kd;}
 void pid_set_mu_p(Pid *pid, float mu_p){pid->coefs.mu_p = mu_p;}
-void pid_set_mu_d(Pid *pid, float mu_d){pid->coefs.mu_d = mu_d;}
 
 // assigner des valeurs à l'état du PID
 void pid_set_state(Pid *pid, PidState state){pid->state = state;}
@@ -37,36 +36,43 @@ void pid_set_order(Pid *pid, float order){pid->order = order;}
 // maj du PID avec une valeur "value"
 void pid_maj(Pid *pid, float value){
     float err_old = pid->state.err;
+    float err_moy_old = pid->state.err_moy;
     pid_maj_err(pid, value);
-    pid_maj_err_der(pid, err_old);
-    pid_maj_err_int(pid, pid->state.err);
+    pid_maj_err_der(pid, err_old, err_moy_old);
+    pid_maj_err_int(pid);
 }
 
 // maj de l'erreur du PID en tenant compte du coef de moyennage mu_p
 void pid_maj_err(Pid *pid, float value){
-    pid->state.err_moy = pid->coefs.mu_p * pid->state.err_moy + (1-pid->coefs.mu_p) * (pid->order - value);
     pid->state.err = pid->order - value;
+    pid->state.err_moy = pid->coefs.mu_p * pid->state.err_moy + (1-pid->coefs.mu_p) * pid->state.err;
 }
 
 // maj de l'intégrale de l'erreur du PID en tenant compte de sa limite max
-void pid_maj_err_int(Pid *pid, float err){
-    pid->state.err_int = limit_float(pid->state.err_int + err, -(pid->state.max_int), pid->state.max_int);
+void pid_maj_err_int(Pid *pid){
+    pid->state.err_int = limit_float(pid->state.err_int + pid->state.err, -(pid->state.max_int), pid->state.max_int);
+    pid->state.err_int_moy = limit_float(pid->state.err_int_moy + pid->state.err, -(pid->state.max_int), pid->state.max_int);
 }
 
 // maj de la dérivée de l'erreur du PID en tenant compte du coef de moyennage mu_d
-void pid_maj_err_der(Pid *pid, float err_old){
-    pid->state.err_der_moy = pid->coefs.mu_d * pid->state.err_der_moy + (1-pid->coefs.mu_d) * (pid->state.err - err_old);
+void pid_maj_err_der(Pid *pid, float err_old, float err_moy_old){
     pid->state.err_der = pid->state.err - err_old;
+    pid->state.err_der_moy = pid->state.err_moy - err_moy_old;
 }
 
 // calcule la commande du PID
 float pid_process(Pid *pid){
-    return    pid->coefs.kp * (0.2 * pid->state.err + 0.8 * pid->state.err_moy) // 0.3 et 0.7
-            + pid->coefs.ki * pid->state.err_int
-            + pid->coefs.kd * (0.2 * pid->state.err_der + 0.8 * pid->state.err_der_moy); // 0.2 et 0.8
+    float err     = pid->state.err;     //_moy;
+    float err_int = pid->state.err_int; //_moy;
+    float err_der = pid->state.err_der; //_moy;
+    return    pid->coefs.kp * err
+            + pid->coefs.ki * err_int
+            + pid->coefs.kd * err_der;
 }
 
 // indique si le pid est stable
-int pid_done(Pid pid){
-    return fabs(pid.state.err) <= pid.eps.err_eps && fabs(pid.state.err_der) <= pid.eps.der_eps;
+int pid_done(Pid *pid){
+    float err     = pid->state.err;     //_moy;
+    float err_der = pid->state.err_der; //_moy;
+    return fabs(err) <= pid->eps.err_eps && fabs(err_der) <= pid->eps.der_eps;
 }
