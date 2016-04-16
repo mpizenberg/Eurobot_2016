@@ -67,13 +67,6 @@ void asserv_init(){
     angle_asserv.done = 0;
 }
 
-// assigner un PID et des contraintes à un asservissement
-void set_speedAsserv_pids(Pid pid_delta, Pid pid_alpha){
-    speed_asserv.pid_delta = pid_delta;
-    speed_asserv.pid_alpha = pid_alpha;
-}
-void set_speedAsserv_constraint(MotionConstraint *constraint){ speed_asserv.constraint = constraint; }
-
 // choisir le mode d'asservissement (désactivé, en position, en vitesse)
 void set_asserv_off(){asserv_mode = ASSERV_MODE_OFF;}
 void set_asserv_pos_mode(){asserv_mode = ASSERV_MODE_POS;}

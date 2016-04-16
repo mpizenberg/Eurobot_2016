@@ -56,10 +56,6 @@ typedef struct {
 // initialiser le mode et les différents asservissements
 void asserv_init();
 
-// assigner 2 PID et des contraintes à l'asservissement en vitesse
-void set_speedAsserv_pids(Pid pid_delta, Pid pid_alpha);
-void set_speedAsserv_constraint(MotionConstraint *constraint);
-
 // choisir le mode d'asservissement (désactivé, en position, en vitesse)
 void set_asserv_off();
 void set_asserv_pos_mode();
