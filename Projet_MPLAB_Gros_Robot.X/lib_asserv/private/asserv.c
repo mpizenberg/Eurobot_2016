@@ -4,7 +4,7 @@
 #include "pid.h"
 #include "../lib_asserv_default.h"
 #include "debug.h"
-#include "tools.h"//48mm de diametre 150,79
+#include "tools.h"
 #include <math.h>
 
 
@@ -18,7 +18,7 @@ volatile AngleAsserv angle_asserv;
 
 /******************************    Fonctions    *******************************/
 
-// initialiser le mode et les différents asservissement
+// initialiser le mode et les differents asservissement
 void asserv_init(){
     asserv_mode = DEFAULT_ASSERV_MODE;
 
@@ -45,7 +45,7 @@ void asserv_init(){
     // initialisation de l'asservissement en position
     pos_asserv.pos_order = (Position){0,0,0};
     pos_asserv.stop_distance = DEFAULT_STOP_DISTANCE;
-    // respect des contraintes d'accélération max avec ce coef
+    // respect des contraintes d'acceleration max avec ce coef
     pos_asserv.kp = 1.6;
     pos_asserv.state = (MotionState*)(&motionState);
     pos_asserv.constraint = (MotionConstraint*)(&motionConstraint);
@@ -67,7 +67,7 @@ void asserv_init(){
     angle_asserv.done = 0;
 }
 
-// choisir le mode d'asservissement (désactivé, en position, en vitesse)
+// choisir le mode d'asservissement (desactive, en position, en vitesse)
 void set_asserv_off(){asserv_mode = ASSERV_MODE_OFF;}
 void set_asserv_pos_mode(){asserv_mode = ASSERV_MODE_POS;}
 void set_asserv_speed_mode(){asserv_mode = ASSERV_MODE_SPEED;}
@@ -185,7 +185,7 @@ void speed_asserv_step(Odo *odo, float *commande_g, float *commande_d){
     *commande_d = commande_delta + commande_alpha;
 
     /*
-    // vérification si on est arrivé à la bonne consigne
+    // verification si on est arrive a la bonne consigne
     if (pid_done(&(speed_asserv.pid_delta)) && pid_done(&(speed_asserv.pid_alpha))){
         speed_asserv.done = 1;
     } else {speed_asserv.done = 0;}
@@ -316,7 +316,7 @@ void angle_asserv_step(Odo *odo, float *commande_g, float *commande_d){
 
 // asservissement en sequence
 void seq_asserv_step(Odo *odo, float *commande_g, float *commande_d){
-    // si on est arrivé on ne bouge plus
+    // si on est arrive on ne bouge plus
     if (!(motionSequence.waiting)) {
         *commande_g = 0;
         *commande_d = 0;
@@ -325,7 +325,7 @@ void seq_asserv_step(Odo *odo, float *commande_g, float *commande_d){
         pos_asserv.pos_order = motionSequence.pos_seq[motionSequence.in_progress];
         pos_asserv.stop_distance = motionSequence.stop_distance[motionSequence.in_progress];
         pos_asserv_step(odo,commande_g,commande_d);
-        // si cette étape est finie, passer à la suivante
+        // si cette etape est finie, passer a la suivante
         if (pos_asserv.done){
             pos_asserv.done = 0;
             motionSequence.waiting--;
@@ -334,7 +334,7 @@ void seq_asserv_step(Odo *odo, float *commande_g, float *commande_d){
     }
 }
 
-// indique si l'asservissement en cours a terminé
+// indique si l'asservissement en cours a termine
 int asserv_done(){
     if (asserv_mode == ASSERV_MODE_OFF) {return 1;}
     else if (asserv_mode == ASSERV_MODE_POS) {return pos_asserv.done;}
