@@ -291,9 +291,13 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d){
         vt_o = sens_rotation * 2 * fabs(v_o/d);
 
         // appel de l'asserve en vitesse avec les bonnes consignes
+        // et un changement temporaire de la contrainte
+        // a_max   <   |v/vt|*at_max   <   |d|/2 * at_max
         speed_asserv.speed_order.v = v_o;
         speed_asserv.speed_order.vt = vt_o;
+        motionConstraint.a_max.a = fmin(a_max, fabs(d/2)*at_max);
         speed_asserv_step(odo,commande_g,commande_d);
+        motionConstraint.a_max.a = a_max;
 
         // maj de la distance à la consigne
         pos_asserv.distance.d = d;
