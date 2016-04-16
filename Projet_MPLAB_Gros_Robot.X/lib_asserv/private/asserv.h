@@ -64,7 +64,11 @@ void set_asserv_angle_mode();
 void set_asserv_seq_mode();
 
 // contraindre les vitesses et accélérations autorisées
-void constrain_speed(float v, float vt, float *v_constrained, float *vt_constrained);
+void constrain_speed(
+        float v, float vt,
+        float *v_constrained, float *vt_constrained,
+        float v_max, float vt_max,
+        float a_max, float at_max, float v_vt_max);
 // contraint la consigne de vitesse avec la fonction precedente constrain_speed
 void constrain_speed_order();
 

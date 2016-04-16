@@ -75,17 +75,17 @@ void set_asserv_angle_mode(){asserv_mode = ASSERV_MODE_ANGLE;}
 void set_asserv_seq_mode(){asserv_mode = ASSERV_MODE_SEQUENCE;}
 
 // observer les contraintes aux vitesse et vitesse angulaire
-void constrain_speed(float v, float vt, float *v_constrained, float *vt_constrained){
-    // contraintes
-    float v_max = motionConstraint.v_max.v;
-    float vt_max = motionConstraint.v_max.vt;
-    float a_max = motionConstraint.a_max.a;
-    float at_max = motionConstraint.a_max.at;
-    float v_vt_max = motionConstraint.a_max.v_vt;
-    float v_c_old = *v_constrained;
+void constrain_speed(
+        float v, float vt,
+        float *v_constrained, float *vt_constrained,
+        float v_max, float vt_max,
+        float a_max, float at_max, float v_vt_max){
 
-    // calcul des contraintes
+    // periode de l'asservissement
     float period = DEFAULT_PERIOD;
+
+    // ancienne vitesse contrainte
+    float v_c_old = *v_constrained;
 
     // contraintes liees a l'acceleration et vitesse absolues
     *v_constrained = limit_float(v,  v_c_old-a_max*period,  v_c_old+a_max*period);
@@ -122,7 +122,17 @@ void constrain_speed_order(){
     float v_oc = speed_asserv.speed_order_constrained.v;
     float vt_oc = speed_asserv.speed_order_constrained.vt;
 
-    constrain_speed(v_o, vt_o, &v_oc, &vt_oc);
+    // contraintes de vitesse
+    float v_max = motionConstraint.v_max.v;
+    float vt_max = motionConstraint.v_max.vt;
+
+    // contraintes d'acceleration
+    float a_max = motionConstraint.a_max.a;
+    float at_max = motionConstraint.a_max.at;
+    float v_vt_max = motionConstraint.a_max.v_vt;
+
+    // application des contraintes
+    constrain_speed(v_o, vt_o, &v_oc, &vt_oc, v_max, vt_max, a_max, at_max, v_vt_max);
     speed_asserv.speed_order_constrained.v = v_oc;
     speed_asserv.speed_order_constrained.vt = vt_oc;
 }
