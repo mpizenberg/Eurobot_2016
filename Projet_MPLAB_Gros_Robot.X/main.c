@@ -61,18 +61,27 @@ int main(int argc, char** argv) {
 void reglage_asserv(void)
 {
     Speed speed;
+    Position pos;
     speed.v = 0;
-    speed.vt = 3;
-    motion_speed(speed);
+    speed.vt = 5;
+    pos.x = 1.2;
+    pos.y = 0;
+    motion_pos(pos);
+    while (!motion_done());
+    pos.x = 1.2;
+    pos.y = 1.2;
+    motion_pos(pos);
+    while (!motion_done());
+    pos.x = 0;
+    pos.y = 1.2;
+    motion_pos(pos);
+    while (!motion_done());
+    pos.x = 0;
+    pos.y = 0;
+    motion_pos(pos);
+    while (!motion_done());
+    motion_angle(0);
     debug_count = 0;
-    PWM_Moteurs(-100,100);
-    __delay_ms(300);
-    int i=100;
-    for(i=50; i>=0; i--){
-        PWM_Moteurs(-2i,2i);
-        __delay_ms(5);
-    }
-    
 }
 void Debug_Asserv_Start(void)
 {

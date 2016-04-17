@@ -259,7 +259,7 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d){
         // quand l'objectif est quasiment a angle droit sur le cote (|dt| proche de PI/2)
 
         epsi = 0.1 * PI/2;
-        if (v > 0){
+        if (v > -0.001){
             derriere = fabs(dt) > PI/2 + epsi;
         } else {
             derriere = fabs(dt) > PI/2 - epsi;
@@ -275,7 +275,7 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d){
         // Pour pouvoir freiner suffisament vite il faut que la deceleration
         // autorisee par ce calcul de vitesse ne depasse pas la deceleration
         // maximale autorisee
-        v_o  = 0.9 * deceleration_max * d;
+        v_o  = 2.4 * deceleration_max * d;
 
         // Pour ne pas tourner autour de la position, il faut corriger plus rapidement
         // l'ecart angulaire que l'ecart de distance.
@@ -323,7 +323,7 @@ void angle_asserv_step(Odo *odo, float *commande_g, float *commande_d){
         *commande_d = 0;
     } else {
         // calcul de la vitesse angulaire necessaire
-        vt_o = 0.9 * deceleration_max * dt;
+        vt_o = 0.7 * deceleration_max * dt;
         // appel de l'asserve en vitesse avec les bonnes consignes
         speed_asserv.speed_order.v = 0;
         speed_asserv.speed_order.vt = vt_o;

@@ -64,7 +64,7 @@ void pid_maj_err_der(Pid *pid, float err_old, float err_moy_old){
 float pid_process(Pid *pid){
     float err     = pid->state.err_moy;
     float err_int = pid->state.err_int; //_moy;
-    float err_der = pid->state.err_der; //_moy;
+    float err_der = pid->state.err_der_moy;
     return    pid->coefs.kp * err
             + pid->coefs.ki * err_int
             + pid->coefs.kd * err_der;
