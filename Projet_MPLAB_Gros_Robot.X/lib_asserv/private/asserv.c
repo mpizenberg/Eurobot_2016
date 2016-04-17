@@ -237,11 +237,11 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d){
     float dt = principal_angle(atan2f(y_o-y,x_o-x) - odo->state->pos.t);
 
     // declaration des consignes en vitesse et vitesse angulaire
-    float v_o, vt_o;
+    float v_o, vt_o, courbure;
 
     // hysteresis pour eviter les allers retours
     float epsi;
-    int derriere, sens_rotation;
+    int derriere;
 
     // si on est arrive on ne bouge plus
     if (d < pos_asserv.stop_distance) {
@@ -284,21 +284,20 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d){
         //     dtheta = tan(dtheta) = delta / rayon
         // Le rayon de courbure vaut donc
         //     rayon = v/vt
-        // Il est donc imperatif d'avoir un rayon de courbure inferieur a la moitie
-        // de la distance |d| qui nous separe de la consigne.
-        // En choisissant par exemple rayon = |d|/2 , on obtient
-        //     |vt| = 2 * |v/d|
-        // !!! FAUX (EN FAIT VRAI UNIQUEMENT DANS LA CAS PIRE: POINT SUR LE COTE)
-        // !!! REFAIRE LE CALCUL DU RAYON DU CERCLE TANGEANT CORRECTEMENT
-        if (dt>0) sens_rotation=1; else sens_rotation=-1;
-        vt_o = sens_rotation * 2 * fabs(v_o/d);
+        // Pour une courbe circulaire on a un rayon de courbure r
+        // dont on peut montrer avec un peu de trigo que:
+        //     d = 2*r*sin(dt)
+        //     r = d / (2*sin(dt))
+        // Pour une trajectoire avec la moitie de ce rayon de courbure:
+        //     vt = 4*sin(dt)/d * v
+        courbure = 4 * sin(dt) / fabs(d);
+        vt_o = courbure * fabs(v_o);
 
         // appel de l'asserve en vitesse avec les bonnes consignes
-        // et un changement temporaire de la contrainte
-        // a_max   <   |v/vt|*at_max   <   |d|/2 * at_max
+        // et un changement temporaire de la contrainte a_max
         speed_asserv.speed_order.v = v_o;
         speed_asserv.speed_order.vt = vt_o;
-        motionConstraint.a_max.a = fmin(a_max, fabs(d/2)*at_max);
+        motionConstraint.a_max.a = fmin(a_max, fabs(1/courbure)*at_max);
         speed_asserv_step(odo,commande_g,commande_d);
         motionConstraint.a_max.a = a_max;
 
