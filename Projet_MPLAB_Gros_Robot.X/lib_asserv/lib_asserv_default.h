@@ -53,7 +53,7 @@
 
 // 2 PID lies a l'asserve en vitesse (delta: vitesse absolue, alpha: vitesse angulaire)
 #ifndef DEFAULT_PID_COEFS_DELTA // {kp, ki, kd, mu_p}
-#define DEFAULT_PID_COEFS_DELTA {1000,0,0,0}
+#define DEFAULT_PID_COEFS_DELTA {160,20,0,0.2} // {160,20,0,0.2}
 #endif
 #ifndef DEFAULT_PID_COEFS_ALPHA // {kp, ki, kd, mu_p}
 #define DEFAULT_PID_COEFS_ALPHA {0,0,0,0}
@@ -61,7 +61,7 @@
 
 // valeurs max de l'intégrale en vitesse et vitesse angulaire
 #ifndef DEFAULT_PID_MAX_INT_DELTA
-#define DEFAULT_PID_MAX_INT_DELTA 0.7
+#define DEFAULT_PID_MAX_INT_DELTA 4 // 4
 #endif
 #ifndef DEFAULT_PID_MAX_INT_ALPHA
 #define DEFAULT_PID_MAX_INT_ALPHA 0.8

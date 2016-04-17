@@ -45,13 +45,13 @@ void pid_maj(Pid *pid, float value){
 // maj de l'erreur du PID en tenant compte du coef de moyennage mu_p
 void pid_maj_err(Pid *pid, float value){
     pid->state.err = pid->order - value;
-    pid->state.err_moy = pid->coefs.mu_p * pid->state.err_moy + (1-pid->coefs.mu_p) * pid->state.err;
+    pid->state.err_moy = (1-pid->coefs.mu_p) * pid->state.err_moy + pid->coefs.mu_p * pid->state.err;
 }
 
 // maj de l'intégrale de l'erreur du PID en tenant compte de sa limite max
 void pid_maj_err_int(Pid *pid){
     pid->state.err_int = limit_float(pid->state.err_int + pid->state.err, -(pid->state.max_int), pid->state.max_int);
-    pid->state.err_int_moy = limit_float(pid->state.err_int_moy + pid->state.err, -(pid->state.max_int), pid->state.max_int);
+    pid->state.err_int_moy = limit_float(pid->state.err_int_moy + pid->state.err_moy, -(pid->state.max_int), pid->state.max_int);
 }
 
 // maj de la dérivée de l'erreur du PID en tenant compte du coef de moyennage mu_d
@@ -62,7 +62,7 @@ void pid_maj_err_der(Pid *pid, float err_old, float err_moy_old){
 
 // calcule la commande du PID
 float pid_process(Pid *pid){
-    float err     = pid->state.err;     //_moy;
+    float err     = pid->state.err_moy;
     float err_int = pid->state.err_int; //_moy;
     float err_der = pid->state.err_der; //_moy;
     return    pid->coefs.kp * err

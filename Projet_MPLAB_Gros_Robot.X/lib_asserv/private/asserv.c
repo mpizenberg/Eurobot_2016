@@ -149,8 +149,8 @@ void asserv_step(Odo *odo, float *commande_g, float *commande_d){
             break;
         // si on est en asservissement en position
         case ASSERV_MODE_POS :
-            pos_asserv_step(odo, commande_g, commande_d);
             if (debug_mode){debug_pos_asserv();}
+            pos_asserv_step(odo, commande_g, commande_d);
             break;
         // si on est en asservissement en vitesse
         case ASSERV_MODE_SPEED :

@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
      __delay_ms(2000);
     // Code de test qui fait bouger le robot doucement :
     //Debug_Asserv_Start();
-     reglage_asserv();
+    reglage_asserv();
      while(1);
 /*
     while (1) // boucle principale
@@ -60,9 +60,11 @@ int main(int argc, char** argv) {
 
 void reglage_asserv(void)
 {
+    Speed speed;
+    speed.v = 0.8;
+    speed.vt = 0;
     debug_count = 0;
-    PWM_Moteurs(30, 30);
-    __delay_ms(1000);
+    motion_speed(speed);
 }
 void Debug_Asserv_Start(void)
 {
