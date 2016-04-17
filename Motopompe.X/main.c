@@ -27,9 +27,10 @@ void main(void) {
     //T2CON = 0b1001110; 
     //PR2 = 249;
     
-    T2CONbits.T2CKPS = 3; // préscaler à 1/16 => 500kHz
-    T2CONbits.T2OUTPS = 15; // postscaler à 1/16 => 31.25 kHz
-    PR2 = 249;  // 1/250 => 125 Hz
+    // T2 recoit Fosc/4 => 2MHz
+    T2CONbits.T2CKPS = 3; // préscaler à 1/16 => 125kHz
+    T2CONbits.T2OUTPS = 9; // postscaler à 1/10 => 12.5 kHz
+    PR2 = 124;  // 1/125 => 100 Hz
     T2CONbits.TMR2ON = 1; // allume le timer
     
     
@@ -38,7 +39,7 @@ void main(void) {
 
     while (1) {
         
-        for (i = 0; i < 125; i++) {
+        for (i = 0; i < 100; i++) {
             while (!PIR1bits.TMR2IF);
             PIR1bits.TMR2IF = 0;
         }
