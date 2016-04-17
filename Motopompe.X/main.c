@@ -11,15 +11,42 @@
 #include "time.h"
 //#include "i2c.h"
 
+
+// on est sensé tourner de base à 8MHz
+
 void main(void) {
     unsigned char data = 0x00;
+    int i;
     TRISA = 0;
     TRISC = 0b11111011;
-    T2CON = 0b1001110; //On configure le port lié au Timer 2 (prescaler, postscaler,...).
-    PR2 = 249;
+    
+    TRIS_LED = 0; 
+    
+    // On configure le Timer 2 car c'est lui qui donne l'horloge pour l'I2C
+    // (prescaler, postscaler,...).
+    //T2CON = 0b1001110; 
+    //PR2 = 249;
+    
+    T2CONbits.T2CKPS = 3; // préscaler à 1/16 => 500kHz
+    T2CONbits.T2OUTPS = 15; // postscaler à 1/16 => 31.25 kHz
+    PR2 = 249;  // 1/250 => 125 Hz
+    T2CONbits.TMR2ON = 1; // allume le timer
+    
+    
+    
     //OpenI2C (SLAVE_7, SLEW_OFF); //Slew rate disabled for 100 kHz mode
 
     while (1) {
+        
+        for (i = 0; i < 125; i++) {
+            while (!PIR1bits.TMR2IF);
+            PIR1bits.TMR2IF = 0;
+        }
+        LED = !LED;
+        
+        
+        
+        
         //SSPISR(&data);
         //printf("data %c", data);
 
