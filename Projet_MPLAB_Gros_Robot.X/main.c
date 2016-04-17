@@ -61,10 +61,18 @@ int main(int argc, char** argv) {
 void reglage_asserv(void)
 {
     Speed speed;
-    speed.v = 0.8;
-    speed.vt = 0;
-    debug_count = 0;
+    speed.v = 0;
+    speed.vt = 3;
     motion_speed(speed);
+    debug_count = 0;
+    PWM_Moteurs(-100,100);
+    __delay_ms(300);
+    int i=100;
+    for(i=50; i>=0; i--){
+        PWM_Moteurs(-2i,2i);
+        __delay_ms(5);
+    }
+    
 }
 void Debug_Asserv_Start(void)
 {

@@ -13,11 +13,11 @@
 /*############################################################################*/
 
 #ifndef DEFAULT_CONSTRAINT_V_MAX // {v, vt}
-#define DEFAULT_CONSTRAINT_V_MAX {0.8, 1.6}
+#define DEFAULT_CONSTRAINT_V_MAX {0.8, 6}
 #endif
 
 #ifndef DEFAULT_CONSTRAINT_A_MAX // {a, at, v_vt}
-#define DEFAULT_CONSTRAINT_A_MAX {0.7, 1.4, 0.3}
+#define DEFAULT_CONSTRAINT_A_MAX {0.7, 20, 1.2} // at=27 avec des pwm a 100%
 #endif
 
 #ifndef BLOCK_LIMIT
