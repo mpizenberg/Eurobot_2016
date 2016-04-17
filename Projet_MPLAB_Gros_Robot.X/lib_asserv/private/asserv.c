@@ -179,16 +179,16 @@ void speed_asserv_step(Odo *odo, float *commande_g, float *commande_d){
     constrain_speed_order();
 
     // maj des consignes des PID
-    pid_set_order(&(speed_asserv.pid_delta), speed_asserv.speed_order_constrained.v);
-    pid_set_order(&(speed_asserv.pid_alpha), speed_asserv.speed_order_constrained.vt);
+    pid_set_order((Pid*)&(speed_asserv.pid_delta), speed_asserv.speed_order_constrained.v);
+    pid_set_order((Pid*)&(speed_asserv.pid_alpha), speed_asserv.speed_order_constrained.vt);
 
     // maj des valeurs des PID
-    pid_maj(&(speed_asserv.pid_delta), odo->state->speed.v);
-    pid_maj(&(speed_asserv.pid_alpha), odo->state->speed.vt);
+    pid_maj((Pid*)&(speed_asserv.pid_delta), odo->state->speed.v);
+    pid_maj((Pid*)&(speed_asserv.pid_alpha), odo->state->speed.vt);
 
     // calcul des sorties des PID
-    commande_delta = pid_process(&(speed_asserv.pid_delta));
-    commande_alpha = pid_process(&(speed_asserv.pid_alpha));
+    commande_delta = pid_process((Pid*)&(speed_asserv.pid_delta));
+    commande_alpha = pid_process((Pid*)&(speed_asserv.pid_alpha));
 
     // renvoie des commandes gauche et droite
     *commande_g = commande_delta - commande_alpha;
@@ -227,6 +227,7 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d){
 
     // contraintes
     float a_max = motionConstraint.a_max.a;
+    float at_max = motionConstraint.a_max.at;
     float deceleration_max = a_max;
 
     // calcul de la distance a la consigne en position
@@ -287,7 +288,7 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d){
         // de la distance |d| qui nous separe de la consigne.
         // En choisissant par exemple rayon = |d|/2 , on obtient
         //     |vt| = 2 * |v/d|
-        if (dt>0) sens_rotation=1 else sens_rotation=-1;
+        if (dt>0) sens_rotation=1; else sens_rotation=-1;
         vt_o = sens_rotation * 2 * fabs(v_o/d);
 
         // appel de l'asserve en vitesse avec les bonnes consignes
