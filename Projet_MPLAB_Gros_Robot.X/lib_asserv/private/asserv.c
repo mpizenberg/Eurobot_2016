@@ -288,6 +288,8 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d){
         // de la distance |d| qui nous separe de la consigne.
         // En choisissant par exemple rayon = |d|/2 , on obtient
         //     |vt| = 2 * |v/d|
+        // !!! FAUX (EN FAIT VRAI UNIQUEMENT DANS LA CAS PIRE: POINT SUR LE COTE)
+        // !!! REFAIRE LE CALCUL DU RAYON DU CERCLE TANGEANT CORRECTEMENT
         if (dt>0) sens_rotation=1; else sens_rotation=-1;
         vt_o = sens_rotation * 2 * fabs(v_o/d);
 
