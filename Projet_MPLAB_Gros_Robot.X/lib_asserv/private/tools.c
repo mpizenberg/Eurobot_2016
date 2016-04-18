@@ -1,6 +1,11 @@
 #include "tools.h"
 #include <math.h>
 
+float fmin(float x, float y){
+    if (x<y) return x;
+    else return y;
+}
+
 // Renvoyer une valeur comprise entre inf et sup
 float limit_float(float valeur, float inf, float sup){
     if (valeur < inf) return inf;

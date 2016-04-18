@@ -17,17 +17,17 @@
 typedef struct {
     float d;
     float dt;
-} DistanceDebug;
+} Distance;
 
 // Un asservissement en position connait les asserv en vitesse des roues gauche et droite
 typedef struct {
     Position pos_order;
+    Distance distance;
     float stop_distance;
     float kp; // coef proportionnel qui doit être plus petit que l'accélération max
     MotionState *state;
     MotionConstraint *constraint;
     int done;
-    DistanceDebug distance;
 } PositionAsserv;
 
 // Un asservissement en vitesse
@@ -56,10 +56,6 @@ typedef struct {
 // initialiser le mode et les différents asservissements
 void asserv_init();
 
-// assigner 2 PID et des contraintes à l'asservissement en vitesse
-void set_speedAsserv_pids(Pid pid_delta, Pid pid_alpha);
-void set_speedAsserv_constraint(MotionConstraint *constraint);
-
 // choisir le mode d'asservissement (désactivé, en position, en vitesse)
 void set_asserv_off();
 void set_asserv_pos_mode();
@@ -67,12 +63,13 @@ void set_asserv_speed_mode();
 void set_asserv_angle_mode();
 void set_asserv_seq_mode();
 
-// obtenir les consignes en vitesse et vitesse angulaire
-float get_cons_v();
-float get_cons_vt();
-
 // contraindre les vitesses et accélérations autorisées
-void constrain_speed(float v, float vt, float *v_constrained, float *vt_constrained);
+void constrain_speed(
+        float v, float vt,
+        float *v_constrained, float *vt_constrained,
+        float v_max, float vt_max,
+        float a_max, float at_max, float v_vt_max);
+// contraint la consigne de vitesse avec la fonction precedente constrain_speed
 void constrain_speed_order();
 
 // effectue un pas d'asservissement
