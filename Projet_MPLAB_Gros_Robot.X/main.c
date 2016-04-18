@@ -47,8 +47,9 @@ int main(int argc, char** argv) {
 
     // __delay_ms(2000);
     // Code de test qui fait bouger le robot doucement :
-    //Debug_Asserv_Start();
-    reglage_asserv();
+    // Debug_Asserv_Start2();
+    //reglage_asserv();
+
     while (1) // boucle principale
     {
         Faire_Actions_AX12();
@@ -83,25 +84,21 @@ void reglage_asserv(void)
 }
 void Debug_Asserv_Start(void)
 {
-        int k,i;
-        for (k = 0; k < 5; k++)
-        {
-            for (i = 1; i < 6; i++)
-            {
-                motion_angle((float)(i));
-                __delay_ms(500);
-            // Faire_Actions_AX12();
-            }
-            motion_angle(0);
-            __delay_ms(500);
-        }
-        motion_angle(0);
+    while (PIN_LAISSE);
+    Position pos1 = {0.40,0,0};
+    Position pos2 = {0.40,0.40,0};
+    motion_push(pos1,0.15);
+    motion_push(pos2,0);
+    //motion_speed(MOVE);
+}
 
-
-    Speed MOVE;
-    
-    //asserv_init();
-    MOVE.vt = 0.0;
-    MOVE.v = 0.5;
+void Debug_Asserv_Start2(void)
+{
+    while (PIN_LAISSE);
+    Position pos1 = {0.40,0,0};
+    Position pos2 = {0.40,0.40,0};
+    motion_pos(pos1);
+    while(!motion_done());
+    motion_pos(pos2);
     //motion_speed(MOVE);
 }
