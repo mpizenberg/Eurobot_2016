@@ -323,7 +323,7 @@ void angle_asserv_step(Odo *odo, float *commande_g, float *commande_d){
         *commande_d = 0;
     } else {
         // calcul de la vitesse angulaire necessaire
-        vt_o = 0.7 * deceleration_max * dt;
+        vt_o = 0.36 * deceleration_max * dt;
         // appel de l'asserve en vitesse avec les bonnes consignes
         speed_asserv.speed_order.v = 0;
         speed_asserv.speed_order.vt = vt_o;

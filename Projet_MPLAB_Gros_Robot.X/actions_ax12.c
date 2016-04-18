@@ -137,7 +137,7 @@ void Init_ax12() {
                         __delay_ms(delay_min_ax);
 
                      
-    PutAX(Magnet_AvG, 	AX_GOAL_POSITION, 215);
+    PutAX(Magnet_AvG, 	AX_GOAL_POSITION, 195);
                         __delay_ms(delay_min_ax);
     PutAX(Magnet_AvD, 	AX_GOAL_POSITION, 830);
                         __delay_ms(delay_min_ax);
@@ -145,7 +145,7 @@ void Init_ax12() {
                         __delay_ms(delay_min_ax);
     PutAX(Magnet_ArD, 	AX_GOAL_POSITION, 820);
                         __delay_ms(delay_min_ax);
-    PutAX(Fish_AvG, 	AX_GOAL_POSITION, 520);
+    PutAX(Fish_AvG, 	AX_GOAL_POSITION, 527);
                         __delay_ms(delay_min_ax);
     PutAX(Fish_AvD, 	AX_GOAL_POSITION, 492);
                         __delay_ms(delay_min_ax);
