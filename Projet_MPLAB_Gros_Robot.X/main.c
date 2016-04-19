@@ -48,7 +48,8 @@ int main(int argc, char** argv) {
     // __delay_ms(2000);
     // Code de test qui fait bouger le robot doucement :
     //Debug_Asserv_Start();
-    reglage_asserv();
+    //reglage_asserv();
+    
     while (1) // boucle principale
     {
         Faire_Actions_AX12();
