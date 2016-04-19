@@ -26,6 +26,8 @@ volatile int Num_Action_Done = 0;
 volatile int Num_Action_ToDo = 0;
 volatile char Tab_Actions_ToDo [NUM_ACTIONS_BUFFER] = {0};
 
+
+
 void Add_Action_AX12(char Action_ToDo)
 {
     int num = Num_Action_ToDo;
@@ -267,13 +269,15 @@ void Open_bras(void)
 {
     if(!PIN_TEAM)
 	{
-        PutAX(Bras_D,AX_GOAL_POSITION,512);
+        //PutAX(Bras_D,AX_GOAL_POSITION,512);
+        PutAX(Bras_D,AX_GOAL_POSITION,600);
         __delay_ms(delay_min_ax);
         PutAX(Bras_C,AX_GOAL_POSITION,350); //reouvre
     }
     else
 	{
-        PutAX(Bras_G,AX_GOAL_POSITION,512);
+        //PutAX(Bras_G,AX_GOAL_POSITION,512);
+        PutAX(Bras_G,AX_GOAL_POSITION,420);
         __delay_ms(delay_min_ax);
         PutAX(Bras_C,AX_GOAL_POSITION,1000); //reouvre
     }
@@ -294,15 +298,15 @@ void Catch_bras(void)
 { // Resserrage des bras contre les blocs de sable.
     if(!PIN_TEAM)
 	{
-        PutAX(Bras_D,AX_GOAL_POSITION,487);
-        __delay_ms(700);
-        PutAX(Bras_C,AX_GOAL_POSITION,375);
+        PutAX(Bras_D,AX_GOAL_POSITION,467);
+        __delay_ms(delay_min_ax);
+        PutAX(Bras_C,AX_GOAL_POSITION,395);
     }
     else
 	{
-        PutAX(Bras_G,AX_GOAL_POSITION,535);
-        __delay_ms(700);
-        PutAX(Bras_C,AX_GOAL_POSITION,965);
+        PutAX(Bras_G,AX_GOAL_POSITION,555);
+        __delay_ms(delay_min_ax);
+        PutAX(Bras_C,AX_GOAL_POSITION,945);
     }
     __delay_ms(delay_min_ax);
 }

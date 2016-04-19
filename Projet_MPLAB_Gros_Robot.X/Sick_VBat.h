@@ -21,7 +21,7 @@
 
 #define NUMBER_OF_SICK 4
 #define NUMBER_OF_POINTS_MOY_SICK 16
-
+/*
 #define AN_CH_SICK_ARRIERE_DROIT  7 //AN7		=> // an_sick 1
 #define AN_CH_SICK_ARRIERE_GAUCHE 6 //AN6		=> // an_sick 2
 #define AN_CH_SICK_AVANT_DROIT    5 //AN5		=> // an_sick 3
@@ -29,10 +29,24 @@
 #define AN_CH_V_BAT               0
 
 
+*/
+
+#define AN_CH_SICK_1   7 //AN7		=> // an_sick 1  //
+#define AN_CH_SICK_2   6 //AN6		=> // an_sick 3  //
+#define AN_CH_SICK_3   5 //AN5		=> // an_sick 2  //
+#define AN_CH_SICK_4   4 //AN4		=> // an_sick 4  //
+#define AN_CH_V_BAT    0
+
+// 1 = AVD
+// 2 = ARD
+// 3 = ARG
+// 4 = AVG
+/*
 #define SICK_AR_DROIT   0   //sick 1
 #define SICK_AR_GAUCHE  1   //sick 2
 #define SICK_AV_DROIT   2   //sick 3
 #define SICK_AV_GAUCHE  3   //sick 4
+*/
 
 
 #define DEFAULT_THRESHOLD 420 // 300 ~> 16 cm

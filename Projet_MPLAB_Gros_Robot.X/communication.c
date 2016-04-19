@@ -89,6 +89,7 @@ void SelectActionFromPi()
     float ANGLE;
     float valf;
     Position MOVE;
+    Speed VITESSE;
     uint8_t val8;
     char valc;
     if (!Delay_90_Over) {
@@ -117,6 +118,61 @@ void SelectActionFromPi()
             ReceivedStringFromPi[cursorPosition+floatLength] = ';';
 
             motion_pos(MOVE);
+        }
+        
+        // PUSH
+        if(ReceivedStringFromPi[1]=='P' 
+		&& ReceivedStringFromPi[2]=='U' 
+		&& ReceivedStringFromPi[3]=='S' 
+		&& ReceivedStringFromPi[4]=='H')
+        {
+            cursorPosition=6;
+            for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=',';floatLength++); // Return the number of char taken by the float in the command line
+            ReceivedStringFromPi[cursorPosition+floatLength] = 0;
+            MOVE.x = atof(&ReceivedStringFromPi[cursorPosition]);
+            ReceivedStringFromPi[cursorPosition+floatLength] = ',';
+
+            cursorPosition+=floatLength+1;
+            for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=',';floatLength++); // Return the number of char taken by the float in the command line
+            ReceivedStringFromPi[cursorPosition+floatLength] = 0;
+            MOVE.y = atof(&ReceivedStringFromPi[cursorPosition]);
+            ReceivedStringFromPi[cursorPosition+floatLength] = ',';
+
+            cursorPosition+=floatLength+1;
+            for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=',';floatLength++); // Return the number of char taken by the float in the command line
+            ReceivedStringFromPi[cursorPosition+floatLength] = 0;
+            MOVE.t = atof(&ReceivedStringFromPi[cursorPosition]);
+            ReceivedStringFromPi[cursorPosition+floatLength] = ',';
+            cursorPosition+=floatLength+1;
+            
+            for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=';';floatLength++); // Return the number of char taken by the float in the command line
+            ReceivedStringFromPi[cursorPosition+floatLength] = 0;
+            valf = atof(&ReceivedStringFromPi[cursorPosition]);
+            ReceivedStringFromPi[cursorPosition+floatLength] = ';';
+
+            motion_push(MOVE, valf);
+        }
+        
+        // SPED
+        if(ReceivedStringFromPi[1]=='S' 
+		&& ReceivedStringFromPi[2]=='P' 
+		&& ReceivedStringFromPi[3]=='E' 
+		&& ReceivedStringFromPi[4]=='D')
+        {
+            cursorPosition=6;
+            for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=',';floatLength++); // Return the number of char taken by the float in the command line
+            ReceivedStringFromPi[cursorPosition+floatLength] = 0;
+            VITESSE.v = atof(&ReceivedStringFromPi[cursorPosition]);
+            ReceivedStringFromPi[cursorPosition+floatLength] = ',';
+            
+            cursorPosition+=floatLength+1;
+            for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=',';floatLength++); // Return the number of char taken by the float in the command line
+            ReceivedStringFromPi[cursorPosition+floatLength] = 0;
+            VITESSE.vt = atof(&ReceivedStringFromPi[cursorPosition]);
+            ReceivedStringFromPi[cursorPosition+floatLength] = ';';
+            
+            
+            motion_speed(VITESSE);
         }
 
         // ANGL
@@ -193,7 +249,7 @@ void SelectActionFromPi()
 
         // MVAR
         if(ReceivedStringFromPi[1]=='M' 
-		&& ReceivedStringFromPi[2]=='V' 
+		&& ReceivedStringFromPi[2]=='F' 
 		&& ReceivedStringFromPi[3]=='A' 
 		&& ReceivedStringFromPi[4]=='R')
         {
@@ -398,24 +454,24 @@ void SendFailAX12(void)
 
 void DetectSick(int channel)
 {
-    __delay_ms(2);
+    //__delay_ms(2);
     switch(channel){
-        case 0 : printf("$DSI0;");  break;
         case 1 : printf("$DSI1;");  break;
         case 2 : printf("$DSI2;");  break;
         case 3 : printf("$DSI3;");  break;
+        case 4 : printf("$DSI4;");  break;
     }
-   __delay_ms(2);
+   //__delay_ms(2);
 }
 
 void ReleaseSick (int channel)
 {
     //__delay_ms(50);
 	switch(channel){
-        case 0 : printf("$RSI0;");  break;
         case 1 : printf("$RSI1;");  break;
         case 2 : printf("$RSI2;");  break;
         case 3 : printf("$RSI3;");  break;
+        case 4 : printf("$RSI4;");  break;
     }
     //__delay_ms(50);
 }
