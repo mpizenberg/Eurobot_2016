@@ -287,25 +287,34 @@ void SelectActionFromPi()
             Add_Action_AX12(AX12_DEPLOY_FISH_AR);
         }
 
-        // MFAV
-        if(ReceivedStringFromPi[1]=='M' 
-		&& ReceivedStringFromPi[2]=='F' 
+        // DFIS
+        if(ReceivedStringFromPi[1]=='D'
+		&& ReceivedStringFromPi[2]=='F'
+		&& ReceivedStringFromPi[3]=='I'
+		&& ReceivedStringFromPi[4]=='S')
+        {
+            Add_Action_AX12(AX12_DEPLOY_FISH);
+        }
+
+        // UPAV
+        if(ReceivedStringFromPi[1]=='U'
+		&& ReceivedStringFromPi[2]=='P'
 		&& ReceivedStringFromPi[3]=='A' 
 		&& ReceivedStringFromPi[4]=='V')
         {
             Add_Action_AX12(AX12_MOVEUP_FISH_AV);
         }
 
-        // MVAR
-        if(ReceivedStringFromPi[1]=='M' 
-		&& ReceivedStringFromPi[2]=='F' 
+        // UPAR
+        if(ReceivedStringFromPi[1]=='U'
+		&& ReceivedStringFromPi[2]=='P'
 		&& ReceivedStringFromPi[3]=='A' 
 		&& ReceivedStringFromPi[4]=='R')
         {
             Add_Action_AX12(AX12_MOVEUP_FISH_AR);
         }
 
-		// RFAV
+	// RFAV
         if(ReceivedStringFromPi[1]=='R' 
 		&& ReceivedStringFromPi[2]=='F' 
 		&& ReceivedStringFromPi[3]=='A' 
@@ -314,13 +323,22 @@ void SelectActionFromPi()
             Add_Action_AX12(AX12_RLZ_FISH_AV);
         }
 		
-		// RFAR
+	// RFAR
         if(ReceivedStringFromPi[1]=='R' 
-		&& ReceivedStringFromPi[2]=='F' 
-		&& ReceivedStringFromPi[3]=='A' 
-		&& ReceivedStringFromPi[4]=='R')
+	&& ReceivedStringFromPi[2]=='F' 
+	&& ReceivedStringFromPi[3]=='A' 
+	&& ReceivedStringFromPi[4]=='R')
         {
             Add_Action_AX12(AX12_RLZ_FISH_AR);
+        }
+
+        // RFAR
+        if(ReceivedStringFromPi[1]=='R'
+	&& ReceivedStringFromPi[2]=='F'
+	&& ReceivedStringFromPi[3]=='I'
+	&& ReceivedStringFromPi[4]=='S')
+        {
+            Add_Action_AX12(AX12_RLZ_FISH);
         }
 
 	// OPNB

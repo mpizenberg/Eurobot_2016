@@ -34,27 +34,31 @@ void Faire_Actions_AX12(void);
 
 #define AX12_INIT_AX12              1
 void Init_ax12(void);
-#define AX12_DEPLOY_FISH_AV         2		// DÃ©ploiement de bras de pÃªche.
+#define AX12_DEPLOY_FISH_AV         2		// Deploiement de bras de peche.
 void Deploy_fish_Av(void);
 #define AX12_DEPLOY_FISH_AR         3		// idem
 void Deploy_fish_Ar(void);
-#define AX12_MOVEUP_FISH_AV         4		// Levage (sans ranger !) de bras de pÃªche
-void Moveup_fish_Av(void);				// pour Ã©vacuer le poisson de l'eau.
-#define AX12_MOVEUP_FISH_AR         5		// idem
+#define AX12_DEPLOY_FISH            4           // Deploiement des 2 bras en meme temps avec envoi de SendDone().
+void Deploy_fish(void);
+#define AX12_MOVEUP_FISH_AV         5		// Levage (sans ranger !) de bras de pÃªche
+void Moveup_fish_Av(void);				// pour evacuer le poisson de l'eau.
+#define AX12_MOVEUP_FISH_AR         6		// idem
 void Moveup_fish_Ar(void);
-#define AX12_RLZ_FISH_AV            6		// Ouverture du bras supÃ©rieur pour lacher les poissons.
+#define AX12_RLZ_FISH_AV            7		// lacher les poissons a l'avant
 void Rlz_fish_Av(void);
-#define AX12_RLZ_FISH_AR            7		// idem
-void Rlz_fish_Ar(void);            
-#define AX12_OPEN_BRAS              8		// Ouvertures des bras (milieu + G ou D) pour prendre du sable
+#define AX12_RLZ_FISH_AR            8		// idem a l'arriere
+void Rlz_fish_Ar(void);
+#define AX12_RLZ_FISH               9           // Lacher les poissons des 2 bras en meme temps.
+void Rlz_fish(void);
+#define AX12_OPEN_BRAS              10		// Ouvertures des bras (milieu + G ou D) pour prendre du sable
 void Open_bras(void);
-#define AX12_CATCH_BRAS             9		// Légère refermeture des bras pour prendre du sable
+#define AX12_CATCH_BRAS             11		// Légère refermeture des bras pour prendre du sable
 void Catch_bras(void);
-#define AX12_OPENFULL_BRAS          10 		// Ouverture des bras pour fermer les portes.
+#define AX12_OPENFULL_BRAS          12 		// Ouverture des bras pour fermer les portes.
 void Openfull_bras(void);
-#define AX12_CLOSE_BRAS 	    11		// Fermeture des bras (init).
+#define AX12_CLOSE_BRAS 	    13		// Fermeture des bras (init).
 void Close_bras(void);
-#define AX12_FUNNY_ACTION 	    12		// DÃ©ploiement du bras pour ouvrir le parasol.
+#define AX12_FUNNY_ACTION 	    14		// Deploiement du bras pour ouvrir le parasol.
 void Funny_action(void);
 
 #endif	/* ACTIONS_AX12_H */
