@@ -9,42 +9,40 @@
 
 #include "main.h"
 #include "time.h"
-//#include "i2c.h"
 
 
 // on est sensé tourner de base à 8MHz
 
 void main(void) {
     unsigned char data = 0x00;
+    char was_data;
     int i;
     TRISA = 0;
     TRISC = 0b11111011;
     
     TRIS_LED = 0; 
     
-    // On configure le Timer 2 car c'est lui qui donne l'horloge pour l'I2C
-    // (prescaler, postscaler,...).
-    //T2CON = 0b1001110; 
-    //PR2 = 249;
     
-    // T2 recoit Fosc/4 => 2MHz
-    T2CONbits.T2CKPS = 3; // préscaler à 1/16 => 125kHz
-    T2CONbits.T2OUTPS = 9; // postscaler à 1/10 => 12.5 kHz
-    PR2 = 124;  // 1/125 => 100 Hz
-    T2CONbits.TMR2ON = 1; // allume le timer
+    SSPCON1bits.SSPM = 6;   // mode Slave adresses de 7 bits
+    SSPADDbits.SSPADD = 0x70;   // choisi l'adresse I2C
+    SSPSTATbits.SMP = 1;        // slew rate control disabled
+    
+    SSPCON1bits.SSPEN = 1;      // On !
     
     
     
-    //OpenI2C (SLAVE_7, SLEW_OFF); //Slew rate disabled for 100 kHz mode
-
+    // OpenI2C (SLAVE_7, SLEW_OFF); //Slew rate disabled for 100 kHz mode
+    
     while (1) {
         
-        for (i = 0; i < 100; i++) {
-            while (!PIR1bits.TMR2IF);
-            PIR1bits.TMR2IF = 0;
+        while (!SSPSTATbits.BF); // attente réception d'un truc
+        was_data = SSPSTATbits.D_NOT_A;
+        data = SSPBUF;
+        if (was_data) {
+            // faire qqchose avec les datas
+        } else {
+            LED = !LED;  // on vient de recevoir notre addresse, on passe
         }
-        LED = !LED;
-        
         
         
         
