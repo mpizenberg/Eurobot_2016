@@ -202,7 +202,6 @@ void speed_asserv_step(Odo *odo, float *commande_g, float *commande_d){
      */
 }
 
-
 void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d){
     /*
      * On calcule les consignes de vitesse et vitesse angulaire
@@ -359,4 +358,24 @@ int asserv_done(){
     else if (asserv_mode == ASSERV_MODE_ANGLE) {return angle_asserv.done;}
     else if (asserv_mode == ASSERV_MODE_SEQUENCE) {return !(motionSequence.waiting);}
     else {return 0;}
+}
+
+int Is_Asserv_Mode_Pos(void)
+{
+    if ((asserv_mode == ASSERV_MODE_POS) || (asserv_mode == ASSERV_MODE_SEQUENCE))
+        return 1;
+    else
+        return 0;
+}
+
+int Sens_Vitesse_Deplacement (void)
+{
+    float valf = speed_asserv.speed_order.v;
+    
+    if (valf > 0.05)
+        return 1;
+    else if (valf < -0.05)
+        return -1;
+    else 
+        return 0;
 }
