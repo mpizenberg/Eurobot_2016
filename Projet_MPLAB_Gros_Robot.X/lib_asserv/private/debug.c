@@ -10,6 +10,7 @@ volatile int debug_mode;
 volatile int debug_count;
 volatile SpeedDebug speedDebug;
 //volatile PosDebug posDebug;
+//volatile PosXYDebug posXYDebug;
 
 
 /******************************    Fonctions    *******************************/
@@ -26,6 +27,8 @@ void debug_init(){
     init_debug_table(speedDebug.vt);
     init_debug_table(speedDebug.cons_v);
     init_debug_table(speedDebug.cons_vt);
+    //init_debug_table(posXYDebug.x);
+    //init_debug_table(posXYDebug.y);
 }
 
 void debug_speed_asserv(){
@@ -44,6 +47,14 @@ void debug_pos_asserv(){/*
         (posDebug.dt)[debug_count] = pos_asserv.distance.dt;
         (posDebug.cons_v)[debug_count] = speed_asserv.speed_order_constrained.v;
         (posDebug.cons_vt)[debug_count] = speed_asserv.speed_order_constrained.vt;
+        debug_count++;
+    }*/
+}
+
+void debug_pos_xy_asserv(){/*
+    if (debug_count < DEBUG_COUNT_MAX){
+        (posXYDebug.x)[debug_count] = motionState.pos.x;
+        (posXYDebug.y)[debug_count] = motionState.pos.y;
         debug_count++;
     }*/
 }

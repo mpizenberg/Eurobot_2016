@@ -201,6 +201,13 @@ void __attribute__((interrupt, no_auto_psv)) _SPI2Interrupt(void)
     IFS2bits.SPI2IF = 0;
 }
 
+volatile unsigned int Maxtime_Seq_AX12 = 0;
+
+unsigned int Get_Maxtime_Seq_AX12(void)
+{   return Maxtime_Seq_AX12;    }
+
+void Set_Maxtime_Seq_AX12(unsigned int val)
+{   Maxtime_Seq_AX12 = val;    }
 
 // every ms
 void __attribute__((interrupt,auto_psv)) _T3Interrupt(void) 
@@ -237,6 +244,9 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
     if (Delay_TimeOut_AX12) {
         Delay_TimeOut_AX12 --;
     }
+    if (Maxtime_Seq_AX12) {
+        Maxtime_Seq_AX12 --;
+    }
     
     if (Delay_90 < 90000) {
         if (Active_Delay_90) {
@@ -248,6 +258,7 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
     } else if (Delay_90 == 90000) {
         Delay_90 ++;
         SendEnd();
+        Add_Action_AX12(AX12_FUNNY_ACTION);
         Delay_90_Over = 1;
     } else {
         motion_free();

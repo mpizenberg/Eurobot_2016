@@ -47,4 +47,7 @@ void writeStringToUART (const char* msg);
 // initialize all things
 void Init_All(int);
 
+
+
+
 #endif // _USER_H_

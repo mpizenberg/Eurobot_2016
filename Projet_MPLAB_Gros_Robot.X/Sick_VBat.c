@@ -38,7 +38,7 @@
 /* Global Variable Declaration                                                */
 /******************************************************************************/
 
-volatile int channel = 0;		// canal de conversion actuel
+volatile int channel_conv = 0;		// canal de conversion actuel
 volatile uint8_t i_moy_sick = 0;
 volatile uint16_t Value_Sick[NUMBER_OF_SICK][NUMBER_OF_POINTS_MOY_SICK];	// récupèrere la valeur de l'ADC du sick, puis fait une moyenne tournante
 volatile uint32_t Sum_Value_Sick[NUMBER_OF_SICK];
@@ -75,7 +75,7 @@ void InitSick_VBat()
             Sum_Value_Sick[j] += 512;
         }
     }
-    channel = 0;
+    channel_conv = 0;
     i_moy_sick = 0;
 
     for (j = 0; j < NUMBER_MEAS_VBAT; j++) {
@@ -103,7 +103,7 @@ void InitSick_VBat()
 
     //Choix des rÃ©fÃ©rences de tensions
                                                         // Choix du (+) de la mesure pour le channel CH0, commenÃ§ant par le sick 1
-    AD1CHS0bits.CH0SA = AN_CH_SICK_ARRIERE_DROIT;
+    AD1CHS0bits.CH0SA = AN_CH_SICK_1;
     AD1CHS0bits.CH0NA = 0;	// Choix du (-) de la mesure pour le channel CH0 (0 = Masse interne pic)
 
     //Configuration des pins analogiques
@@ -163,33 +163,41 @@ void __attribute__ ((interrupt, auto_psv)) _ADC1Interrupt(void)
 {
     static uint16_t timer_for_VBat = TIMER_FOR_VBAT;
     static uint8_t i_V_Bat_tab = 0;
+    static uint8_t State = 0;
     uint8_t i;
     uint32_t val32;
 
     static uint16_t i_debug_sick = 0;
     uint16_t val16 = ADC1BUF0;// rÃ©cupÃ©ration valeur depuis ADC
 
-    if (channel != NUMBER_OF_SICK) {
-        Sum_Value_Sick[channel] -= Value_Sick[channel][i_moy_sick];     // enlève la valeur de X coups d'avant
-        Sum_Value_Sick[channel] += val16;                               // ajoute la valeur de maintenant
+    if (channel_conv != NUMBER_OF_SICK) {
+        Sum_Value_Sick[channel_conv] -= Value_Sick[channel_conv][i_moy_sick];     // enlève la valeur de X coups d'avant
+        Sum_Value_Sick[channel_conv] += val16;                               // ajoute la valeur de maintenant
 
-        Value_Sick[channel][i_moy_sick] = val16;                        // enregistrement de la valeur lue
+        Value_Sick[channel_conv][i_moy_sick] = val16;                        // enregistrement de la valeur lue
 
-        val16 = (uint16_t)(Sum_Value_Sick[channel] >> 4);   // récup de la somme et division par 16
+        if (channel_conv == (NUMBER_OF_SICK - 1)) {
+            i_moy_sick++;
+            if (i_moy_sick == NUMBER_OF_POINTS_MOY_SICK) {
+                i_moy_sick = 0;
+            }
+        }
+        
+        val16 = (uint16_t)(Sum_Value_Sick[channel_conv] >> 4);   // récup de la somme et division par 16
 
-        if (Old_Sector[channel] == 0) {     // si on considère pour l'instant qu'il y a un truc "pres"
-            if (val16 > (Threshold[channel] + MARGIN_SICK)) {  // si la valeur repasse au dessus de seuil + marge
-                Old_Sector[channel] = 1;        // on repasse en zone "sûre"
-                ReleaseSick(channel);			// on previent la PI
+        if (Old_Sector[channel_conv] == 0) {     // si on considère pour l'instant qu'il y a un truc "pres"
+            if (val16 > (Threshold[channel_conv] + MARGIN_SICK)) {  // si la valeur repasse au dessus de seuil + marge
+                Old_Sector[channel_conv] = 1;        // on repasse en zone "sûre"
+                ReleaseSick(channel_conv+1);			// on previent la PI
             }
         }
         else {    // if old = 1   // si, pour l'instant, il n'y a pas de truc "pres"
-            if ( (val16 < (Threshold[channel] - MARGIN_SICK))  && (val16 > SICK_LIMIT_MIN)  ) {   // si on vient de detecter un truc
-               Old_Sector[channel] = 0;     // on passe en zone "pas sûre"
-               if (Motion_Free_Activ_Each & (0x01<<channel)) {      // vérif sick par sick
-                    motion_free();                  // et on gueule auprès de l'asserv
-               }
-                DetectSick(channel);				// on previent la PI
+            if ( (val16 < (Threshold[channel_conv] - MARGIN_SICK))  && (val16 > SICK_LIMIT_MIN)  ) {   // si on vient de detecter un truc
+                Old_Sector[channel_conv] = 0;     // on passe en zone "pas sûre"
+                if (Motion_Free_Activ_Each & (0x01<<channel_conv)) {      // vérif sick par sick
+                    //motion_free();                  // et on gueule auprès de l'asserv
+                }
+                DetectSick(channel_conv+1);				// on previent la PI
             }
         }
 
@@ -226,38 +234,42 @@ void __attribute__ ((interrupt, auto_psv)) _ADC1Interrupt(void)
     }
 
     // Select next sensor 
-    switch(channel)     
+    switch(State)
     {
         case 0:
-            _CH0SA = AN_CH_SICK_ARRIERE_GAUCHE;		// sick 2
-            channel = 1;
+            _CH0SA = AN_CH_SICK_1;
+            channel_conv = 0;
+            State = 1;
             break;
         case 1:
-            _CH0SA = AN_CH_SICK_AVANT_DROIT;		// sick 3
-            channel = 2;
+            _CH0SA = AN_CH_SICK_2;
+            channel_conv = 1;
+            State = 2;
             break;
         case 2:
-            _CH0SA = AN_CH_SICK_AVANT_GAUCHE;		// sick 4
-            channel = 3;
+            _CH0SA = AN_CH_SICK_3;
+            channel_conv = 2;
+            State = 3;
             break;
         case 3:
+            _CH0SA = AN_CH_SICK_4;
+            channel_conv = 3;
+            
             timer_for_VBat --;
             if (timer_for_VBat) {
-                _CH0SA = AN_CH_SICK_ARRIERE_DROIT;		// sick 1
-                channel = 0;
+                State = 0;
             } else {
-               timer_for_VBat = TIMER_FOR_VBAT;
-               _CH0SA = AN_CH_V_BAT;                            // V BAT
-               channel = 4;
-            }
-            i_moy_sick++;
-            if (i_moy_sick == NUMBER_OF_POINTS_MOY_SICK) {
-                i_moy_sick = 0;
+                State = 4;
+                timer_for_VBat = TIMER_FOR_VBAT;
             }
             break;
-        case  4:
-            _CH0SA = AN_CH_SICK_ARRIERE_DROIT;                  // sick 1
-            channel = 0;
+        case 4 :
+            _CH0SA = AN_CH_V_BAT;                            // V BAT
+            channel_conv = 4;
+            State = 0;
+            break;
+        default :
+            State = 0;
             break;
     }
     _AD1IF = 0;        //Clear the interrupt flag
@@ -265,6 +277,7 @@ void __attribute__ ((interrupt, auto_psv)) _ADC1Interrupt(void)
 
 uint16_t Get_Sick(uint8_t Sick_Voulu)
 {
+    Sick_Voulu --;
     if (Sick_Voulu < NUMBER_OF_SICK) {
         return (uint16_t)(Sum_Value_Sick[Sick_Voulu] >> 4);
     } else {
@@ -276,6 +289,7 @@ uint16_t Get_Sick(uint8_t Sick_Voulu)
 // return 0 si detection
 uint16_t Get_Sick_Sector (uint8_t Sick_Voulu)
 {
+    Sick_Voulu --;
     if (Sick_Voulu < NUMBER_OF_SICK) {
         return Old_Sector[Sick_Voulu];
     } else {
