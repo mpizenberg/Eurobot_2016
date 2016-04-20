@@ -53,7 +53,25 @@ def move_pos(ser,x,y):
 	ser.write(command)
 	print (command) #affiche dans la console
 
+def move_push(ser,x,y,d):
+	angle = "0"
+	command = "$PUSH,"+str(x)+","+str(y)+","+angle+","+str(d)+";"
+	ser.write(command)
+	print(command)
+
+def set_speed(ser,max):
+	command ="$VMAX,"+str(max)+";"
+	ser.write(command)
+	print ("Changement de vmax :"+command)
+
+def move_speed(ser,v,vt):
+	vt = 6.28318*vt/360 #conversion degres radians
+	command ="$SPED,"+str(v)+","+str(vt)+";"
+	ser.write(command)
+	print (command) #affiche dans la console
+
 def rotate(ser,angle):
+	angle = 6.28318*angle/360	#conversions degres a radians par seconde
 	command = "$ANGL,"+str(angle)+";"
 	ser.write(command)
 	print (command) #affiche dans la console
@@ -75,8 +93,10 @@ def ask_team(ser):
 	s=get_ans(ser)
 	if s=="$VIOL;":
 		team=1
-	else:
+	elif s=="$VERT;":
 		team=-1
+	else :
+		team = 0
 	return team
 
 #listes des actions propres au robot
@@ -91,13 +111,18 @@ def deploy_fish_ar(ser): # deploie les bras pour la peche a l arriere
 	print command
 	ser.write(command)
 
+def deploy_fish(ser): # deploie les bras pour la peche
+        command = "$DFIS;"
+        print command
+        ser.write(command)
+
 def moveup_fish_av(ser): # souleve un peu les bras avant pour emmener les poissons dans le filet
-	command = "$MFAV;"
+	command = "$UPAV;"
 	print command
 	ser.write(command)
 
 def moveup_fish_ar(ser): # souleve un peu les bras arriere pour emmener les poissons dans le filet
-	command = "$MFAR;"
+	command = "$UPAR;"
 	print command
 	ser.write(command)
 
@@ -110,6 +135,12 @@ def rlz_fish_ar(ser): # lache les poissons dans le filet et range les bras arrie
 	command = "$RFAR;"
 	print command
 	ser.write(command)
+
+def rlz_fish(ser): # lache les poissons dans le filet et range les bras arriere
+        command = "$RFIS;"
+        print command
+        ser.write(command)
+
 
 def open_bras(ser): # ouvre les petit bras du robot pour prendre blocs de sable
 	command = "$OPNB;"
