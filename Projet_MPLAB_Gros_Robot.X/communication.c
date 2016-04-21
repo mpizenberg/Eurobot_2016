@@ -190,8 +190,57 @@ void SelectActionFromPi()
 
             motion_angle(ANGLE);
         }
+        
+        // SETX
+        if(ReceivedStringFromPi[1]=='S' 
+		&& ReceivedStringFromPi[2]=='E' 
+		&& ReceivedStringFromPi[3]=='T' 
+		&& ReceivedStringFromPi[4]=='X')
+        {
+            cursorPosition=6;
 
+            for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=';';floatLength++); // Return the number of char taken by the float in the command line
+            ReceivedStringFromPi[cursorPosition+floatLength] = 0;
+            valf = atof(&ReceivedStringFromPi[cursorPosition]);
+            ReceivedStringFromPi[cursorPosition+floatLength] = ';';
 
+            set_position_x(valf);
+        }
+        
+        // SETY
+        if(ReceivedStringFromPi[1]=='S' 
+		&& ReceivedStringFromPi[2]=='E' 
+		&& ReceivedStringFromPi[3]=='T' 
+		&& ReceivedStringFromPi[4]=='Y')
+        {
+            cursorPosition=6;
+
+            for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=';';floatLength++); // Return the number of char taken by the float in the command line
+            ReceivedStringFromPi[cursorPosition+floatLength] = 0;
+            valf = atof(&ReceivedStringFromPi[cursorPosition]);
+            ReceivedStringFromPi[cursorPosition+floatLength] = ';';
+
+            set_position_y(valf);
+        }
+        
+        // SETA
+        if(ReceivedStringFromPi[1]=='S' 
+		&& ReceivedStringFromPi[2]=='E' 
+		&& ReceivedStringFromPi[3]=='T' 
+		&& ReceivedStringFromPi[4]=='A')
+        {
+            cursorPosition=6;
+
+            for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=';';floatLength++); // Return the number of char taken by the float in the command line
+            ReceivedStringFromPi[cursorPosition+floatLength] = 0;
+            valf = atof(&ReceivedStringFromPi[cursorPosition]);
+            ReceivedStringFromPi[cursorPosition+floatLength] = ';';
+
+            set_position_t(valf);
+        }
+
+        
+        
 
         // INIT
         if(ReceivedStringFromPi[1]=='I' 
