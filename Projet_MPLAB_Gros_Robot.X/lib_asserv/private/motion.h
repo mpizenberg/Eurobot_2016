@@ -53,9 +53,9 @@ void motion_init();
 
 // assigner des valeurs à la position (x, y et theta)
 void set_position(Position pos);
-void set_position_x(MotionState *state, float x);
-void set_position_y(MotionState *state, float y);
-void set_position_t(MotionState *state, float t);
+void set_position_x(float x);
+void set_position_y(float y);
+void set_position_t(float t);
 
 // ajout pepino
 void set_Constraint_vitesse_max(float vl_max);
