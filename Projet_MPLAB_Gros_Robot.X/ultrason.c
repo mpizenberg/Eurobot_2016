@@ -16,22 +16,11 @@
 /* Files to Include                                                           */
 /******************************************************************************/
 
-#if defined(__XC16__)
-    #include <xc.h>
-#elif defined(__C30__)
-    #if defined(__dsPIC33E__)
-    	#include <p33Exxxx.h>
-    #elif defined(__dsPIC33F__)
-    	#include <p33Fxxxx.h>
-    #endif
-#endif
-
-#include <stdint.h>        /* Includes uint16_t definition                    */
+#include <xc.h>
 #include <stdio.h>
-#include <stdbool.h>       /* Includes true/false definition                  */
-
 #include "main.h"
 #include <timer.h>
+
 
 // principe : petit spike sur la pin (qq usecs) pin en sortie
 // puis attente, avec mesure du temps à 1       pin en entrée
@@ -71,10 +60,23 @@ void Init_Ultrasons (void)
 
     // configuration des interruptions
     ConfigIntTimer4(T4_INT_PRIOR_3 & T4_INT_ON);        // meme priorité que CN
-
+    
+    Init_CN();
+    
     Etat_Ultrason = U_ETAT_FOR_SEND1;
-
+    
+    
 }
+
+
+void Init_CN()
+{
+
+    IPC4bits.CNIP = 3;      //Interrupt level 3
+    IFS1bits.CNIF = 0;      // Reset CN interrupt
+    IEC1bits.CNIE = 1;      // Enable CN interrupts
+}
+
 
 void __attribute__((interrupt,auto_psv)) _T4Interrupt(void) {
     // attente pour envoi : on envoie et on passe à l'état suivant
@@ -124,7 +126,6 @@ void __attribute__((interrupt,auto_psv)) _T4Interrupt(void) {
 
 /**********************************************/
 // CN interrupt for ultrasson 
-
 void __attribute__ ((__interrupt__, no_auto_psv)) _CNInterrupt(void)
 {
     uint32_t val32;

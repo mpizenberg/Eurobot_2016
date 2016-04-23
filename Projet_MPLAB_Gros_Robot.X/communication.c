@@ -514,9 +514,9 @@ void SendEnd (void)
 
 void SendFailAX12(void)
 {
-    __delay_ms(50);
+    __delay_ms(10);
     printf("$FAAX;");
-    __delay_ms(50);
+    __delay_ms(10);
 }
 
 void DetectSick(int channel)

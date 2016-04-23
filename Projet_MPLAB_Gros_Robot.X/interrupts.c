@@ -1,21 +1,7 @@
 #include <xc.h>
-
-#include <stdint.h>        /* Includes uint16_t definition   */
-#include <stdbool.h>       /* Includes true/false definition */
-#include <timer.h>
-#include <uart.h>
-#include <stdio.h>
-
-//#include "extern_globals.h"
-
 #include "main.h"
 
-//debug
-#include "uart.h"
 
-volatile char Active_Delay_90 = 0;
-volatile long Delay_90 = 0;
-volatile char Delay_90_Over = 0;
 
 void InitTimers()
 {
@@ -23,26 +9,9 @@ void InitTimers()
     _NSTDIS = 0; // activation de la priorité des interruptions
     AD1PCFGL = 0xFFFF; //Pins analogiques en numérique pour que ATP marche !!
 
+	Timer_Asserv_Init();
+	Timer_ms_Init();
 
-    
-    // activation du Timer2
-    OpenTimer2(T2_ON &
-                T2_IDLE_CON &
-                T2_GATE_OFF &
-                T2_PS_1_64 &
-                T2_SOURCE_INT, 3125 ); // 3125 pour 5ms
-    // configuration des interruptions
-    ConfigIntTimer2(T2_INT_PRIOR_4 & T2_INT_ON);
-
-    // activation du Timer3
-    OpenTimer3(T3_ON &
-                T3_IDLE_CON &
-                T3_GATE_OFF &
-                T3_PS_1_64 &
-                T3_SOURCE_INT, 625 ); // 625 pour 1ms
-    // configuration des interruptions
-    ConfigIntTimer3(T3_INT_PRIOR_2 & T3_INT_ON);
-    TMR3 = 312;     // pour d�phasage de entre Timer2 et 3...
 
     // info : timer 5 est utilis� par la mesure des sicks
     // info : timer 4 est utilis� par la mesure de l'ultrason
@@ -51,19 +20,17 @@ void InitTimers()
     //IFS2bits.SPI2IF = 0; // Flag SPI2 Event Interrupt Priority
     //IPC8bits.SPI2IP = 2; // Priority SPI2 Event Interrupt Priority
     //IEC2bits.SPI2IE = 1; //Enable SPI2 Event Interrupt Priority
-
-
-    
-
 }
 
-void Init_CN()
+
+
+void __attribute__((interrupt, no_auto_psv)) _SPI2Interrupt(void)
 {
-
-    IPC4bits.CNIP = 3;      //Interrupt level 3
-    IFS1bits.CNIF = 0;      // Reset CN interrupt
-    IEC1bits.CNIE = 1;      // Enable CN interrupts
+    led=1;
+    IFS2bits.SPI2IF = 0;
 }
+
+
 
 /******************************************************************************/
 /* Interrupt Vector Options                                                   */
@@ -172,103 +139,5 @@ void Init_CN()
 /* Interrupt Routines                                                         */
 /******************************************************************************/
 
-
-// 5 ms
-void __attribute__((interrupt,auto_psv)) _T2Interrupt(void) {
-    
-   
-    // compteurs QEI gauche et droit
-    static int tics_g, tics_d;
-    // commandes gauches et droite
-    static float commande_g, commande_d;
-
-    // récupération des données des compteurs qei gauche et droit
-    tics_g = (int)POS1CNT;
-    tics_d = (int)POS2CNT;
-    // effectuer un pas de déplacement
-    motion_step(tics_g,tics_d, &commande_g, &commande_d);
-    // mettre ici les pwm gauche et droit
-    PWM_Moteurs(commande_g, commande_d);
-
-   _T2IF = 0;   // on baisse le flag
-}
-
-
-
-void __attribute__((interrupt, no_auto_psv)) _SPI2Interrupt(void)
-{
-    led=1;
-    IFS2bits.SPI2IF = 0;
-}
-
-volatile unsigned int Maxtime_Seq_AX12 = 0;
-
-unsigned int Get_Maxtime_Seq_AX12(void)
-{   return Maxtime_Seq_AX12;    }
-
-void Set_Maxtime_Seq_AX12(unsigned int val)
-{   Maxtime_Seq_AX12 = val;    }
-
-// every ms
-void __attribute__((interrupt,auto_psv)) _T3Interrupt(void) 
-{
-    static uint8_t Etat_Laisse = 0;
-    static uint8_t Count_Laisse = 0;
-    uint8_t Etat_Pin_Laisse = PIN_LAISSE;
-    
-    if (Etat_Pin_Laisse) {
-        if (Count_Laisse < 30)
-            Count_Laisse ++;
-    } else {
-        if (Count_Laisse)
-            Count_Laisse --;
-    }
-    
-    if (Etat_Laisse) {
-        if (!Count_Laisse) {
-            Etat_Laisse = 0;
-            Active_Delay_90 = 1;
-            Delay_90 = 0;
-            SendStart();
-            //Debug_Asserv_Start();
-            //Debug_PWM_Start();
-        }
-    } else {
-        if (Count_Laisse == 30) {
-            Etat_Laisse = 1;
-            Active_Delay_90 = 0;
-            Delay_90 = 0;
-        }
-    }
-    
-    if (Delay_TimeOut_AX12) {
-        Delay_TimeOut_AX12 --;
-    }
-    if (Maxtime_Seq_AX12) {
-        Maxtime_Seq_AX12 --;
-    }
-    
-    if (Delay_90 < 90000) {
-        if (Active_Delay_90) {
-            Delay_90 ++;
-        } else {
-            Delay_90 = 0;
-        }
-        Delay_90_Over = 0;
-    } else if (Delay_90 == 90000) {
-        Delay_90 ++;
-        SendEnd();
-        Add_Action_AX12(AX12_FUNNY_ACTION);
-        Delay_90_Over = 1;
-    } else {
-        motion_free();
-        Delay_90_Over = 1;
-        if (!Active_Delay_90) {
-            Delay_90 = 0;
-        }
-    }
-
-   _T3IF = 0;   // on baisse le flag
-}
 
 

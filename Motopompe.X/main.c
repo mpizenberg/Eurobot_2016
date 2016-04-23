@@ -34,7 +34,7 @@ void main(void) {
     // OpenI2C (SLAVE_7, SLEW_OFF); //Slew rate disabled for 100 kHz mode
     
     while (1) {
-        
+
         while (!SSPSTATbits.BF); // attente réception d'un truc
         was_data = SSPSTATbits.D_NOT_A;
         data = SSPBUF;

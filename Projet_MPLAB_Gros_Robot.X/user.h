@@ -18,6 +18,7 @@
 /* Microcontroller MIPs (FCY) */
 #define SYS_FREQ        80000000UL
 #define FCY             SYS_FREQ/2
+#define FOSC            FCY
 
 
 #define BAUDRATEAX12 57600

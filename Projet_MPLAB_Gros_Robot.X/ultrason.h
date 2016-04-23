@@ -35,6 +35,7 @@ extern volatile char Ative_Motion_Free_Ultrason;
 extern volatile char UltraSon_Detect;
 
 void Init_Ultrasons(void);
+void Init_CN();
 
 void Start_Stop_Debug_Ultrason(void);
 void Enable_Ultrason (char enable);

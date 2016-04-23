@@ -17,22 +17,6 @@
 
 /********Headers********/
 #include <xc.h>
-/******************************************************************************/
-/* Configuration                                                             */
-/******************************************************************************/
-
-// Select Oscillator and switching.
-_FOSCSEL(FNOSC_FRCPLL & IESO_OFF);
-// Select clock.
-_FOSC(POSCMD_NONE & OSCIOFNC_ON & IOL1WAY_ON & FCKSM_CSDCMD);
-// Watchdog Timer.
-_FWDT(FWDTEN_OFF);
-// Select debug channel.
-_FICD(ICS_PGD3 & JTAGEN_OFF);
-
-_FPOR(PWMPIN_ON);
-
-
 #include <stdint.h>        // Includes uint16_t definition
 #include <stdio.h>         // Includes sprintf
 #include <stdbool.h>       // Includes true/false definition
@@ -43,6 +27,7 @@ _FPOR(PWMPIN_ON);
 
 
 int main(int argc, char** argv) {
+    
     Init_All(0);
 
     // __delay_ms(2000);
@@ -53,7 +38,9 @@ int main(int argc, char** argv) {
     while (1) // boucle principale
     {
         Faire_Actions_AX12();
+        //I2C_Try_All();
     }
+    
 }
 
 

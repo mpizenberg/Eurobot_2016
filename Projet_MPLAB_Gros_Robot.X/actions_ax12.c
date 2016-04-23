@@ -1,8 +1,10 @@
-#include <p33Fxxxx.h>      /* Includes device header file                     */
-#include <stdint.h>        /* Includes uint16_t definition                    */
-#include <stdbool.h>       /* Includes true/false definition                  */
+
+#include <xc.h>
+//#include <p33Fxxxx.h>      /* Includes device header file                     */
+//#include <stdint.h>        /* Includes uint16_t definition                    */
+//#include <stdbool.h>       /* Includes true/false definition                  */
 #include <stdio.h>
-#include <uart.h>
+//#include <uart.h>
 #include <delay.h>
 
 #include "main.h"
@@ -92,6 +94,9 @@ void Faire_Actions_AX12(void)
                 break;
             case AX12_FUNNY_ACTION:
                 Funny_action();
+                break;
+            default :
+                printf("$FAIL;");
                 break;
         }
         Num_Action_Done = num;

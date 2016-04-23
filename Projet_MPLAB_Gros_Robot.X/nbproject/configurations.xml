@@ -24,6 +24,9 @@
       <itemPath>main.h</itemPath>
       <itemPath>ultrason.h</itemPath>
       <itemPath>Sick_VBat.h</itemPath>
+      <itemPath>Timer_Asserv.h</itemPath>
+      <itemPath>Timer_ms.h</itemPath>
+      <itemPath>I2C.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -51,6 +54,10 @@
       <itemPath>communication.c</itemPath>
       <itemPath>ultrason.c</itemPath>
       <itemPath>Sick_VBat.c</itemPath>
+      <itemPath>Timer_Asserv.c</itemPath>
+      <itemPath>Timer_ms.c</itemPath>
+      <itemPath>Pragma_Config.c</itemPath>
+      <itemPath>I2C.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -59,8 +66,7 @@
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
-    <Elem>private</Elem>
-    <Elem>lib_asserv</Elem>
+    <Elem>.</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -72,8 +78,8 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>PICkit3PlatformTool</platformTool>
         <languageToolchain>XC16</languageToolchain>
-        <languageToolchainVersion>1.23</languageToolchainVersion>
-        <platform>2</platform>
+        <languageToolchainVersion>1.26</languageToolchainVersion>
+        <platform>3</platform>
       </toolsSet>
       <compileType>
         <linkerTool>
@@ -266,7 +272,7 @@
         <property key="memories.programmemory.partition2.start"
                   value="${memories.programmemory.partition2.start.value}"/>
         <property key="memories.programmemory.start" value="0x0"/>
-        <property key="poweroptions.powerenable" value="false"/>
+        <property key="poweroptions.powerenable" value="true"/>
         <property key="programmertogo.imagename" value=""/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
@@ -282,7 +288,7 @@
         <property key="programoptions.testmodeentrymethod" value="VPPFirst"/>
         <property key="programoptions.usehighvoltageonmclr" value="false"/>
         <property key="programoptions.uselvpprogramming" value="false"/>
-        <property key="voltagevalue" value="3.5"/>
+        <property key="voltagevalue" value="3.125"/>
       </PICkit3PlatformTool>
     </conf>
   </confs>
