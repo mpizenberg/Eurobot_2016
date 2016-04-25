@@ -258,7 +258,6 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
     } else if (Delay_90 == 90000) {
         Delay_90 ++;
         SendEnd();
-        Add_Action_AX12(AX12_FUNNY_ACTION);
         Delay_90_Over = 1;
     } else {
         motion_free();
