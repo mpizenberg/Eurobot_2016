@@ -398,15 +398,15 @@ void Catch_bras(void)
 { // Resserrage des bras contre les blocs de sable.
     if(!PIN_TEAM)
 	{
-        PutAX(Bras_D,       AX_GOAL_POSITION,467);
+        PutAX(Bras_D,       AX_GOAL_POSITION,462);
                             __delay_ms(delay_min_ax);
-        PutAX(Bras_C,       AX_GOAL_POSITION,395);
+        PutAX(Bras_C,       AX_GOAL_POSITION,400);
     }
     else
 	{
-        PutAX(Bras_G,       AX_GOAL_POSITION,555);
+        PutAX(Bras_G,       AX_GOAL_POSITION,560);
                             __delay_ms(delay_min_ax);
-        PutAX(Bras_C,       AX_GOAL_POSITION,945);
+        PutAX(Bras_C,       AX_GOAL_POSITION,940);
     }
     __delay_ms(delay_min_ax);
 }
