@@ -45,7 +45,7 @@ void Init_All(int callback){
     Init_QEI();
     Init_IT_AX12();
     __delay_ms(200);
-    Init_ax12();
+    //Init_ax12();
     InitSick_VBat();
     motion_init(); // start asserv
     Init_Ultrasons();
