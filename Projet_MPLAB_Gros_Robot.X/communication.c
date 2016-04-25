@@ -134,7 +134,7 @@ void SelectActionFromPi()
 
             cursorPosition+=floatLength+1;
             for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=',';floatLength++); // Return the number of char taken by the float in the command line
-            ReceivedStringFromPi[cursorPosition+floatLength] = 0;
+                ReceivedStringFromPi[cursorPosition+floatLength] = 0;
             MOVE.y = atof(&ReceivedStringFromPi[cursorPosition]);
             ReceivedStringFromPi[cursorPosition+floatLength] = ',';
 
@@ -487,6 +487,34 @@ void SelectActionFromPi()
             valf = atof(&ReceivedStringFromPi[cursorPosition]);
             ReceivedStringFromPi[cursorPosition+floatLength] = ';';
             set_Constraint_vitesse_max(valf);
+        }
+
+        // AMAX     choisi une acceleration max pour des mouvements 'doux'
+        if(ReceivedStringFromPi[1]=='A'
+		&& ReceivedStringFromPi[2]=='M'
+		&& ReceivedStringFromPi[3]=='A'
+		&& ReceivedStringFromPi[4]=='X')
+        {
+            cursorPosition=6;
+            for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=',';floatLength++); // Return the number of char taken by the float in the command line
+            ReceivedStringFromPi[cursorPosition+floatLength] = 0;
+            float al_max = atof(&ReceivedStringFromPi[cursorPosition]);
+            ReceivedStringFromPi[cursorPosition+floatLength] = ',';
+
+            cursorPosition+=floatLength+1;
+            for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=',';floatLength++); // Return the number of char taken by the float in the command line
+                ReceivedStringFromPi[cursorPosition+floatLength] = 0;
+            float at_max = atof(&ReceivedStringFromPi[cursorPosition]);
+            ReceivedStringFromPi[cursorPosition+floatLength] = ',';
+
+            cursorPosition+=floatLength+1;
+            for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=',';floatLength++); // Return the number of char taken by the float in the command line
+            ReceivedStringFromPi[cursorPosition+floatLength] = 0;
+            float a_max = atof(&ReceivedStringFromPi[cursorPosition]);
+            ReceivedStringFromPi[cursorPosition+floatLength] = ',';
+            cursorPosition+=floatLength+1;
+            
+            set_Constraint_acceleration_max(al_max, at_max, a_max);
         }
     }
 }

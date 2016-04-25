@@ -214,16 +214,32 @@ void Init_ax12() {
  void Deploy_fish(void)
  {
     if(!PIN_TEAM)       // Côté Violet.
-    {    
+    {   
+        PutAX(Fish_AvG,         AX_MOVING_SPEED, 512);
+                            __delay_ms(delay_min_ax);
+        PutAX(Fish_ArG,         AX_MOVING_SPEED, 512);
+                            __delay_ms(delay_min_ax);
         PutAX(Fish_AvG,     AX_GOAL_POSITION,210);
                             __delay_ms(delay_min_ax);
         PutAX(Fish_ArG,     AX_GOAL_POSITION,510);
+                            __delay_ms(delay_min_ax);
+        PutAX(Fish_AvG, 	AX_MOVING_SPEED, 70);
+                            __delay_ms(delay_min_ax);
+        PutAX(Fish_ArG,         AX_MOVING_SPEED, 70);
     }
     else                // Côté Vert.
     {
+        PutAX(Fish_AvD,         AX_MOVING_SPEED, 512);
+                            __delay_ms(delay_min_ax);
+        PutAX(Fish_ArD,         AX_MOVING_SPEED, 512);
+                            __delay_ms(delay_min_ax);
         PutAX(Fish_AvD,     AX_GOAL_POSITION,810);
                             __delay_ms(delay_min_ax);
         PutAX(Fish_ArD,     AX_GOAL_POSITION,510);
+                            __delay_ms(delay_min_ax);
+        PutAX(Fish_AvD, 	AX_MOVING_SPEED, 70);
+                            __delay_ms(delay_min_ax);
+        PutAX(Fish_ArD, 	AX_MOVING_SPEED, 70);
     }
     __delay_ms(2000);
     SendDone();
