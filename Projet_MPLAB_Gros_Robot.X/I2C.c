@@ -10,17 +10,20 @@ void I2C_Init (void)
     
     if (BRG > 0x1FF)
         BRG = 0x1FF;    // registre 9 bits !
-    I2CCONbits.A10M = 1;
-    I2C1BRG = BRG;      // regle le baudrate
+    //I2CCONbits.A10M = 1;
+    
+    //I2C1BRG = BRG;      // regle le baudrate
+    
+    I2C1BRG = 0x1FF;
     I2C1CONbits.I2CEN = 1;  // active l'interface
     
 }
 
 void I2C_Try_All(void)
 {
-    int add;
+    int add = 0x20;
     int toto;
-    for (add = 0; add < 0xFF; add ++)
+    for (add = 0x0; add <= 0x7F; add ++)
     {
         Set_Maxtime(30);
         I2C1CONbits.SEN = 1;    // envoi start condition
@@ -29,18 +32,27 @@ void I2C_Try_All(void)
         while ((!I2C1STATbits.TRSTAT) && Get_Maxtime());  // attente début transmission
         while (I2C1STATbits.TRSTAT && Get_Maxtime());     // attente fin transmission
 
-        if (!I2C1STATbits.ACKSTAT && Get_Maxtime())  // si on a recu un ack :
-        {
+        //if (!I2C1STATbits.ACKSTAT && Get_Maxtime())  // si on a recu un ack :
+       // {
+            //if (!(add & 0x01)) {
+                Set_Maxtime(30);
+                I2C1TRN = 0x55;
+                while ((!I2C1STATbits.TRSTAT) && Get_Maxtime());  // attente début transmission
+                while (I2C1STATbits.TRSTAT && Get_Maxtime());     // attente fin transmission
+
+           // }
+                /*
             toto = 0;
             while (toto < 100){
                 toto ++;
             }
-            //printf ("found : 0x%02X\n", add);
-        }
+            Set_Maxtime(1000);
+            while (Get_Maxtime());
+        }*/
         Set_Maxtime(10);
         I2C1CONbits.PEN = 1;    // envoi stop condition
         while (I2C1CONbits.PEN && Get_Maxtime());    // attente de l'envoi
-        Set_Maxtime(10);
+        Set_Maxtime(60);
         while (Get_Maxtime());
     }
     // printf ("Fin\n");
@@ -48,6 +60,9 @@ void I2C_Try_All(void)
     while (toto < 100){
         toto ++;
     }
+    I2C1CONbits.I2CEN = 0;
+    I2C1CONbits.I2CEN = 1;
+    
 }
 /*
 void I2C_Alti_Send_Command(u8 command)

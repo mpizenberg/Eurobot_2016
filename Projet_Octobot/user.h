@@ -11,6 +11,11 @@
 #define TRIS_TEAM _TRISA4 
 // ultrason : en RC4 // defini dans ultrason .h
 
+#define TRIS_POMPE_HAUTE    _TRISB8
+#define TRIS_POMPE_BASSE    _TRISB9
+#define POMPE_HAUTE         _RB8
+#define POMPE_BASSE         _RB9
+
 /******************************************************************************/
 /* System Level #define Macros                                                */
 /******************************************************************************/

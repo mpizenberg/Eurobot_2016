@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
     while (1) // boucle principale
     {
         Faire_Actions_AX12();
-        //I2C_Try_All();
+        
     }
     
 }
