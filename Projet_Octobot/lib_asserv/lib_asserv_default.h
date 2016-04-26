@@ -13,11 +13,11 @@
 /*############################################################################*/
 
 #ifndef DEFAULT_CONSTRAINT_V_MAX // {v, vt}
-#define DEFAULT_CONSTRAINT_V_MAX {0.8, 4}
+#define DEFAULT_CONSTRAINT_V_MAX {10, 10} // crabot: {0.8, 4}
 #endif
 
 #ifndef DEFAULT_CONSTRAINT_A_MAX // {a, at, v_vt}
-#define DEFAULT_CONSTRAINT_A_MAX {0.7, 20, 0.8} // at=27 avec des pwm a 100%
+#define DEFAULT_CONSTRAINT_A_MAX {10, 100, 10} // crabot: {0.7, 20, 0.8}
 #endif
 
 #ifndef BLOCK_LIMIT
@@ -53,18 +53,18 @@
 
 // 2 PID lies a l'asserve en vitesse (delta: vitesse absolue, alpha: vitesse angulaire)
 #ifndef DEFAULT_PID_COEFS_DELTA // {kp, ki, kd, mu_p}
-#define DEFAULT_PID_COEFS_DELTA {160,20,0,0.2} // {160,20,0,0.2}
+#define DEFAULT_PID_COEFS_DELTA {100,0,0,1} // crabot: {160,20,0,0.2}
 #endif
 #ifndef DEFAULT_PID_COEFS_ALPHA // {kp, ki, kd, mu_p}
-#define DEFAULT_PID_COEFS_ALPHA {32,8,0,0.8} // pas trop mal mais des oscillations a vt=3 {40,12,0,1}
+#define DEFAULT_PID_COEFS_ALPHA {10,0,0,1} // crabot: {32,8,0,0.8}
 #endif
 
 // valeurs max de l'intégrale en vitesse et vitesse angulaire
 #ifndef DEFAULT_PID_MAX_INT_DELTA
-#define DEFAULT_PID_MAX_INT_DELTA 4 // 4
+#define DEFAULT_PID_MAX_INT_DELTA 1000 // crabot: 4
 #endif
 #ifndef DEFAULT_PID_MAX_INT_ALPHA
-#define DEFAULT_PID_MAX_INT_ALPHA 4
+#define DEFAULT_PID_MAX_INT_ALPHA 1000 // crabot: 4
 #endif
 
 // conditions d'arrêt des PID en vitesse et vitesse angulaire
