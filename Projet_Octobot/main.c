@@ -44,44 +44,21 @@ _FPOR(PWMPIN_ON);
 
 int main(int argc, char** argv) {
     Init_All(0);
-
-    // __delay_ms(2000);
-    // Code de test qui fait bouger le robot doucement :
-    // Debug_Asserv_Start2();
-    //reglage_asserv();
-
-    while (1) // boucle principale
-    {
-        //Faire_Actions_AX12();
-    }
+    reglage_asserv();
+    while (1); // boucle principale
 }
 
 
 void reglage_asserv(void)
 {
-    Speed speed;
-    Position pos;
-    speed.v = 0;
-    speed.vt = 5;
-    pos.x = 1.2;
-    pos.y = 0;
-    motion_pos(pos);
-    while (!motion_done());
-    pos.x = 1.2;
-    pos.y = 1.2;
-    motion_pos(pos);
-    while (!motion_done());
-    pos.x = 0;
-    pos.y = 1.2;
-    motion_pos(pos);
-    while (!motion_done());
-    pos.x = 0;
-    pos.y = 0;
-    motion_pos(pos);
-    while (!motion_done());
-    motion_angle(0);
-    debug_count = 0;
+    while (PIN_LAISSE);
+    //PWM_Moteurs(20, 20);
+    motion_linear_speed(-0.3);
+    //motion_angular_speed(1);
+    //Speed speed = {-0.3, 0};
+    //motion_speed(speed);
 }
+
 void Debug_Asserv_Start(void)
 {
     while (PIN_LAISSE);
