@@ -55,6 +55,8 @@ void Init_All(int callback){
     
     TRIS_LAISSE = 1;            // input for laisse
     
+	POMPE_HAUTE = 0;
+	POMPE_BASSE = 0;
     TRIS_POMPE_HAUTE = 0;
     TRIS_POMPE_BASSE = 0;
     
