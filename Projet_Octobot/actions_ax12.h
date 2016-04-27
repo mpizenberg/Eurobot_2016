@@ -10,16 +10,18 @@
 
 /*
  * NUMEROTATION DES ACTIONNEURS DU ROBOT :
- _______________
-| \           / |
-|  \ 1     2 /  |
-|   °       °   |
-| \           / |
-|  \         /  |
-|   \ 3   4 /   |
-|    °     °    |
-|       O       |
-| ______O______ |
+   _______________
+  /               /|
+ /______________ / |
+| \           / |  |
+|  \ 1     2 /  |  |
+|   °       °   |  |
+| \           / |  |
+|  \         /  |  |
+|   \ 3   4 /   |  |
+|    °     °    |  |
+|       O       | 0'
+| ______O______ |/
 */
 
 #define Wing_1		6	// Bras haut - gauche pour tenir 3e etage de blocs de sable
@@ -47,5 +49,16 @@ void Deploy_wings_H(void);
 void Deploy_wings(void);
 #define AX12_IBICF                  5		// I Believe I Can Fly !!!
 void I_Can_Fly(void);
+#define POMPE_ACTIVER              6           // Active les pompes
+ void Activer_Pompes(void);
+#define POMPE_ACTIVER_BAS           7           // Active la pompe du bas uniquement
+void Activer_Pompe_basse(void);
+#define POMPE_ETEINDRE             8           // Eteint les pompes.
+void Eteindre_Pompes(void);
 
 #endif	/* ACTIONS_AX12_H */
+
+
+ 
+
+ 

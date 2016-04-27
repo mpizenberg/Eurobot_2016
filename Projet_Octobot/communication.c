@@ -304,6 +304,33 @@ void SelectActionFromPi()
         {
             Add_Action_AX12(AX12_IBICF);
         }
+
+        //POMA
+        if(ReceivedStringFromPi[1]=='P'
+		&& ReceivedStringFromPi[2]=='O'
+		&& ReceivedStringFromPi[3]=='M'
+		&& ReceivedStringFromPi[4]=='A')
+        {
+            Add_Action_AX12(POMPE_ACTIVER);
+        }
+
+        //POMD
+        if(ReceivedStringFromPi[1]=='P'
+		&& ReceivedStringFromPi[2]=='O'
+		&& ReceivedStringFromPi[3]=='M'
+		&& ReceivedStringFromPi[4]=='D')
+        {
+            Add_Action_AX12(POMPE_ETEINDRE);
+        }
+
+        //POAB
+        if(ReceivedStringFromPi[1]=='P'
+		&& ReceivedStringFromPi[2]=='O'
+		&& ReceivedStringFromPi[3]=='A'
+		&& ReceivedStringFromPi[4]=='B')
+        {
+            Add_Action_AX12(POMPE_ACTIVER_BAS);
+        }
 		
         // TEAM
         if(ReceivedStringFromPi[1]=='T' 

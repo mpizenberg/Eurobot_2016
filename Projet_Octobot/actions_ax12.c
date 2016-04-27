@@ -8,7 +8,7 @@
 #include "main.h"
 
 
-#define maxtork_ax 650
+#define maxtork_ax 850
 #define maxspeed_ax 400
 #define delay_min_ax 30
 
@@ -66,6 +66,15 @@ void Faire_Actions_AX12(void)
             case AX12_IBICF:
                 I_Can_Fly();
                 break;
+            case POMPE_ACTIVER:
+                Activer_Pompes();
+                break;
+            case POMPE_ACTIVER_BAS:
+                Activer_Pompe_basse();
+                break;
+            case POMPE_ETEINDRE:
+                Eteindre_Pompes();
+                break;
         }
         Num_Action_Done = num;
     }
@@ -92,13 +101,13 @@ void Init_ax12() {
                         __delay_ms(delay_min_ax);
 
                      
-    PutAX(Wing_1,       AX_GOAL_POSITION, 250);
+    PutAX(Wing_1,       AX_GOAL_POSITION, 280);
                         __delay_ms(delay_min_ax);
-    PutAX(Wing_2,       AX_GOAL_POSITION, 700);
+    PutAX(Wing_2,       AX_GOAL_POSITION, 740);
                         __delay_ms(delay_min_ax);
-    PutAX(Wing_3,       AX_GOAL_POSITION, 300);
+    PutAX(Wing_3,       AX_GOAL_POSITION, 270);
                         __delay_ms(delay_min_ax);
-    PutAX(Wing_4,       AX_GOAL_POSITION, 700);
+    PutAX(Wing_4,       AX_GOAL_POSITION, 740);
                         __delay_ms(delay_min_ax);
 
 }
@@ -126,11 +135,11 @@ void Init_ax12() {
  {
     PutAX(Wing_1,       AX_GOAL_POSITION, 800);
                         __delay_ms(delay_min_ax);
-    PutAX(Wing_2,       AX_GOAL_POSITION, 205);
+    PutAX(Wing_2,       AX_GOAL_POSITION, 220);
                         __delay_ms(delay_min_ax);
-    PutAX(Wing_3,       AX_GOAL_POSITION, 819);
+    PutAX(Wing_3,       AX_GOAL_POSITION, 814);
                         __delay_ms(delay_min_ax);
-    PutAX(Wing_4,       AX_GOAL_POSITION, 205);
+    PutAX(Wing_4,       AX_GOAL_POSITION, 210);
                         __delay_ms(2000);
     SendDone();
  }
@@ -140,6 +149,29 @@ void Init_ax12() {
     
     __delay_ms(delay_min_ax);
  }
+
+ void Activer_Pompes(void)
+ {
+        POMPE_HAUTE = 1;
+        __delay_ms(50);
+        POMPE_BASSE = 1;
+        __delay_ms(50);
+ }
+
+  void Eteindre_Pompes(void)
+ {
+        POMPE_HAUTE = 0;
+        __delay_ms(50);
+        POMPE_BASSE = 0;
+        __delay_ms(50);
+ }
+
+ void Activer_Pompe_basse(void)
+ {
+        POMPE_BASSE = 1;
+        __delay_ms(50);
+ }
+
 
  
 
