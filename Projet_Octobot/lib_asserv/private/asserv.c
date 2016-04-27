@@ -151,13 +151,13 @@ void asserv_step(Odo *odo, float *commande_g, float *commande_d){
             break;
         // si on est en asservissement en position
         case ASSERV_MODE_POS :
-            if (debug_mode){debug_pos_asserv();}
             pos_asserv_step(odo, commande_g, commande_d);
+            if (debug_mode){debug_pos_asserv();}
             break;
         // si on est en asservissement en vitesse
         case ASSERV_MODE_SPEED :
-            if (debug_mode){debug_speed_asserv();}
             speed_asserv_step(odo, commande_g, commande_d);
+            if (debug_mode){debug_speed_asserv();}
             break;
         // si on est en asservissement en angle
         case ASSERV_MODE_ANGLE :
@@ -169,9 +169,11 @@ void asserv_step(Odo *odo, float *commande_g, float *commande_d){
             break;
         case ASSERV_MODE_LINEAR_SPEED :
             linear_speed_asserv_step(odo, commande_g, commande_d);
+            if (debug_mode){debug_speed_asserv();}
             break;
         case ASSERV_MODE_ANGULAR_SPEED :
             angular_speed_asserv_step(odo, commande_g, commande_d);
+            if (debug_mode){debug_speed_asserv();}
             break;
     }
 }
