@@ -48,7 +48,7 @@ void Init_All(int callback){
     Init_ax12();
     InitSick_VBat();
     motion_init(); // start asserv
-    Init_Ultrasons();
+    //Init_Ultrasons();
     TRISAbits.TRISA9 = 1;
     
     TRIS_TEAM = 1;  // input for bouton vert/violet(rouge)

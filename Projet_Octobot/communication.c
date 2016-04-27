@@ -509,7 +509,7 @@ void ReleaseUltrason(void)
 void SendUltrason_Status(void)
 {
     __delay_ms(50);
-    printf("$SULS,%d,%d,%d;", Sector_Ultrason, Mesure_Distance_Ultrason, Mesure_Timer_Ultrason);
+    //printf("$SULS,%d,%d,%d;", Sector_Ultrason, Mesure_Distance_Ultrason, Mesure_Timer_Ultrason);
     __delay_ms(50);
 }
 
