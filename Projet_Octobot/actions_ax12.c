@@ -144,6 +144,35 @@ void Init_ax12() {
     SendDone();
  }
 
+  void Close_wings_B(void)                // Range toutes les ailes.
+ {
+    PutAX(Wing_3,       AX_GOAL_POSITION, 270);
+                        __delay_ms(delay_min_ax);
+    PutAX(Wing_4,       AX_GOAL_POSITION, 740);
+                        __delay_ms(delay_min_ax);
+ }
+
+   void Close_wings_H(void)                // Range toutes les ailes.
+ {
+    PutAX(Wing_1,       AX_GOAL_POSITION, 280);
+                        __delay_ms(delay_min_ax);
+    PutAX(Wing_2,       AX_GOAL_POSITION, 740);
+                        __delay_ms(delay_min_ax);
+ }
+
+ void Close_wings(void)                // Range toutes les ailes.
+ {
+    PutAX(Wing_1,       AX_GOAL_POSITION, 280);
+                        __delay_ms(delay_min_ax);
+    PutAX(Wing_2,       AX_GOAL_POSITION, 740);
+                        __delay_ms(delay_min_ax);
+    PutAX(Wing_3,       AX_GOAL_POSITION, 270);
+                        __delay_ms(delay_min_ax);
+    PutAX(Wing_4,       AX_GOAL_POSITION, 740);
+                        __delay_ms(delay_min_ax);
+    SendDone();
+ }
+
  void I_Can_Fly(void)		// A vous de jouer !!! ;)
  {
     

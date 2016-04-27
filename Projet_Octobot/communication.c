@@ -269,31 +269,58 @@ void SelectActionFromPi()
             motion_free();
         }
 
-        // WINH
-        if(ReceivedStringFromPi[1]=='W'
-		&& ReceivedStringFromPi[2]=='I'
-		&& ReceivedStringFromPi[3]=='N'
+        // OWIH
+        if(ReceivedStringFromPi[1]=='O'
+		&& ReceivedStringFromPi[2]=='W'
+		&& ReceivedStringFromPi[3]=='I'
 		&& ReceivedStringFromPi[4]=='H')
         {
             Add_Action_AX12(AX12_DEPLOY_WINGS_HAUT);
         }
 
-        // WINB
-        if(ReceivedStringFromPi[1]=='W'
-		&& ReceivedStringFromPi[2]=='I'
-		&& ReceivedStringFromPi[3]=='N'
+        // OWIB
+        if(ReceivedStringFromPi[1]=='O'
+		&& ReceivedStringFromPi[2]=='W'
+		&& ReceivedStringFromPi[3]=='I'
 		&& ReceivedStringFromPi[4]=='B')
         {
             Add_Action_AX12(AX12_DEPLOY_WINGS_BAS);
         }
 
         // WINA
-        if(ReceivedStringFromPi[1]=='W'
-		&& ReceivedStringFromPi[2]=='I'
-		&& ReceivedStringFromPi[3]=='N'
+        if(ReceivedStringFromPi[1]=='O'
+		&& ReceivedStringFromPi[2]=='W'
+		&& ReceivedStringFromPi[3]=='I'
 		&& ReceivedStringFromPi[4]=='A')
         {
             Add_Action_AX12(AX12_DEPLOY_WINGS);
+        }
+
+        // CWIH
+        if(ReceivedStringFromPi[1]=='C'
+		&& ReceivedStringFromPi[2]=='W'
+		&& ReceivedStringFromPi[3]=='I'
+		&& ReceivedStringFromPi[4]=='H')
+        {
+            Add_Action_AX12(AX12_CLOSE_WINGS_HAUT);
+        }
+
+        // CWIB
+        if(ReceivedStringFromPi[1]=='C'
+		&& ReceivedStringFromPi[2]=='W'
+		&& ReceivedStringFromPi[3]=='I'
+		&& ReceivedStringFromPi[4]=='B')
+        {
+            Add_Action_AX12(AX12_CLOSE_WINGS_BAS);
+        }
+
+        // CINA
+        if(ReceivedStringFromPi[1]=='C'
+		&& ReceivedStringFromPi[2]=='W'
+		&& ReceivedStringFromPi[3]=='I'
+		&& ReceivedStringFromPi[4]=='A')
+        {
+            Add_Action_AX12(AX12_CLOSE_WINGS);
         }
 
         // IFLY
