@@ -55,35 +55,7 @@ void set_Constraint_vitesse_max(float vl_max) {
     } else {
         float tab_default[] = DEFAULT_CONSTRAINT_V_MAX;
         motionConstraint.v_max.v = tab_default[0];
-    }
-}
-
-// ajout daniel
-void set_Constraint_acceleration_max(float al_max, float at_max, float a_max)
-{
-    float tab_default[] = DEFAULT_CONSTRAINT_A_MAX;
-
-    if (al_max != 0)
-    {
-        motionConstraint.a_max.a = al_max;
-    } else
-    {
-        motionConstraint.a_max.a = tab_default[0];
-    }
-    if (at_max != 0)
-    {
-        motionConstraint.a_max.at = at_max;
-    } else
-    {
-        motionConstraint.a_max.at = tab_default[1];
-    }
-    if (a_max != 0)
-    {
-        motionConstraint.a_max.v_vt = a_max;
-    } else
-    {
-        motionConstraint.a_max.v_vt = tab_default[2];
-    }
+    }       
 }
 
 // assigner des valeurs à la vitesse (vitesse et vitesse angulaire)

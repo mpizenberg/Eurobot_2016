@@ -12,12 +12,9 @@
 #include "Sick_VBat.h"
 #include "ultrason.h"
 #include "actions_ax12.h"
-#include "Timer_Asserv.h"
-#include "Timer_ms.h"
 #include "communication.h"
 #include "ax12.h"
 #include "lib_asserv/private/tools.h"
-#include "I2C.h"
 
 
 #endif	/* MAIN_H */

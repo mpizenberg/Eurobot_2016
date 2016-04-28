@@ -134,7 +134,7 @@ void SelectActionFromPi()
 
             cursorPosition+=floatLength+1;
             for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=',';floatLength++); // Return the number of char taken by the float in the command line
-                ReceivedStringFromPi[cursorPosition+floatLength] = 0;
+            ReceivedStringFromPi[cursorPosition+floatLength] = 0;
             MOVE.y = atof(&ReceivedStringFromPi[cursorPosition]);
             ReceivedStringFromPi[cursorPosition+floatLength] = ',';
 
@@ -269,121 +269,94 @@ void SelectActionFromPi()
             motion_free();
         }
 
-        // DFAV
-        if(ReceivedStringFromPi[1]=='D' 
-		&& ReceivedStringFromPi[2]=='F' 
-		&& ReceivedStringFromPi[3]=='A' 
-		&& ReceivedStringFromPi[4]=='V')
-        {
-            Add_Action_AX12(AX12_DEPLOY_FISH_AV);
-        }
-
-        // DFAR
-        if(ReceivedStringFromPi[1]=='D' 
-		&& ReceivedStringFromPi[2]=='F' 
-		&& ReceivedStringFromPi[3]=='A' 
-		&& ReceivedStringFromPi[4]=='R')
-        {
-            Add_Action_AX12(AX12_DEPLOY_FISH_AR);
-        }
-
-        // DFIS
-        if(ReceivedStringFromPi[1]=='D'
-		&& ReceivedStringFromPi[2]=='F'
+        // OWIH
+        if(ReceivedStringFromPi[1]=='O'
+		&& ReceivedStringFromPi[2]=='W'
 		&& ReceivedStringFromPi[3]=='I'
-		&& ReceivedStringFromPi[4]=='S')
+		&& ReceivedStringFromPi[4]=='H')
         {
-            Add_Action_AX12(AX12_DEPLOY_FISH);
+            Add_Action_AX12(AX12_DEPLOY_WINGS_HAUT);
         }
 
-        // UPAV
-        if(ReceivedStringFromPi[1]=='U'
-		&& ReceivedStringFromPi[2]=='P'
-		&& ReceivedStringFromPi[3]=='A' 
-		&& ReceivedStringFromPi[4]=='V')
-        {
-            Add_Action_AX12(AX12_MOVEUP_FISH_AV);
-        }
-
-        // UPAR
-        if(ReceivedStringFromPi[1]=='U'
-		&& ReceivedStringFromPi[2]=='P'
-		&& ReceivedStringFromPi[3]=='A' 
-		&& ReceivedStringFromPi[4]=='R')
-        {
-            Add_Action_AX12(AX12_MOVEUP_FISH_AR);
-        }
-
-	// RFAV
-        if(ReceivedStringFromPi[1]=='R' 
-		&& ReceivedStringFromPi[2]=='F' 
-		&& ReceivedStringFromPi[3]=='A' 
-		&& ReceivedStringFromPi[4]=='V')
-        {
-            Add_Action_AX12(AX12_RLZ_FISH_AV);
-        }
-		
-	// RFAR
-        if(ReceivedStringFromPi[1]=='R' 
-	&& ReceivedStringFromPi[2]=='F' 
-	&& ReceivedStringFromPi[3]=='A' 
-	&& ReceivedStringFromPi[4]=='R')
-        {
-            Add_Action_AX12(AX12_RLZ_FISH_AR);
-        }
-
-        // RFAR
-        if(ReceivedStringFromPi[1]=='R'
-	&& ReceivedStringFromPi[2]=='F'
-	&& ReceivedStringFromPi[3]=='I'
-	&& ReceivedStringFromPi[4]=='S')
-        {
-            Add_Action_AX12(AX12_RLZ_FISH);
-        }
-
-	// OPNB
-        if(ReceivedStringFromPi[1]=='O' 
-		&& ReceivedStringFromPi[2]=='P' 
-		&& ReceivedStringFromPi[3]=='N' 
+        // OWIB
+        if(ReceivedStringFromPi[1]=='O'
+		&& ReceivedStringFromPi[2]=='W'
+		&& ReceivedStringFromPi[3]=='I'
 		&& ReceivedStringFromPi[4]=='B')
         {
-            Add_Action_AX12(AX12_OPEN_BRAS);
+            Add_Action_AX12(AX12_DEPLOY_WINGS_BAS);
         }
 
-        // OPFB
-        if(ReceivedStringFromPi[1]=='O' 
-		&& ReceivedStringFromPi[2]=='P' 
-		&& ReceivedStringFromPi[3]=='F' 
-		&& ReceivedStringFromPi[4]=='B')
-        {
-            Add_Action_AX12(AX12_OPENFULL_BRAS);
-        }
-
-        // CATB
-        if(ReceivedStringFromPi[1]=='C'
-		&& ReceivedStringFromPi[2]=='A'
-		&& ReceivedStringFromPi[3]=='T'
-		&& ReceivedStringFromPi[4]=='B')
-        {
-            Add_Action_AX12(AX12_CATCH_BRAS);
-        }
-
-        // CLOB
-        if(ReceivedStringFromPi[1]=='C' 
-		&& ReceivedStringFromPi[2]=='L' 
-		&& ReceivedStringFromPi[3]=='O' 
-		&& ReceivedStringFromPi[4]=='B')
-        {
-            Add_Action_AX12(AX12_CLOSE_BRAS);
-        }
-
-        // FUNA
-        if(ReceivedStringFromPi[1]=='F' 
-		&& ReceivedStringFromPi[2]=='U' 
-		&& ReceivedStringFromPi[3]=='N' 
+        // WINA
+        if(ReceivedStringFromPi[1]=='O'
+		&& ReceivedStringFromPi[2]=='W'
+		&& ReceivedStringFromPi[3]=='I'
 		&& ReceivedStringFromPi[4]=='A')
         {
-            Add_Action_AX12(AX12_FUNNY_ACTION);
+            Add_Action_AX12(AX12_DEPLOY_WINGS);
+        }
+
+        // CWIH
+        if(ReceivedStringFromPi[1]=='C'
+		&& ReceivedStringFromPi[2]=='W'
+		&& ReceivedStringFromPi[3]=='I'
+		&& ReceivedStringFromPi[4]=='H')
+        {
+            Add_Action_AX12(AX12_CLOSE_WINGS_HAUT);
+        }
+
+        // CWIB
+        if(ReceivedStringFromPi[1]=='C'
+		&& ReceivedStringFromPi[2]=='W'
+		&& ReceivedStringFromPi[3]=='I'
+		&& ReceivedStringFromPi[4]=='B')
+        {
+            Add_Action_AX12(AX12_CLOSE_WINGS_BAS);
+        }
+
+        // CINA
+        if(ReceivedStringFromPi[1]=='C'
+		&& ReceivedStringFromPi[2]=='W'
+		&& ReceivedStringFromPi[3]=='I'
+		&& ReceivedStringFromPi[4]=='A')
+        {
+            Add_Action_AX12(AX12_CLOSE_WINGS);
+        }
+
+        // IFLY
+        if(ReceivedStringFromPi[1]=='I'
+		&& ReceivedStringFromPi[2]=='F'
+		&& ReceivedStringFromPi[3]=='L'
+		&& ReceivedStringFromPi[4]=='Y')
+        {
+            Add_Action_AX12(AX12_IBICF);
+        }
+
+        //POMA
+        if(ReceivedStringFromPi[1]=='P'
+		&& ReceivedStringFromPi[2]=='O'
+		&& ReceivedStringFromPi[3]=='M'
+		&& ReceivedStringFromPi[4]=='A')
+        {
+            Add_Action_AX12(POMPE_ACTIVER);
+        }
+
+        //POMD
+        if(ReceivedStringFromPi[1]=='P'
+		&& ReceivedStringFromPi[2]=='O'
+		&& ReceivedStringFromPi[3]=='M'
+		&& ReceivedStringFromPi[4]=='D')
+        {
+            Add_Action_AX12(POMPE_ETEINDRE);
+        }
+
+        //POAB
+        if(ReceivedStringFromPi[1]=='P'
+		&& ReceivedStringFromPi[2]=='O'
+		&& ReceivedStringFromPi[3]=='A'
+		&& ReceivedStringFromPi[4]=='B')
+        {
+            Add_Action_AX12(POMPE_ACTIVER_BAS);
         }
 		
         // TEAM
@@ -488,34 +461,6 @@ void SelectActionFromPi()
             ReceivedStringFromPi[cursorPosition+floatLength] = ';';
             set_Constraint_vitesse_max(valf);
         }
-
-        // AMAX     choisi une acceleration max pour des mouvements 'doux'
-        if(ReceivedStringFromPi[1]=='A'
-		&& ReceivedStringFromPi[2]=='M'
-		&& ReceivedStringFromPi[3]=='A'
-		&& ReceivedStringFromPi[4]=='X')
-        {
-            cursorPosition=6;
-            for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=',';floatLength++); // Return the number of char taken by the float in the command line
-            ReceivedStringFromPi[cursorPosition+floatLength] = 0;
-            float al_max = atof(&ReceivedStringFromPi[cursorPosition]);
-            ReceivedStringFromPi[cursorPosition+floatLength] = ',';
-
-            cursorPosition+=floatLength+1;
-            for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=',';floatLength++); // Return the number of char taken by the float in the command line
-                ReceivedStringFromPi[cursorPosition+floatLength] = 0;
-            float at_max = atof(&ReceivedStringFromPi[cursorPosition]);
-            ReceivedStringFromPi[cursorPosition+floatLength] = ',';
-
-            cursorPosition+=floatLength+1;
-            for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=',';floatLength++); // Return the number of char taken by the float in the command line
-            ReceivedStringFromPi[cursorPosition+floatLength] = 0;
-            float a_max = atof(&ReceivedStringFromPi[cursorPosition]);
-            ReceivedStringFromPi[cursorPosition+floatLength] = ',';
-            cursorPosition+=floatLength+1;
-            
-            set_Constraint_acceleration_max(al_max, at_max, a_max);
-        }
     }
 }
 
@@ -542,9 +487,9 @@ void SendEnd (void)
 
 void SendFailAX12(void)
 {
-    __delay_ms(10);
+    __delay_ms(50);
     printf("$FAAX;");
-    __delay_ms(10);
+    __delay_ms(50);
 }
 
 void DetectSick(int channel)
@@ -591,7 +536,7 @@ void ReleaseUltrason(void)
 void SendUltrason_Status(void)
 {
     __delay_ms(50);
-    printf("$SULS,%d,%d,%d;", Sector_Ultrason, Mesure_Distance_Ultrason, Mesure_Timer_Ultrason);
+    //printf("$SULS,%d,%d,%d;", Sector_Ultrason, Mesure_Distance_Ultrason, Mesure_Timer_Ultrason);
     __delay_ms(50);
 }
 

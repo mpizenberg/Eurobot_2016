@@ -46,17 +46,19 @@ void Init_All(int callback){
     Init_IT_AX12();
     __delay_ms(200);
     Init_ax12();
-    //I2C_Init();
     InitSick_VBat();
     motion_init(); // start asserv
-    // Init_Ultrasons();
-    
+    //Init_Ultrasons();
     TRISAbits.TRISA9 = 1;
-    
     
     TRIS_TEAM = 1;  // input for bouton vert/violet(rouge)
     
     TRIS_LAISSE = 1;            // input for laisse
+    
+	POMPE_HAUTE = 0;
+	POMPE_BASSE = 0;
+    TRIS_POMPE_HAUTE = 0;
+    TRIS_POMPE_BASSE = 0;
     
     Init_CN();
 

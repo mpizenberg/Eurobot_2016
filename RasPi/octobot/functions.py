@@ -8,11 +8,11 @@ Sicks=0
 
 def get_ans(ser):
 	global Sicks
-	s=ser.read(1).decode("ascii")
+	s=ser.read(1)
 	chaine=""
 	while s!=';' :
 		chaine += s
-		s=ser.read(1).decode("ascii")
+		s=ser.read(1)
 	chaine += s
 	if chaine=="$DSI0;":
 		Sicks+=1
@@ -38,17 +38,6 @@ def get_ans(ser):
 	sleep(0.1)
 	return chaine
 
-def move_pos(ser,x,y):
-	angle="0"
-	command = "$MOVE,"+str(x)+","+str(y)+","+angle+";"
-	ser.write(bytes(command, "ascii"))
-	print (command) #affiche dans la console
-
-def rotate(ser,angle):
-	command = "$ANGL,"+str(angle)+";"
-	ser.write(bytes(command, "ascii"))
-	print (command) #affiche dans la console
-
 def reset_pic():
 	GPIO.setmode(GPIO.BCM)
 	GPIO.setup(17, GPIO.OUT)
@@ -57,70 +46,107 @@ def reset_pic():
 	GPIO.output(17, False)
 	sleep(6) # temps d'init du pic
 
-def spot_catch(ser): # attraper un spot
-	command = "$CHAR;"
-	ser.write(bytes(command, "ascii"))
-	print (command)
+
+def move_pos(ser,x,y):
+	angle="0"
+	command = "$MOVE,"+str(x)+","+str(y)+","+angle+";"
+	ser.write(command)
+	print (command) #affiche dans la console
+
+def move_push(ser,x,y,d):
+	angle = "0"
+	command = "$PUSH,"+str(x)+","+str(y)+","+angle+","+str(d)+";"
+	ser.write(command)
+	print(command)
+
+def set_speed(ser,max):
+	command ="$VMAX,"+str(max)+";"
+	ser.write(command)
+	print ("Changement de vmax :"+command)
+
+def move_speed(ser,v,vt):
+	vt = 6.28318*vt/360 #conversion degres radians
+	command ="$SPED,"+str(v)+","+str(vt)+";"
+	ser.write(command)
+	print (command) #affiche dans la console
+
+def rotate(ser,angle):
+	angle = 6.28318*angle/360	#conversions degres a radians par seconde
+	command = "$ANGL,"+str(angle)+";"
+	ser.write(command)
+	print (command) #affiche dans la console
+
+def motion_free(ser):
+	command = "$FREE;"
+	print command
+	ser.write(command)
 
 def init_ax(ser):
 	command = "$AXIN;"
-	ser.write(bytes(command, "ascii"))
-	print (command)
-	
-
-def spot_catch_last(ser):
-	command = "$CHAL;"
-	ser.write(bytes(command, "ascii"))
-	print (command)
-
-def spot_release(ser):
-	command = "$RELE;"
-	ser.write(bytes(command, "ascii"))
+	ser.write(command)
 	print (command)
 
 def ask_team(ser):
 	command = "$TEAM;"
-	ser.write(bytes(command, "ascii"))
+	ser.write(command)
 	print (command)
 	s=get_ans(ser)
-	if s=="$YELL;":
+	if s=="$VIOL;":
 		team=1
-	else:
+	elif s=="$VERT;":
 		team=-1
+	else :
+		team = 0
 	return team
 
-def pince_open(ser):
-	command = "$OPES;"
-	ser.write(bytes(command, "ascii"))
-	print (command)
+#listes des actions propres au robot
 
-def pince_close(ser):
-	command = "$CLOS;"
-	ser.write(bytes(command, "ascii"))
-	print (command)
+def deploy_wings(ser): # deploie les ailes
+	command = "$OWIA;"
+	print command
+	ser.write(command)
 
-def tube_close(ser):
-	command = "$CLTB;"
-	ser.write(bytes(command, "ascii"))
-	print (command)
+def deploy_wings_H(ser): # deploie les ailes du haut
+	command = "$OWIH;"
+	print command
+	ser.write(command)
 
-def clap_open(ser):
-	command = "$CLAO;"
-	ser.write(bytes(command, "ascii"))
-	print (command)
+def deploy_wings_B(ser): # deploie les ailes du bas
+	command = "$OWIB;"
+	print command
+	ser.write(command)
+	
+def close_wings(ser): # Ferme les ailes
+	command = "$CWIA;"
+	print command
+	ser.write(command)
 
-def clap_close(ser):
-	command = "$CLAC;"
-	ser.write(bytes(command, "ascii"))
-	print (command)
+def close_wings_H(ser): # deploie les ailes
+	command = "$CWIH;"
+	print command
+	ser.write(command)
 
-def pop_open(ser):
-	command = "$POPO;"# haha !
-	ser.write(bytes(command, "ascii"))
-	print (command)
-
-def pop_close(ser):
-	command = "$POPC;"
-	ser.write(bytes(command, "ascii"))
-	print (command)
-
+def close_wings_B(ser): # deploie les ailes
+	command = "$CWIB;"
+	print command
+	ser.write(command)
+	
+def I_Believe(ser): # Je peux voler !!!
+	command = "$IFLY;"
+	print command
+	ser.write(command)
+	
+def enable_pumps(ser): # Active les pompes
+	command = "$POMA;"
+	print command
+	ser.write(command)
+	
+def enable_pump_bas(ser): # Active les pompes
+	command = "$POAB;"
+	print command
+	ser.write(command)
+	
+def disable_pumps(ser): # Active les pompes
+	command = "$POMD;"
+	print command
+	ser.write(command)
