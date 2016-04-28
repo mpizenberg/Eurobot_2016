@@ -44,8 +44,11 @@ _FPOR(PWMPIN_ON);
 
 int main(int argc, char** argv) {
     Init_All(0);
-    reglage_asserv();
-    while (1); // boucle principale
+    //reglage_asserv();
+    while (1)
+    {
+        Faire_Actions_AX12();
+    }
 }
 
 
