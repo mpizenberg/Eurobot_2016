@@ -53,7 +53,7 @@ void reglage_asserv(void)
 {
     //while (PIN_LAISSE);
     Speed speed0 = {0, 0};
-    Speed speed1 = {0.5, 0};
+    Speed speed1 = {0, 3};
     //motion_angular_speed(4);
     debug_count = 0;
     //PWM_Moteurs(60, -60);
