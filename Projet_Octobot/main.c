@@ -51,13 +51,17 @@ int main(int argc, char** argv) {
 
 void reglage_asserv(void)
 {
-    while (PIN_LAISSE);
-    motion_angular_speed(4);
+    //while (PIN_LAISSE);
+    Speed speed0 = {0, 0};
+    Speed speed1 = {0.5, 0};
+    //motion_angular_speed(4);
     debug_count = 0;
     //PWM_Moteurs(60, -60);
     //motion_angular_speed(1);
-    //Speed speed = {-0.3, 0};
-    //motion_speed(speed);
+    motion_speed(speed1);
+    while(debug_count<250);
+    motion_speed(speed0);
+    
 }
 
 void Debug_Asserv_Start(void)
