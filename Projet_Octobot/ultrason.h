@@ -15,7 +15,7 @@ void Init_Ultrasons (void);
 
 #define PIN_ULTRASON_AR        _RC5            // RC5 = connecteur 5V n2
 #define TRIS_ULTRASON_AR       _TRISC5
-#define PIN_CN_ULTRASON_AR_IE  _CN25IE
+#define PIN_CN_ULTRASON_AR_IE  _CN26IE
 
 
 
