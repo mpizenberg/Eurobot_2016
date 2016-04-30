@@ -42,28 +42,28 @@ answer = functions.get_ans(ser)
 while answer != "$DONE;":
     answer = functions.get_ans(ser)
 functions.open_bras(ser)
-functions.set_speed(ser,0.4)
+functions.set_speed(ser,0)	### On enleve la limite de vitesse
 sleep(0.2)
-###################################
-#### FERMETURE DES PORTES #########
+
 ### FERMETURE DES BRAS
 functions.move_push(ser,0.85,0,0.2)
 answer = functions.get_ans(ser)
 while answer != "$DONE;":
     answer = functions.get_ans(ser)
 functions.close_bras(ser)
+
+###################################
+#### FERMETURE DES PORTES #########
 functions.move_push(ser,0.1,team*(-0.5),0.3)
 answer = functions.get_ans(ser)
 while answer != "$DONE;":
     answer = functions.get_ans(ser)
-functions.set_speed(ser,0)	# On enleve la limite de vitesse
-
-### GO vers les portes
 functions.move_push(ser,0.4,team*(-0.3),0.1)
 answer = functions.get_ans(ser)
 while answer != "$DONE;":
     answer = functions.get_ans(ser)
 
+### GO vers les portes
 functions.open_full_bras(ser)
 
 ### Fermeture des portes
@@ -74,16 +74,15 @@ while answer != "$DONE;":
 #######################################   functions.move_speed(ser,0.2,0)
 sleep(0.5)
 
-################################
-#### PRISE DU TAS DE SABLE #####
 ### Recul & Fermeture des bras
-
 functions.move_push(ser,0.35,team*0.6,0.1)
 answer = functions.get_ans(ser)
 while answer != "$DONE;":
     answer = functions.get_ans(ser)
 functions.close_bras(ser)
 
+################################
+#### PRISE DU TAS DE SABLE #####
 ### Rotation vers les blocs de sable
 functions.move_push(ser,0.828,team*0.5,0)
 answer = functions.get_ans(ser)
@@ -128,6 +127,7 @@ functions.move_push(ser,0.35,team*(0.1),0.2)
 answer = functions.get_ans(ser)
 while answer != "$DONE;":
     answer = functions.get_ans(ser)
+	
 functions.move_push(ser,0.60,team*(-0.16),0.2)
 answer = functions.get_ans(ser)
 while answer != "$DONE;":
@@ -145,6 +145,8 @@ while answer != "$DONE;":
 functions.open_bras(ser)
 sleep(1)
 ### functions.set_acc(ser,0,0,0)  ### contraintes d'acceleration par defaut
+functions.set_speed(ser,0)
+functions.set_speed_ang(ser,0)
 
 functions.move_push(ser,0.72,team*(-0.8),0.2)
 answer = functions.get_ans(ser)
@@ -163,7 +165,7 @@ answer = functions.get_ans(ser)
 while answer != "$DONE;":
      answer = functions.get_ans(ser)
 
-functions.move_push(ser,0.155555,team*(-0.7),0)
+functions.move_push(ser,0.15,team*(-0.7),0)
 answer = functions.get_ans(ser)
 while answer != "$DONE;":
      answer = functions.get_ans(ser)
