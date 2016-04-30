@@ -57,13 +57,6 @@ void InitTimers()
 
 }
 
-void Init_CN()
-{
-
-    IPC4bits.CNIP = 3;      //Interrupt level 3
-    IFS1bits.CNIF = 0;      // Reset CN interrupt
-    IEC1bits.CNIE = 1;      // Enable CN interrupts
-}
 
 /******************************************************************************/
 /* Interrupt Vector Options                                                   */

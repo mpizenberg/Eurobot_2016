@@ -60,8 +60,6 @@ void Init_All(int callback){
     TRIS_POMPE_HAUTE = 0;
     TRIS_POMPE_BASSE = 0;
     
-    Init_CN();
-
     if(callback) {
         SendDone();
     }
