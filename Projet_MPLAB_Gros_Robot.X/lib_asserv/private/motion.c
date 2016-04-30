@@ -7,6 +7,7 @@
 #include "../lib_asserv_default.h"
 #include <math.h>
 #include "../../communication.h"
+#include "../../Sick_VBat.h"
 
 /******************************    Variables    *******************************/
 volatile float motion_initialized = 0;
@@ -140,8 +141,9 @@ void motion_pos(Position pos){
     
     lastPosOrder.mode = POSITION_ORDER;
     lastPosOrder.pos = pos;
-    lastPosOrder.stop_distance = 0;
-
+    lastPosOrder.stop_distance = DEFAULT_STOP_DISTANCE;
+    New_Order_Sick_Handling();
+    
     set_asserv_pos_mode();
 }
 void motion_sequence(Position pos1, Position pos2){
@@ -150,6 +152,7 @@ void motion_sequence(Position pos1, Position pos2){
     motionSequence.waiting = 2; // 2 positions en attente
     motionSequence.pos_seq[0] = pos1;
     motionSequence.pos_seq[1] = pos2;
+    
     set_asserv_seq_mode();
 }
 void motion_push(Position pos, float stop_distance){
@@ -164,6 +167,7 @@ void motion_push(Position pos, float stop_distance){
         lastPosOrder.mode = POSITION_ORDER;
         lastPosOrder.pos = pos;
         lastPosOrder.stop_distance = stop_distance;
+        New_Order_Sick_Handling();
     // sinon on remplace l'ordre suivant par celui là
     } else {
         motionSequence.stop_distance[!motionSequence.in_progress] = stop_distance;
@@ -178,6 +182,8 @@ void motion_speed(Speed speed){
     speed_asserv.speed_order = speed;
 
     lastPosOrder.mode = NO_ORDER;
+    New_Order_Sick_Handling();
+    
     set_asserv_speed_mode();
 }
 // tourner pour être à un angle (absolu) alpha
@@ -185,9 +191,9 @@ void motion_angle(float abs_angle){
     angle_asserv.done = 0;
     angle_asserv.angle_order = abs_angle;
 
-    lastPosOrder.mode = ANGLE_ORDER;
-    lastPosOrder.pos.t = abs_angle;
-
+    lastPosOrder.mode = NO_ORDER;
+    New_Order_Sick_Handling();
+    
     set_asserv_angle_mode();
 }
 
@@ -211,14 +217,8 @@ void check_blocked(Speed speed,Speed order){
 
 void load_last_order(void)
 {
-    if (lastPosOrder.mode != NO_ORDER)
-    {
-        if (lastPosOrder.mode == ANGLE_ORDER)
-            motion_angle(lastPosOrder.pos.t);
-        else
-        {
-            motion_push(lastPosOrder.pos, lastPosOrder.stop_distance);
-        }
+    if (lastPosOrder.mode != NO_ORDER) {
+        motion_push(lastPosOrder.pos, lastPosOrder.stop_distance);
     }
 }
 

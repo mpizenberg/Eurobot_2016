@@ -42,16 +42,19 @@ volatile int channel_conv = 0;		// canal de conversion actuel
 volatile uint8_t i_moy_sick = 0;
 volatile uint16_t Value_Sick[NUMBER_OF_SICK][NUMBER_OF_POINTS_MOY_SICK];	// récupèrere la valeur de l'ADC du sick, puis fait une moyenne tournante
 volatile uint32_t Sum_Value_Sick[NUMBER_OF_SICK];
-volatile uint16_t Old_Sector[NUMBER_OF_SICK] = {0};		// full of 0	// tout ou rien sur les seuils
+volatile uint8_t Sick_Sector[NUMBER_OF_SICK] = {0};		// full of 0	// tout ou rien sur les seuils
 
 volatile uint16_t Threshold[NUMBER_OF_SICK] = {DEFAULT_THRESHOLD, DEFAULT_THRESHOLD, DEFAULT_THRESHOLD, DEFAULT_THRESHOLD};
 
-volatile uint16_t V_Bat = 0;
+volatile unsigned int V_Bat = 0;
 volatile uint16_t V_Bat_Tab[NUMBER_MEAS_VBAT];
 
 volatile uint8_t debug_sick_on = 0;
 volatile uint8_t Ative_Motion_Free_Sicks = 1;
-volatile uint8_t Motion_Free_Activ_Each = 0x0F;
+uint8_t Motion_Free_Activ_Sick[4] = {1,1,1,1};
+
+volatile uint8_t Can_Restart_Order = 0;
+volatile uint8_t Old_Blocked_Front = 0, Old_Blocked_Back = 0;
 /******************************************************************************/
 /* User Functions                                                             */
 /******************************************************************************/
@@ -69,7 +72,7 @@ void InitSick_VBat()
     for (j = 0; j < NUMBER_OF_SICK; j++ ) {
         Threshold[j] = DEFAULT_THRESHOLD;
         Sum_Value_Sick[j] = 0;
-        Old_Sector[j] = 1;
+        Sick_Sector[j] = 1;
         for (i = 0; i < NUMBER_OF_POINTS_MOY_SICK; i++){
             Value_Sick[j][i] = 512;
             Sum_Value_Sick[j] += 512;
@@ -119,7 +122,7 @@ void InitSick_VBat()
     AD1PCFGLbits.PCFG0 = 0;
 
 
-
+    
 
     //Configuration du Timer 5, pour l'ADC
     // OpenTimer5(T5_ON & T5_GATE_OFF & T5_PS_1_256 & T5_SOURCE_INT, 15625); from 2014
@@ -137,17 +140,26 @@ void InitSick_VBat()
     IPC3bits.AD1IP = 2;      //Et les prioritÃ©s (ici prio = 2)
     AD1CON1bits.SAMP = 0;
     AD1CON1bits.ADON = 1;    // Turn on the A/D converter
+    
+    
+    // Soft IT pour la gestion des secteurs
+    // qui prend l'IT SPI1 Erreur
+    IFS0bits.SPI1EIF = 0;   
+    IEC0bits.SPI1EIE = 1;
+    IPC2bits.SPI1EIP = 1;   // pas tres prioritaire
+    //_SPI1ErrInterrupt
+    
 }
 
-void OnSickThreshold(unsigned char id, unsigned int threshold)
+void OnSickThreshold(unsigned char id, unsigned int threshold_cons)
 {
     int i=0;
     if(id == 255) {
-        for (i=0;i<NUMBER_OF_SICK;i++){
-            Threshold[i] = threshold;
+        for (i=0;i<NUMBER_OF_SICK;i++) {
+            Threshold[i] = threshold_cons;
         }
     } else if(id >= 0 && id < NUMBER_OF_SICK) {
-        Threshold[id] = threshold;
+        Threshold[id] = threshold_cons;
     }
 }
 
@@ -170,7 +182,7 @@ void __attribute__ ((interrupt, auto_psv)) _ADC1Interrupt(void)
     static uint16_t i_debug_sick = 0;
     uint16_t val16 = ADC1BUF0;// rÃ©cupÃ©ration valeur depuis ADC
 
-    if (channel_conv != NUMBER_OF_SICK) {
+    if (channel_conv != NUMBER_OF_SICK) {   // si on est pas sur V_Bat
         Sum_Value_Sick[channel_conv] -= Value_Sick[channel_conv][i_moy_sick];     // enlève la valeur de X coups d'avant
         Sum_Value_Sick[channel_conv] += val16;                               // ajoute la valeur de maintenant
 
@@ -185,19 +197,14 @@ void __attribute__ ((interrupt, auto_psv)) _ADC1Interrupt(void)
         
         val16 = (uint16_t)(Sum_Value_Sick[channel_conv] >> 4);   // récup de la somme et division par 16
 
-        if (Old_Sector[channel_conv] == 0) {     // si on considère pour l'instant qu'il y a un truc "pres"
+        if (Sick_Sector[channel_conv] == 0) {     // si on considère pour l'instant qu'il y a un truc "pres"
             if (val16 > (Threshold[channel_conv] + MARGIN_SICK)) {  // si la valeur repasse au dessus de seuil + marge
-                Old_Sector[channel_conv] = 1;        // on repasse en zone "sûre"
-                ReleaseSick(channel_conv+1);			// on previent la PI
+                Sick_Sector[channel_conv] = 1;        // on repasse en zone "sûre"
             }
         }
         else {    // if old = 1   // si, pour l'instant, il n'y a pas de truc "pres"
             if ( (val16 < (Threshold[channel_conv] - MARGIN_SICK))  && (val16 > SICK_LIMIT_MIN)  ) {   // si on vient de detecter un truc
-                Old_Sector[channel_conv] = 0;     // on passe en zone "pas sûre"
-                if (Motion_Free_Activ_Each & (0x01<<channel_conv)) {      // vérif sick par sick
-                    //motion_free();                  // et on gueule auprès de l'asserv
-                }
-                DetectSick(channel_conv+1);				// on previent la PI
+                Sick_Sector[channel_conv] = 0;     // on passe en zone "pas sûre"
             }
         }
 
@@ -275,7 +282,7 @@ void __attribute__ ((interrupt, auto_psv)) _ADC1Interrupt(void)
     _AD1IF = 0;        //Clear the interrupt flag
  }
 
-uint16_t Get_Sick(uint8_t Sick_Voulu)
+unsigned int Get_Sick(int Sick_Voulu)
 {
     Sick_Voulu --;
     if (Sick_Voulu < NUMBER_OF_SICK) {
@@ -287,11 +294,11 @@ uint16_t Get_Sick(uint8_t Sick_Voulu)
 
 // return 1 si rien devant
 // return 0 si detection
-uint16_t Get_Sick_Sector (uint8_t Sick_Voulu)
+char Get_Sick_Sector (int Sick_Voulu)
 {
     Sick_Voulu --;
     if (Sick_Voulu < NUMBER_OF_SICK) {
-        return Old_Sector[Sick_Voulu];
+        return Sick_Sector[Sick_Voulu];
     } else {
         return 0;
     }
@@ -306,10 +313,86 @@ void Start_Stop_Debug_Sick(void)
     }
 }
 
-void Choose_Enabled_Sicks(char Sicks_En)
+void Choose_Enabled_Sicks(int Sicks_En)
 {
-    Motion_Free_Activ_Each = Sicks_En;
+    int i;
+    
+    for (i = 0; i < 4; i++) {
+        if (Sicks_En & (1<<i)) {
+            Motion_Free_Activ_Sick[i] = 1;
+        } else {
+            Motion_Free_Activ_Sick[i] = 0;
+        }
+    }
+} 
+
+void New_Order_Sick_Handling(void)
+{   
+    Can_Restart_Order = 0;  
+    Old_Blocked_Front = 0;
+    Old_Blocked_Back = 0;
 }
 
-   
+void Must_do_Gestion_Sick_Sector(void)
+{
+    IFS0bits.SPI1EIF = 1;   
+}
+
+void __attribute__ ((interrupt, auto_psv)) _SPI1ErrInterrupt(void)
+{
+    Gestion_Sick_Every_few_ms();
+    IFS0bits.SPI1EIF = 0;   
+}
+
+
+void Gestion_Sick_Every_few_ms(void)
+{/*
+    SICK1_IS_FRONT  0
+#define SICK2_IS_FRONT  0
+#define SICK3_IS_FRONT  1
+#define SICK4_IS_FRONT  1
+#define SICK1_IS_BACK   1*/
+    
+    uint8_t Blocked_Front, Blocked_Back;
+    // sector 0 = obstacle detecté, sector 1 = "sûr
+    Blocked_Front = ((!Sick_Sector[0]) && SICK1_IS_FRONT && Motion_Free_Activ_Sick[0]) ||
+                    ((!Sick_Sector[1]) && SICK2_IS_FRONT && Motion_Free_Activ_Sick[1]) ||
+                    ((!Sick_Sector[2]) && SICK3_IS_FRONT && Motion_Free_Activ_Sick[2]) ||
+                    ((!Sick_Sector[3]) && SICK4_IS_FRONT && Motion_Free_Activ_Sick[3]);
+    
+    Blocked_Back  = ((!Sick_Sector[0]) && SICK1_IS_BACK && Motion_Free_Activ_Sick[0]) ||
+                    ((!Sick_Sector[1]) && SICK2_IS_BACK && Motion_Free_Activ_Sick[1]) ||
+                    ((!Sick_Sector[2]) && SICK3_IS_BACK && Motion_Free_Activ_Sick[2]) ||
+                    ((!Sick_Sector[3]) && SICK4_IS_BACK && Motion_Free_Activ_Sick[3]);
+    
+    Blocked_Front = Blocked_Front && ((Sens_Vitesse_Deplacement() == 1)  || Old_Blocked_Front);
+    Blocked_Back  = Blocked_Back  && ((Sens_Vitesse_Deplacement() == -1) || Old_Blocked_Back);
+    
+    if (Blocked_Front && !Old_Blocked_Front) {
+        if (Is_Asserv_Mode_Pos())
+            Can_Restart_Order = 1;
+        motion_free();
+    } else if (!Blocked_Front && Old_Blocked_Front && Can_Restart_Order) {
+        Can_Restart_Order = 0;
+        load_last_order();
+    }
+    
+    if (Blocked_Back && !Old_Blocked_Back) {
+        if (Is_Asserv_Mode_Pos())
+            Can_Restart_Order = 1;
+        motion_free();
+    } else if (!Blocked_Back && Old_Blocked_Back && Can_Restart_Order) {
+        Can_Restart_Order = 0;
+        load_last_order();
+    }
+    
+    Old_Blocked_Front = Blocked_Front;
+    Old_Blocked_Back = Blocked_Back;
+    
+//ReleaseSick(channel_conv+1);			// on previent la PI
+
+//DetectSick(channel_conv+1);				// on previent la PI
+
+}
+
 
