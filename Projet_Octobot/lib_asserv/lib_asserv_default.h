@@ -56,7 +56,7 @@
 #define DEFAULT_PID_COEFS_DELTA {97.4983, 40, 30, 2, 1} // crabot: {160,20,0,0.2}
 #endif
 #ifndef DEFAULT_PID_COEFS_ALPHA // {kvt, kp, ki, kd, mu_p}
-#define DEFAULT_PID_COEFS_ALPHA {4.7817, 5, 4.78, 1.5, 1} // crabot: {32,8,0,0.8}
+#define DEFAULT_PID_COEFS_ALPHA {4.7817, 6, 6, 6, 1} // crabot: {4.7817, 4, 6, 6, 1}
 #endif
 
 // valeurs max de l'intégrale en vitesse et vitesse angulaire
@@ -64,7 +64,7 @@
 #define DEFAULT_PID_MAX_INT_DELTA 0.33 // crabot: 4
 #endif
 #ifndef DEFAULT_PID_MAX_INT_ALPHA
-#define DEFAULT_PID_MAX_INT_ALPHA 2.51 // crabot: 4
+#define DEFAULT_PID_MAX_INT_ALPHA 2.1 // crabot: 4
 #endif
 
 // conditions d'arrêt des PID en vitesse et vitesse angulaire

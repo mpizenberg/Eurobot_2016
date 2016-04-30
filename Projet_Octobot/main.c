@@ -55,7 +55,7 @@ void reglage_asserv(void)
     Position pos0 = {0, 0, 0};
     Position pos1 = {0.3, 0, 0};
     Speed speed0 = {0, 0};
-    Speed speed1 = {0.3, 0};
+    Speed speed1 = {0,3};
     //motion_angular_speed(4);
     debug_count = 0;
     //motion_pwm_angle(10);
@@ -64,7 +64,7 @@ void reglage_asserv(void)
     //motion_push(pos1, 0);
     while(debug_count<250);
     //motion_pwm_angle(0);
-    motion_speed(speed0);
+    //motion_speed(speed0);
     
 }
 

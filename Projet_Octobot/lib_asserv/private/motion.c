@@ -155,6 +155,15 @@ void motion_pwm_angle(float pwm){
     set_asserv_pwm_angle_mode();
 }
 
+// vitesse angulaire 0, +pwm roue droite et gauche
+void motion_pwm_line(float pwm){
+    speed_asserv.done = 0;
+    speed_asserv.speed_order.v = 0;
+    speed_asserv.speed_order.vt = 0;
+    pwm_setting = pwm;
+    set_asserv_pwm_line_mode();
+}
+
 // checker si le déplacement est terminé
 int motion_done(){
     return asserv_done();

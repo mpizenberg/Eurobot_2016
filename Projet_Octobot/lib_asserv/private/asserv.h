@@ -14,6 +14,7 @@
 #define ASSERV_MODE_LINEAR_SPEED 5
 #define ASSERV_MODE_ANGULAR_SPEED 6
 #define ASSERV_MODE_PWM_ANGLE 7
+#define ASSERV_MODE_PWM_LINE 8
 
 /*****************************    Structures    *******************************/
 
