@@ -130,6 +130,22 @@ void motion_angle(float abs_angle){
     set_asserv_angle_mode();
 }
 
+// juste une vitesse lineaire (pas de controle de vitesse angulaire)
+void motion_linear_speed(float linear_speed){
+    speed_asserv.done = 0;
+    speed_asserv.speed_order.v = linear_speed;
+    speed_asserv.speed_order.vt = 0; // mais pas contraint
+    set_asserv_linear_speed_mode();
+}
+
+// juste une vitesse angulaire (pas de controle de vitesse lineaire)
+void motion_angular_speed(float angular_speed){
+    speed_asserv.done = 0;
+    speed_asserv.speed_order.v = 0;
+    speed_asserv.speed_order.vt = angular_speed; // mais pas contraint
+    set_asserv_angular_speed_mode();
+}
+
 // checker si le déplacement est terminé
 int motion_done(){
     return asserv_done();
