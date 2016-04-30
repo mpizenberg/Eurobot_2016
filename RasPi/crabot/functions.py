@@ -74,11 +74,6 @@ def set_t(ser,t):
         ser.write(command)
         print ("MAJ de coordonnee angle="+str(t))
 
-def set_speed_ang(ser,max):
-        command ="$VTMA,"+str(max)+";"
-        ser.write(command)
-        print ("Changement de vt_max :"+command)
-
 def set_speed(ser,max):
 	command ="$VMAX,"+str(max)+";"
 	ser.write(command)
