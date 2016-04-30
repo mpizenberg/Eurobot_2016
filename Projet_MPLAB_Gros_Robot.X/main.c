@@ -27,7 +27,7 @@
 
 
 int main(int argc, char** argv) {
-    
+    int old_Detect_10V = 0;
     Init_All(0);
 
     // __delay_ms(2000);
@@ -38,7 +38,14 @@ int main(int argc, char** argv) {
     while (1) // boucle principale
     {
         Faire_Actions_AX12();
-        
+        if (PIN_DETECT_10V) {
+            if (!old_Detect_10V) {
+                Init_All(0);
+            }
+            old_Detect_10V = 1;
+        } else {
+            old_Detect_10V = 0;
+        }
     }
     
 }
