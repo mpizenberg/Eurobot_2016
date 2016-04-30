@@ -53,15 +53,15 @@ void reglage_asserv(void)
 {
     //while (PIN_LAISSE);
     Speed speed0 = {0, 0};
-    Speed speed1 = {0, 3};
+    Speed speed1 = {0, 2};
     //motion_angular_speed(4);
     debug_count = 0;
-    motion_pwm_angle(10);
+    //motion_pwm_angle(10);
     //motion_angular_speed(1);
-    //motion_speed(speed1);
-    while(debug_count<300);
-    motion_pwm_angle(0);
-    //motion_speed(speed0);
+    motion_speed(speed1);
+    while(debug_count<250);
+    //motion_pwm_angle(0);
+    motion_speed(speed0);
     
 }
 
