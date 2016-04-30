@@ -489,6 +489,20 @@ void SelectActionFromPi()
             set_Constraint_vitesse_max(valf);
         }
 
+                // VTMA     choisi une vitesse max
+        if(ReceivedStringFromPi[1]=='V'
+		&& ReceivedStringFromPi[2]=='T'
+		&& ReceivedStringFromPi[3]=='M'
+		&& ReceivedStringFromPi[4]=='A')
+        {
+            cursorPosition=6;
+            for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=';';floatLength++); // Return the number of char taken by the float in the command line
+            ReceivedStringFromPi[cursorPosition+floatLength] = 0;
+            valf = atof(&ReceivedStringFromPi[cursorPosition]);
+            ReceivedStringFromPi[cursorPosition+floatLength] = ';';
+            set_Constraint_vt_max(valf);
+        }
+
         // AMAX     choisi une acceleration max pour des mouvements 'doux'
         if(ReceivedStringFromPi[1]=='A'
 		&& ReceivedStringFromPi[2]=='M'

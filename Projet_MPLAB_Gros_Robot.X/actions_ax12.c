@@ -219,9 +219,9 @@ void Init_ax12() {
                             __delay_ms(delay_min_ax);
         PutAX(Fish_ArG,         AX_MOVING_SPEED, 512);
                             __delay_ms(delay_min_ax);
-        PutAX(Fish_AvG,     AX_GOAL_POSITION,240);
+        PutAX(Fish_AvG,     AX_GOAL_POSITION,225);
                             __delay_ms(delay_min_ax);
-        PutAX(Fish_ArG,     AX_GOAL_POSITION,480);
+        PutAX(Fish_ArG,     AX_GOAL_POSITION,495);
                             __delay_ms(delay_min_ax);
         PutAX(Fish_AvG, 	AX_MOVING_SPEED, 70);
                             __delay_ms(delay_min_ax);
@@ -347,9 +347,9 @@ void Init_ax12() {
     }
     else
     {
-        PutAX(Fish_AvD,         AX_GOAL_POSITION,800);  // Placement des bras
+        PutAX(Fish_AvD,         AX_GOAL_POSITION,780);  // Placement des bras
                                 __delay_ms(delay_min_ax);
-        PutAX(Fish_ArD,         AX_GOAL_POSITION, 520);
+        PutAX(Fish_ArD,         AX_GOAL_POSITION, 540);
         __delay_ms(1500);
 	PutAX(Magnet_AvD,       AX_GOAL_POSITION,630);	// Lâchez les poissons !!!!
                                 __delay_ms(delay_min_ax);
@@ -377,7 +377,7 @@ void Open_bras(void)
         PutAX(Bras_C,   AX_GOAL_POSITION,350); //reouvre
     }
     else
-	{
+    {
         //PutAX(Bras_G,AX_GOAL_POSITION,512);
         PutAX(Bras_G,   AX_GOAL_POSITION,435);
                         __delay_ms(delay_min_ax);
@@ -399,16 +399,20 @@ void Openfull_bras (void)
 void Catch_bras(void)
 { // Resserrage des bras contre les blocs de sable.
     if(!PIN_TEAM)
-	{
+    {
+        PutAX(Bras_C,       AX_GOAL_POSITION,365);
+                            __delay_ms(500);
         PutAX(Bras_D,       AX_GOAL_POSITION,462);
-                            __delay_ms(delay_min_ax);
+                            __delay_ms(500);
         PutAX(Bras_C,       AX_GOAL_POSITION,400);
     }
     else
-	{
+    {
+        PutAX(Bras_C,       AX_GOAL_POSITION,960);
+                            __delay_ms(500);
         PutAX(Bras_G,       AX_GOAL_POSITION,560);
-                            __delay_ms(delay_min_ax);
-        PutAX(Bras_C,       AX_GOAL_POSITION,940);
+                            __delay_ms(500);
+        PutAX(Bras_C,       AX_GOAL_POSITION,930);
     }
     __delay_ms(delay_min_ax);
 }
@@ -417,9 +421,9 @@ void Close_bras(void)
 { // Rangement des bras.
     PutAX(Bras_G, 	AX_GOAL_POSITION, 830);
                         __delay_ms(delay_min_ax);
-    PutAX(Bras_C, 	AX_GOAL_POSITION, 670);
-                        __delay_ms(delay_min_ax);
     PutAX(Bras_D, 	AX_GOAL_POSITION, 200);
+                        __delay_ms(400);
+    PutAX(Bras_C, 	AX_GOAL_POSITION, 670);
                         __delay_ms(delay_min_ax);
 }
 
