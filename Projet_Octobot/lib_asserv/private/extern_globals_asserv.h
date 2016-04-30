@@ -21,6 +21,7 @@ extern volatile MotionSequence motionSequence;
 extern volatile Odo odo;
 
 // debug
+extern volatile float pwm_setting;
 extern volatile int debug_mode;
 extern volatile int debug_count;
 extern volatile SpeedDebug speedDebug;

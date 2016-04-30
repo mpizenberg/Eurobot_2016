@@ -13,6 +13,7 @@ volatile int asserv_mode;
 volatile PositionAsserv pos_asserv;
 volatile SpeedAsserv speed_asserv;
 volatile AngleAsserv angle_asserv;
+volatile float pwm_setting;
 
 
 
@@ -75,6 +76,7 @@ void set_asserv_angle_mode(){asserv_mode = ASSERV_MODE_ANGLE;}
 void set_asserv_seq_mode(){asserv_mode = ASSERV_MODE_SEQUENCE;}
 void set_asserv_linear_speed_mode(){asserv_mode = ASSERV_MODE_LINEAR_SPEED;}
 void set_asserv_angular_speed_mode(){asserv_mode = ASSERV_MODE_ANGULAR_SPEED;}
+void set_asserv_pwm_angle_mode(){asserv_mode = ASSERV_MODE_PWM_ANGLE;}
 
 // observer les contraintes aux vitesse et vitesse angulaire
 void constrain_speed(
@@ -173,6 +175,10 @@ void asserv_step(Odo *odo, float *commande_g, float *commande_d){
             break;
         case ASSERV_MODE_ANGULAR_SPEED :
             angular_speed_asserv_step(odo, commande_g, commande_d);
+            if (debug_mode){debug_speed_asserv(*commande_g, *commande_d);}
+            break;
+        case ASSERV_MODE_PWM_ANGLE :
+            pwm_angle_asserv_step(odo, commande_g, commande_d);
             if (debug_mode){debug_speed_asserv(*commande_g, *commande_d);}
             break;
     }
@@ -381,6 +387,16 @@ void angular_speed_asserv_step(Odo *odo, float *commande_g, float *commande_d){
     // renvoie des commandes gauche et droite
     *commande_g = - commande_alpha;
     *commande_d = + commande_alpha;
+}
+
+void pwm_angle_asserv_step(Odo *odo, float *commande_g, float *commande_d){
+    // commandes des PID en vitesse absolue (delta) et angulaire (alpha)
+    float commande_delta, commande_alpha;
+    _speed_asserv_step(odo, &commande_delta, &commande_alpha);
+
+    // renvoie des commandes gauche et droite
+    *commande_g = commande_delta - pwm_setting;
+    *commande_d = commande_delta + pwm_setting;
 }
 
 // indique si l'asservissement en cours a termine

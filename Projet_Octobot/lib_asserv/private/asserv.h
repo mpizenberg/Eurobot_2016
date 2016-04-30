@@ -13,6 +13,7 @@
 #define ASSERV_MODE_SEQUENCE 4
 #define ASSERV_MODE_LINEAR_SPEED 5
 #define ASSERV_MODE_ANGULAR_SPEED 6
+#define ASSERV_MODE_PWM_ANGLE 7
 
 /*****************************    Structures    *******************************/
 
@@ -66,6 +67,7 @@ void set_asserv_angle_mode();
 void set_asserv_seq_mode();
 void set_asserv_linear_speed_mode();
 void set_asserv_angular_speed_mode();
+void set_asserv_pwm_angle_mode();
 
 // contraindre les vitesses et accélérations autorisées
 void constrain_speed(
@@ -85,6 +87,7 @@ void angle_asserv_step(Odo *odo, float *commande_g, float *commande_d);
 void seq_asserv_step(Odo *odo, float *commande_g, float *commande_d);
 void linear_speed_asserv_step(Odo *odo, float *commande_g, float *commande_d);
 void angular_speed_asserv_step(Odo *odo, float *commande_g, float *commande_d);
+void pwm_angle_asserv_step(Odo *odo, float *commande_g, float *commande_d);
 
 // indique si l'asservissement en cours a terminé
 int asserv_done();

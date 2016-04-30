@@ -56,11 +56,12 @@ void reglage_asserv(void)
     Speed speed1 = {0, 3};
     //motion_angular_speed(4);
     debug_count = 0;
-    //PWM_Moteurs(60, -60);
+    motion_pwm_angle(10);
     //motion_angular_speed(1);
-    motion_speed(speed1);
-    while(debug_count<250);
-    motion_speed(speed0);
+    //motion_speed(speed1);
+    while(debug_count<300);
+    motion_pwm_angle(0);
+    //motion_speed(speed0);
     
 }
 
