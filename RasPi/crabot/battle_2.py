@@ -44,14 +44,16 @@ while answer != "$DONE;":
 functions.open_bras(ser)
 functions.set_speed(ser,0)	### On enleve la limite de vitesse
 sleep(0.2)
-###################################
-#### FERMETURE DES PORTES #########
+
 ### FERMETURE DES BRAS
 functions.move_push(ser,0.60,0,0.1)
 answer = functions.get_ans(ser)
 while answer != "$DONE;":
     answer = functions.get_ans(ser)
 functions.close_bras(ser)
+
+###################################
+#### FERMETURE DES PORTES #########
 functions.move_push(ser,0.38,team*(-0.58),0.3)
 answer = functions.get_ans(ser)
 while answer != "$DONE;":
@@ -68,18 +70,17 @@ while answer != "$DONE;":
 #######################################   functions.move_speed(ser,0.2,0)
 sleep(0.5)
 
-################################
-#### PRISE DU TAS DE SABLE #####
 ### Recul & Fermeture des bras
-
 functions.move_push(ser,0.35,team*0.6,0.1)
 answer = functions.get_ans(ser)
 while answer != "$DONE;":
     answer = functions.get_ans(ser)
 functions.close_bras(ser)
 
+################################
+#### PRISE DU TAS DE SABLE #####
 ### Rotation vers les blocs de sable
-functions.move_push(ser,0.828,team*0.5,0)
+functions.move_push(ser,0.83,team*0.5,0)
 answer = functions.get_ans(ser)
 while answer != "$DONE;":
     answer = functions.get_ans(ser)
@@ -90,7 +91,7 @@ functions.rotate(ser,team*90)
 answer = functions.get_ans(ser)
 while answer != "$DONE;":
     answer = functions.get_ans(ser)
-functions.move_pos(ser,0.828,team*0.68)
+functions.move_pos(ser,0.83,team*0.68)
 answer = functions.get_ans(ser)
 while answer != "$DONE;":
     answer = functions.get_ans(ser)
@@ -104,14 +105,15 @@ functions.move_speed(ser,0.1,0)
 sleep(0.5)
 functions.set_y(ser,team*0.71)
 sleep(0.01)
-functions.move_pos(ser,0.828,team*0.712)
+functions.move_pos(ser,0.83,team*0.712)
 functions.catch(ser)
 sleep(1.2)
 ### functions.set_acc(ser,0.2,6,0.3)	###########################
 functions.set_speed(ser,0.2)
 functions.set_speed_ang(ser,2)
+
 ### Recul
-functions.move_push(ser,0.828,team*0.50,0.1)
+functions.move_push(ser,0.83,team*0.50,0.1)
 answer = functions.get_ans(ser)
 while answer != "$DONE;":
     answer = functions.get_ans(ser)
@@ -121,6 +123,7 @@ functions.move_push(ser,0.35,team*(0.1),0.2)
 answer = functions.get_ans(ser)
 while answer != "$DONE;":
     answer = functions.get_ans(ser)
+	
 functions.move_push(ser,0.60,team*(-0.16),0.2)
 answer = functions.get_ans(ser)
 while answer != "$DONE;":
@@ -138,8 +141,10 @@ while answer != "$DONE;":
 functions.open_bras(ser)
 sleep(1)
 ### functions.set_acc(ser,0,0,0)  ### contraintes d'acceleration par defaut
+functions.set_speed(ser,0)
+functions.set_speed_ang(ser,0)
 
-functions.move_push(ser,0.72,team*(-0.8),0.2)
+functions.move_push(ser,0.72,team*(-0.8),0.2)			############################
 answer = functions.get_ans(ser)
 while answer != "$DONE;":
         answer = functions.get_ans(ser)
@@ -147,8 +152,9 @@ functions.close_bras(ser)
 functions.move_push(ser,0.72,team*(-0.8),0)
 answer = functions.get_ans(ser)
 while answer != "$DONE;":
-        answer = functions.get_ans(ser)
+        answer = functions.get_ans(ser)					############################
 
+### PRISE DES POISSONS
 functions.move_push(ser,0.3,team*(-0.88),0.1)
 answer = functions.get_ans(ser)
 while answer != "$DONE;":

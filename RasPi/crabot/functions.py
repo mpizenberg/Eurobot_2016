@@ -124,6 +124,24 @@ def ask_team(ser):
 		team = 0
 	return team
 
+def ask_conf(ser):
+	command = "$CONF;"
+	ser.write(command)
+	print (command)
+	s = get_ans(ser)
+	if s=="$CON1;":
+		configuration = 1
+	if s=="$CON2;":
+		configuration = 2
+	if s=="$CON3;":
+		configuration = 3
+	if s=="$CON4;":
+		configuration = 4
+	if s=="$CON5;":
+		configuration = 5
+	return configuration
+	
+	
 #listes des actions propres au robot
 
 def deploy_fish_av(ser): # deploie les bras pour la peche a l avant
