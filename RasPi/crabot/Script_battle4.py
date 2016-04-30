@@ -34,12 +34,12 @@ ReDo = 0;
 IsDone = Prise_Petit_Tas_De_Sable(ser,team,configuration)
 #	if IsDone > ReDo:
 #		ReDo = IsDone
-IsDone = Recaler_Coquillage(ser,team,configuration)
-IsDone = Fermeture_Portes(ser,team)
-IsDone = Prise_Grand_Tas_De_Sable(ser,team,configuration)
-IsDone = Prise_Poissons(ser,team)
-IsDone = Prise_Coquillages_1(ser,team,configuration)
-IsDone = Prise_Coquillages_2(ser,team,configuration)
+IsDone = Functions_battle.Recaler_Coquillage(ser,team,configuration)
+IsDone = Functions_battle.Fermeture_Portes(ser,team)
+IsDone = Functions_battle.Prise_Grand_Tas_De_Sable(ser,team,configuration)
+IsDone = Functions_battle.Prise_Poissons(ser,team)
+IsDone = Functions_battle.Prise_Coquillages_1(ser,team,configuration)
+IsDone = Functions_battle.Prise_Coquillages_2(ser,team,configuration)
 
 '''	
 if ReDo == 0:
