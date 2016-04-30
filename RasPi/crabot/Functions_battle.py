@@ -9,24 +9,19 @@ def Prise_Petit_Tas_De_Sable(ser,team,configuration):
 	functions.set_speed(ser,0.4)
 	####################################
 	#### PRISE DU MINI TAS DE SABLE ####
-	functions.move_push(ser,0.12,0,0.1)
+	
 	### Ouverture des bras
 	functions.open_bras(ser)
 	sleep(0.2)
 	### PRISE DU SABLE ET POSE DANS LA ZONE DE CONSTRUCTION
-	functions.move_push(ser,0.85,0,0.4)
-	answer = functions.get_ans(ser)
-	while answer != "$DONE;":
-		answer = functions.get_ans(ser)
-	functions.catch(ser)
-	functions.move_push(ser,1.12,0,0)
+	functions.move_push(ser,1.1,0,0)
 	answer = functions.get_ans(ser)
 	while answer != "$DONE;":
 		answer = functions.get_ans(ser)
 	functions.open_bras(ser)
 	functions.set_speed(ser,0)	### On enleve la limite de vitesse
 	sleep(0.2)
-	### FERMETURE DES BRAS
+	### RECUL
 	if configuration==1:
 		functions.move_push(ser,0.85,0,0.2)
 		answer = functions.get_ans(ser)
@@ -37,6 +32,8 @@ def Prise_Petit_Tas_De_Sable(ser,team,configuration):
 		answer = functions.get_ans(ser)
 		while answer != "$DONE;":
 			answer = functions.get_ans(ser)
+
+	### FERMETURE DES BRAS
 	functions.close_bras(ser)
 	print "Prise du Petit Tas fait : +16 points potentiels !"
 	return IsDone;
@@ -69,14 +66,14 @@ def Fermeture_Portes(ser,team):
 	functions.open_full_bras(ser)
 
 	### Fermeture des portes
-	functions.move_pos(ser,0.35,team*(0.8))
+	functions.move_pos(ser,0.35,team*(0.79))
 	answer = functions.get_ans(ser)
 	while answer != "$DONE;":
 		answer = functions.get_ans(ser)
 	#######################################   functions.move_speed(ser,0.2,0)
-	sleep(0.5)
+	sleep(0.2)
 	
-	### Recul & Fermeture des bras
+	### RECUL & FERMETURE DES BRAS
 	functions.move_push(ser,0.35,team*0.6,0.1)
 	answer = functions.get_ans(ser)
 	while answer != "$DONE;":
@@ -107,17 +104,19 @@ def Prise_Grand_Tas_De_Sable(ser,team,configuration):
 	while answer != "$DONE;":
 		answer = functions.get_ans(ser)
 
-	### Prise des blocs & Limite d acceleration
+	### CALAGE SUR LES BLOCS
 	functions.move_speed(ser,0.1,0)
 	sleep(0.5)
-	functions.set_y(ser,team*0.71)
+	functions.set_y(ser,team*0.7)
 	sleep(0.01)
-	functions.move_pos(ser,0.83,team*0.712)
+	functions.move_pos(ser,0.83,team*0.7)
+
+	### PRISE DES BLOCS
 	functions.catch(ser)
 	sleep(1.2)
 	### functions.set_acc(ser,0.2,6,0.3)	###########
 	functions.set_speed(ser,0.2)
-	functions.set_speed_ang(ser,2)
+	functions.set_speed_ang(ser,1)
 
 	### Recul
 	functions.move_push(ser,0.83,team*0.50,0.1)
@@ -140,7 +139,7 @@ def Prise_Grand_Tas_De_Sable(ser,team,configuration):
 		answer = functions.get_ans(ser)
 		
 	### LACHER DU SABLE
-	functions.rotate(ser,team*60)
+	functions.rotate(ser,team*50)
 	answer = functions.get_ans(ser)
 	while answer != "$DONE;":
 		answer = functions.get_ans(ser)
@@ -247,7 +246,7 @@ def Prise_Poissons(ser,team):
 		 answer = functions.get_ans(ser)
 	return IsDone;
 	
-def Prise_Coquillages_1(ser,,team,configuration):
+def Prise_Coquillages_1(ser,team,configuration):
 	IsDone = 0;
 	if configuration==1:		### CONFIGURATION 1 ###
 		functions.move_push(ser,0.35,team*(-0.85),0.1)
@@ -311,17 +310,17 @@ def Prise_Coquillages_1(ser,,team,configuration):
 		while answer != "$DONE;":
 			 answer = functions.get_ans(ser)
 
-		functions.move_push(ser,0.05,team*(-0.65),0.05)
+		functions.move_push(ser,0.07,team*(-0.65),0.05)
 		answer = functions.get_ans(ser)
 		while answer != "$DONE;":
 			 answer = functions.get_ans(ser)
-		functions.move_push(ser,0.05,team*(0.1),0.15)
+		functions.move_push(ser,0.07,team*(0.1),0.15)
 		answer = functions.get_ans(ser)
 		while answer != "$DONE;":
 			 answer = functions.get_ans(ser)
 	return IsDone;
 	
-def Prise_Coquillages_2(ser,team,configuration)
+def Prise_Coquillages_2(ser,team,configuration):
 	IsDone = 0;
 	### LA CONFIGURATION  A QU'UNE PRISE DE COQUILLAGES ###
 	

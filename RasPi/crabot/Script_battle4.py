@@ -31,7 +31,7 @@ ReDo = 0;
 ## DEBUT DE ROUTINE DE MATCH ##
 ###############################
 
-IsDone = Prise_Petit_Tas_De_Sable(ser,team,configuration)
+IsDone = Functions_battle.Prise_Petit_Tas_De_Sable(ser,team,configuration)
 #	if IsDone > ReDo:
 #		ReDo = IsDone
 IsDone = Functions_battle.Recaler_Coquillage(ser,team,configuration)
