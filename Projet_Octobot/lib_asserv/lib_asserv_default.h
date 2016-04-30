@@ -53,15 +53,15 @@
 
 // 2 PID lies a l'asserve en vitesse (delta: vitesse absolue, alpha: vitesse angulaire)
 #ifndef DEFAULT_PID_COEFS_DELTA // {kv, kp, ki, kd, mu_p}
-#define DEFAULT_PID_COEFS_DELTA {100, 40, 10, 5, 1} // crabot: {160,20,0,0.2}
+#define DEFAULT_PID_COEFS_DELTA {97.4983, 40, 30, 2, 1} // crabot: {160,20,0,0.2}
 #endif
 #ifndef DEFAULT_PID_COEFS_ALPHA // {kvt, kp, ki, kd, mu_p}
-#define DEFAULT_PID_COEFS_ALPHA {4.7817, 5, 4.78, 1.8, 1} // crabot: {32,8,0,0.8}
+#define DEFAULT_PID_COEFS_ALPHA {4.7817, 5, 4.78, 1.5, 1} // crabot: {32,8,0,0.8}
 #endif
 
 // valeurs max de l'intégrale en vitesse et vitesse angulaire
 #ifndef DEFAULT_PID_MAX_INT_DELTA
-#define DEFAULT_PID_MAX_INT_DELTA 0.9 // crabot: 4
+#define DEFAULT_PID_MAX_INT_DELTA 0.33 // crabot: 4
 #endif
 #ifndef DEFAULT_PID_MAX_INT_ALPHA
 #define DEFAULT_PID_MAX_INT_ALPHA 2.51 // crabot: 4
