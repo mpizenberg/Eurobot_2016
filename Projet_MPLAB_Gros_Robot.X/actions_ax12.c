@@ -43,63 +43,65 @@ void Add_Action_AX12(char Action_ToDo)
 
 void Faire_Actions_AX12(void)
 {
-    int num = Num_Action_Done;
     char Action_ToDo;
-    if (num != Num_Action_ToDo && !Delay_90_Over) {
-        num++;
-        if (num == NUM_ACTIONS_BUFFER) {
-            num = 0;
+    
+    if (Num_Action_Done != Num_Action_ToDo) {
+        Num_Action_Done++;
+        if (Num_Action_Done == NUM_ACTIONS_BUFFER) {
+            Num_Action_Done = 0;
         }
-        Action_ToDo = Tab_Actions_ToDo[num];
-        switch (Action_ToDo)
-        {
-            case AX12_INIT_AX12 :
-                Init_ax12();
-                break;
-            case AX12_DEPLOY_FISH_AV :
-                Deploy_fish_Av();
-                break;
-            case AX12_DEPLOY_FISH_AR :
-                Deploy_fish_Ar();
-                break;
-            case AX12_DEPLOY_FISH :
-                Deploy_fish();
-                break;
-            case AX12_MOVEUP_FISH_AV:
-                Moveup_fish_Av();
-                break;
-            case AX12_MOVEUP_FISH_AR:
-                Moveup_fish_Ar();
-                break;
-            case AX12_RLZ_FISH_AV:
-                Rlz_fish_Av();
-                break;
-            case AX12_RLZ_FISH_AR:
-                Rlz_fish_Ar();
-                break;
-            case AX12_RLZ_FISH:
-                Rlz_fish();
-                break;
-            case AX12_OPEN_BRAS:
-                Open_bras();
-                break;
-            case AX12_CATCH_BRAS:
-                Catch_bras();
-                break;
-            case AX12_OPENFULL_BRAS:
-                Openfull_bras();
-                break;
-            case AX12_CLOSE_BRAS:
-                Close_bras();
-                break;
-            case AX12_FUNNY_ACTION:
-                Funny_action();
-                break;
-            default :
-                printf("$FAIL;");
-                break;
+        Action_ToDo = Tab_Actions_ToDo[Num_Action_Done];
+        // on a le droit de faire des actions après le delais que si c'est Funny action 
+        if (!Delay_90_Over || (Action_ToDo == AX12_FUNNY_ACTION)) {
+            switch (Action_ToDo)
+            {
+                case AX12_INIT_AX12 :
+                    Init_ax12();
+                    break;
+                case AX12_DEPLOY_FISH_AV :
+                    Deploy_fish_Av();
+                    break;
+                case AX12_DEPLOY_FISH_AR :
+                    Deploy_fish_Ar();
+                    break;
+                case AX12_DEPLOY_FISH :
+                    Deploy_fish();
+                    break;
+                case AX12_MOVEUP_FISH_AV:
+                    Moveup_fish_Av();
+                    break;
+                case AX12_MOVEUP_FISH_AR:
+                    Moveup_fish_Ar();
+                    break;
+                case AX12_RLZ_FISH_AV:
+                    Rlz_fish_Av();
+                    break;
+                case AX12_RLZ_FISH_AR:
+                    Rlz_fish_Ar();
+                    break;
+                case AX12_RLZ_FISH:
+                    Rlz_fish();
+                    break;
+                case AX12_OPEN_BRAS:
+                    Open_bras();
+                    break;
+                case AX12_CATCH_BRAS:
+                    Catch_bras();
+                    break;
+                case AX12_OPENFULL_BRAS:
+                    Openfull_bras();
+                    break;
+                case AX12_CLOSE_BRAS:
+                    Close_bras();
+                    break;
+                case AX12_FUNNY_ACTION:
+                    Funny_action();
+                    break;
+                default :
+                    printf("$FAIL;");
+                    break;
+            }
         }
-        Num_Action_Done = num;
     }
 }
 

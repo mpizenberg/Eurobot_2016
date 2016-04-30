@@ -21,6 +21,7 @@ void Timer_ms_Init(void)
                 T3_SOURCE_INT, 625 ); // 625 pour 1ms
     // configuration des interruptions
     ConfigIntTimer3(T3_INT_PRIOR_2 & T3_INT_ON);
+    //IPC2bits.T3IP = 7
 	
 }
 
@@ -69,6 +70,7 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
             Active_Delay_90 = 1;
             Delay_90 = 0;
             SendStart();
+            IPC2bits.T3IP = 7;  // passage de cette IT en haute priorité, pour ne pas perdre le compte
             //Debug_Asserv_Start();
             //Debug_PWM_Start();
         }
@@ -77,6 +79,7 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
             Etat_Laisse = 1;
             Active_Delay_90 = 0;
             Delay_90 = 0;
+            IPC2bits.T3IP = 2;
         }
     }
     
@@ -98,9 +101,12 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
         Delay_90_Over = 0;
     } else if (Delay_90 == 90000) {
         Delay_90 ++;
-        SendEnd();
-        Funny_action();
+        IPC2bits.T3IP = 2;
         Delay_90_Over = 1;
+    } else if (Delay_90 == 90001) {
+        Delay_90 ++;
+        SendEnd();
+        Add_Action_AX12(AX12_FUNNY_ACTION);
     } else {
         motion_free();
         Delay_90_Over = 1;

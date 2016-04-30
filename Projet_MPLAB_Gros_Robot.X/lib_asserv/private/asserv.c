@@ -372,9 +372,9 @@ int Sens_Vitesse_Deplacement (void)
 {
     float valf = speed_asserv.speed_order.v;
     
-    if (valf > 0.05)
+    if (valf > 0.03)
         return 1;
-    else if (valf < -0.05)
+    else if (valf < -0.03)
         return -1;
     else 
         return 0;

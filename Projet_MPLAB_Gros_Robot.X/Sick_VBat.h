@@ -12,8 +12,8 @@
 *			      7robot.fr
 */
 
-#ifndef SICK_H
-#define	SICK_H
+#ifndef __SICK_H
+#define	__SICK_H
 
 /******************************************************************************/
 /* User Level #define Macros                                                  */
@@ -27,9 +27,19 @@
 #define AN_CH_SICK_AVANT_DROIT    5 //AN5		=> // an_sick 3
 #define AN_CH_SICK_AVANT_GAUCHE   4 //AN4		=> // an_sick 4
 #define AN_CH_V_BAT               0
-
-
 */
+
+#define SICK1_IS_FRONT  0
+#define SICK2_IS_FRONT  0
+#define SICK3_IS_FRONT  1
+#define SICK4_IS_FRONT  1
+#define SICK1_IS_BACK   1
+#define SICK2_IS_BACK   1
+#define SICK3_IS_BACK   0
+#define SICK4_IS_BACK   0
+
+
+
 
 #define AN_CH_SICK_1   7 //AN7		=> // an_sick 1  //
 #define AN_CH_SICK_2   6 //AN6		=> // an_sick 3  //
@@ -66,14 +76,18 @@
 
 void InitSick_VBat();
 
-uint16_t Get_Sick(uint8_t Sick_Voulu);
-uint16_t Get_Sick_Sector (uint8_t Sick_Voulu);
+unsigned int Get_Sick(char Sick_Voulu);
+char Get_Sick_Sector (char Sick_Voulu);
 
 void Start_Stop_Debug_Sick(void);
 
-extern volatile uint16_t V_Bat;
+extern volatile unsigned int V_Bat;
 
 void Choose_Enabled_Sicks(char Sicks_En);
+
+void New_Order_Sick_Handling(void);
+
+void Gestion_Sick_Every_few_ms(void);
 
 #endif	/* SICK_H */
 
