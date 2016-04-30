@@ -106,10 +106,10 @@ functions.set_y(ser,team*0.71)
 sleep(0.01)
 functions.move_pos(ser,0.828,team*0.712)
 functions.catch(ser)
-sleep(0.7)
+sleep(1.2)
 ### functions.set_acc(ser,0.2,6,0.3)	###########################
-functions.set_speed(ser,0.2)	### AJOUTER LIMITE VITESSE DE ROTATION !
-
+functions.set_speed(ser,0.2)
+functions.set_speed_ang(ser,2)
 ### Recul
 functions.move_push(ser,0.828,team*0.50,0.1)
 answer = functions.get_ans(ser)
@@ -252,19 +252,11 @@ functions.move_push(ser,0.15,team*(-0.7),0)
 answer = functions.get_ans(ser)
 while answer != "$DONE;":
      answer = functions.get_ans(ser)
-functions.move_push(ser,0.15,team*(0.05),0.1)
+functions.move_push(ser,0.12,team*(0.05),0.25)
 answer = functions.get_ans(ser)
 while answer != "$DONE;":
      answer = functions.get_ans(ser)
 
-functions.move_push(ser,0.5,team*(-0.8),0.15)
-answer = functions.get_ans(ser)
-while answer != "$DONE;":
-     answer = functions.get_ans(ser)
-functions.move_push(ser,2.2,team*(-0.85),0.1)
-answer = functions.get_ans(ser)
-while answer != "$DONE;":
-     answer = functions.get_ans(ser)
 
 
 ser.close()

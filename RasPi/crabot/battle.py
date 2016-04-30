@@ -40,7 +40,7 @@ functions.move_push(ser,0.85,0,0)
 answer = functions.get_ans(ser)
 while answer != "$DONE;":
     answer = functions.get_ans(ser)
-functions.set_speed(ser,0)	### On enleve la limite de vitesse
+functions.set_speed(ser,0.8)	### On enleve la limite de vitesse
 ###################################
 #### FERMETURE DES PORTES #########
 ### FERMETURE DES BRAS

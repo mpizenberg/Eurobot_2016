@@ -59,10 +59,35 @@ def move_push(ser,x,y,d):
 	ser.write(command)
 	print(command)
 
+def set_x(ser,x):
+	command ="$SETX,"+str(x)+";"
+	ser.write(command)
+	print ("MAJ de coordonnee x="+str(x))
+
+def set_y(ser,y):
+        command ="$SETY,"+str(y)+";"
+        ser.write(command)
+        print ("MAJ de coordonnee y="+str(y))
+
+def set_t(ser,t):
+        command ="$SETA,"+str(t)+";"
+        ser.write(command)
+        print ("MAJ de coordonnee angle="+str(t))
+
 def set_speed(ser,max):
 	command ="$VMAX,"+str(max)+";"
 	ser.write(command)
 	print ("Changement de vmax :"+command)
+
+def set_speed_ang(ser,max):
+        command ="$VTMA,"+str(max)+";"
+        ser.write(command)
+        print ("Changement de vt_max :"+command)
+
+def set_acc(ser,al,at,a):
+	command ="$AMAX,"+str(al)+","+str(at)+","+str(a)+";"
+	ser.write(command)
+	print ("Chamgement d'accelerations max : "+str(al)+" ,"+str(at)+" ,"+str(a)+";")
 
 def move_speed(ser,v,vt):
 	vt = 6.28318*vt/360 #conversion degres radians
