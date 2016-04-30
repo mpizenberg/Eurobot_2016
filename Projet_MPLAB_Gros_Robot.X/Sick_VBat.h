@@ -21,24 +21,15 @@
 
 #define NUMBER_OF_SICK 4
 #define NUMBER_OF_POINTS_MOY_SICK 16
-/*
-#define AN_CH_SICK_ARRIERE_DROIT  7 //AN7		=> // an_sick 1
-#define AN_CH_SICK_ARRIERE_GAUCHE 6 //AN6		=> // an_sick 2
-#define AN_CH_SICK_AVANT_DROIT    5 //AN5		=> // an_sick 3
-#define AN_CH_SICK_AVANT_GAUCHE   4 //AN4		=> // an_sick 4
-#define AN_CH_V_BAT               0
-*/
 
-#define SICK1_IS_FRONT  0
+#define SICK1_IS_FRONT  1
 #define SICK2_IS_FRONT  0
-#define SICK3_IS_FRONT  1
+#define SICK3_IS_FRONT  0
 #define SICK4_IS_FRONT  1
-#define SICK1_IS_BACK   1
+#define SICK1_IS_BACK   0
 #define SICK2_IS_BACK   1
-#define SICK3_IS_BACK   0
+#define SICK3_IS_BACK   1
 #define SICK4_IS_BACK   0
-
-
 
 
 #define AN_CH_SICK_1   7 //AN7		=> // an_sick 1  //

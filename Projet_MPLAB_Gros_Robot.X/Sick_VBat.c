@@ -355,15 +355,15 @@ void Gestion_Sick_Every_few_ms(void)
     
     uint8_t Blocked_Front, Blocked_Back;
     // sector 0 = obstacle detecté, sector 1 = "sûr
-    Blocked_Front = (Sick_Sector[0] && SICK1_IS_FRONT && Motion_Free_Activ_Sick[0]) ||
-                    (Sick_Sector[1] && SICK2_IS_FRONT && Motion_Free_Activ_Sick[1]) ||
-                    (Sick_Sector[2] && SICK3_IS_FRONT && Motion_Free_Activ_Sick[2]) ||
-                    (Sick_Sector[3] && SICK4_IS_FRONT && Motion_Free_Activ_Sick[3]);
+    Blocked_Front = ((!Sick_Sector[0]) && SICK1_IS_FRONT && Motion_Free_Activ_Sick[0]) ||
+                    ((!Sick_Sector[1]) && SICK2_IS_FRONT && Motion_Free_Activ_Sick[1]) ||
+                    ((!Sick_Sector[2]) && SICK3_IS_FRONT && Motion_Free_Activ_Sick[2]) ||
+                    ((!Sick_Sector[3]) && SICK4_IS_FRONT && Motion_Free_Activ_Sick[3]);
     
-    Blocked_Back  = (Sick_Sector[0] && SICK1_IS_BACK && Motion_Free_Activ_Sick[0]) ||
-                    (Sick_Sector[1] && SICK2_IS_BACK && Motion_Free_Activ_Sick[1]) ||
-                    (Sick_Sector[2] && SICK3_IS_BACK && Motion_Free_Activ_Sick[2]) ||
-                    (Sick_Sector[3] && SICK4_IS_BACK && Motion_Free_Activ_Sick[3]);
+    Blocked_Back  = ((!Sick_Sector[0]) && SICK1_IS_BACK && Motion_Free_Activ_Sick[0]) ||
+                    ((!Sick_Sector[1]) && SICK2_IS_BACK && Motion_Free_Activ_Sick[1]) ||
+                    ((!Sick_Sector[2]) && SICK3_IS_BACK && Motion_Free_Activ_Sick[2]) ||
+                    ((!Sick_Sector[3]) && SICK4_IS_BACK && Motion_Free_Activ_Sick[3]);
     
     Blocked_Front = Blocked_Front && ((Sens_Vitesse_Deplacement() == 1)  || Old_Blocked_Front);
     Blocked_Back  = Blocked_Back  && ((Sens_Vitesse_Deplacement() == -1) || Old_Blocked_Back);
