@@ -2,11 +2,13 @@
 
 ####
 # CONFIGURATIONS
+# 0 -> Configuration de recalage, a faire
 # 1 -> OK
 # 2 -> OK Ameliorable
 # 3 -> OK
 # 4 -> FIN A VERIFIER/REFAIRE
 # 5 -> FIN A AJUSTER
+# 6 -> Script d'homologation
 ####
 import serial
 import functions
