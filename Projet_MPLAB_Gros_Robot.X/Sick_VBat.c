@@ -122,7 +122,7 @@ void InitSick_VBat()
     AD1PCFGLbits.PCFG0 = 0;
 
 
-
+    
 
     //Configuration du Timer 5, pour l'ADC
     // OpenTimer5(T5_ON & T5_GATE_OFF & T5_PS_1_256 & T5_SOURCE_INT, 15625); from 2014
@@ -140,6 +140,15 @@ void InitSick_VBat()
     IPC3bits.AD1IP = 2;      //Et les priorités (ici prio = 2)
     AD1CON1bits.SAMP = 0;
     AD1CON1bits.ADON = 1;    // Turn on the A/D converter
+    
+    
+    // Soft IT pour la gestion des secteurs
+    // qui prend l'IT SPI1 Erreur
+    IFS0bits.SPI1EIF = 0;   
+    IEC0bits.SPI1EIE = 1;
+    IPC2bits.SPI1EIP = 1;   // pas tres prioritaire
+    //_SPI1ErrInterrupt
+    
 }
 
 void OnSickThreshold(unsigned char id, unsigned int threshold_cons)
@@ -273,7 +282,7 @@ void __attribute__ ((interrupt, auto_psv)) _ADC1Interrupt(void)
     _AD1IF = 0;        //Clear the interrupt flag
  }
 
-unsigned int Get_Sick(char Sick_Voulu)
+unsigned int Get_Sick(int Sick_Voulu)
 {
     Sick_Voulu --;
     if (Sick_Voulu < NUMBER_OF_SICK) {
@@ -285,7 +294,7 @@ unsigned int Get_Sick(char Sick_Voulu)
 
 // return 1 si rien devant
 // return 0 si detection
-char Get_Sick_Sector (char Sick_Voulu)
+char Get_Sick_Sector (int Sick_Voulu)
 {
     Sick_Voulu --;
     if (Sick_Voulu < NUMBER_OF_SICK) {
@@ -304,9 +313,9 @@ void Start_Stop_Debug_Sick(void)
     }
 }
 
-void Choose_Enabled_Sicks(char Sicks_En)
+void Choose_Enabled_Sicks(int Sicks_En)
 {
-    char i;
+    int i;
     
     for (i = 0; i < 4; i++) {
         if (Sicks_En & (1<<i)) {
@@ -315,7 +324,7 @@ void Choose_Enabled_Sicks(char Sicks_En)
             Motion_Free_Activ_Sick[i] = 0;
         }
     }
-}
+} 
 
 void New_Order_Sick_Handling(void)
 {   
@@ -323,6 +332,18 @@ void New_Order_Sick_Handling(void)
     Old_Blocked_Front = 0;
     Old_Blocked_Back = 0;
 }
+
+void Must_do_Gestion_Sick_Sector(void)
+{
+    IFS0bits.SPI1EIF = 1;   
+}
+
+void __attribute__ ((interrupt, auto_psv)) _SPI1ErrInterrupt(void)
+{
+    Gestion_Sick_Every_few_ms();
+    IFS0bits.SPI1EIF = 0;   
+}
+
 
 void Gestion_Sick_Every_few_ms(void)
 {/*
@@ -344,20 +365,24 @@ void Gestion_Sick_Every_few_ms(void)
                     (Sick_Sector[2] && SICK3_IS_BACK && Motion_Free_Activ_Sick[2]) ||
                     (Sick_Sector[3] && SICK4_IS_BACK && Motion_Free_Activ_Sick[3]);
     
-    Blocked_Front = Blocked_Front && ((Is_Asserv_Mode_Pos() && (Sens_Vitesse_Deplacement == 1))  || Old_Blocked_Front);
-    Blocked_Back  = Blocked_Back  && ((Is_Asserv_Mode_Pos() && (Sens_Vitesse_Deplacement == -1)) || Old_Blocked_Back);
+    Blocked_Front = Blocked_Front && ((Sens_Vitesse_Deplacement() == 1)  || Old_Blocked_Front);
+    Blocked_Back  = Blocked_Back  && ((Sens_Vitesse_Deplacement() == -1) || Old_Blocked_Back);
     
     if (Blocked_Front && !Old_Blocked_Front) {
+        if (Is_Asserv_Mode_Pos())
+            Can_Restart_Order = 1;
         motion_free();
-        Can_Restart_Order = 1;
     } else if (!Blocked_Front && Old_Blocked_Front && Can_Restart_Order) {
+        Can_Restart_Order = 0;
         load_last_order();
     }
     
     if (Blocked_Back && !Old_Blocked_Back) {
+        if (Is_Asserv_Mode_Pos())
+            Can_Restart_Order = 1;
         motion_free();
-        Can_Restart_Order = 1;
     } else if (!Blocked_Back && Old_Blocked_Back && Can_Restart_Order) {
+        Can_Restart_Order = 0;
         load_last_order();
     }
     

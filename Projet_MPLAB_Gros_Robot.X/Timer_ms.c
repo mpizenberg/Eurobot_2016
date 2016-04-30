@@ -55,6 +55,7 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
     static uint8_t Etat_Laisse = 0;
     static uint8_t Count_Laisse = 0;
     uint8_t Etat_Pin_Laisse = PIN_LAISSE;
+    static char count_Sick = 10;
     
     if (Etat_Pin_Laisse) {
         if (Count_Laisse < 30)
@@ -83,6 +84,12 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
         }
     }
     
+    count_Sick--;
+    if (!count_Sick) {
+        Must_do_Gestion_Sick_Sector();
+        count_Sick = 10;
+    }
+            
     if (Delay_TimeOut_AX12) {
         Delay_TimeOut_AX12 --;
     }

@@ -76,16 +76,18 @@
 
 void InitSick_VBat();
 
-unsigned int Get_Sick(char Sick_Voulu);
-char Get_Sick_Sector (char Sick_Voulu);
+unsigned int Get_Sick(int Sick_Voulu);
+char Get_Sick_Sector (int Sick_Voulu);
 
 void Start_Stop_Debug_Sick(void);
 
 extern volatile unsigned int V_Bat;
 
-void Choose_Enabled_Sicks(char Sicks_En);
+void Choose_Enabled_Sicks(int Sicks_En);
 
 void New_Order_Sick_Handling(void);
+
+void Must_do_Gestion_Sick_Sector(void);
 
 void Gestion_Sick_Every_few_ms(void);
 
