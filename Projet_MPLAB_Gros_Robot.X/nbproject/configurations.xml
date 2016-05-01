@@ -25,6 +25,7 @@
       <itemPath>ultrason.h</itemPath>
       <itemPath>Sick_VBat.h</itemPath>
       <itemPath>Timer_Asserv.h</itemPath>
+      <itemPath>Gestion_IO_AU_Config.h</itemPath>
       <itemPath>Timer_ms.h</itemPath>
       <itemPath>I2C.h</itemPath>
     </logicalFolder>
@@ -52,6 +53,7 @@
       <itemPath>Timer_Asserv.c</itemPath>
       <itemPath>Timer_ms.c</itemPath>
       <itemPath>Pragma_Config.c</itemPath>
+      <itemPath>Gestion_IO_AU_Config.c</itemPath>
       <itemPath>I2C.c</itemPath>
       <itemPath>user.c</itemPath>
       <itemPath>interrupts.c</itemPath>
