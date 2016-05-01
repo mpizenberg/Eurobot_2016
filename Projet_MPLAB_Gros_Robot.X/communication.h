@@ -13,6 +13,7 @@ void SendStart(void);
 void SendEnd (void);
 void SendFailAX12(void);
 void SendTeam (int team);
+void SendNum_Config (void);
 
 void DetectSick(int channel);
 void ReleaseSick (int channel);

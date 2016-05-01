@@ -449,9 +449,9 @@ void SelectActionFromPi()
         if (val8 >= NUMBER_OF_SICK) {
                 val8 = 0;
         }
-        __delay_ms(10);
+        //__delay_ms(10);
         SendSick_Status(val8);
-        __delay_ms(10);
+        //__delay_ms(10);
     }
 
     // DBSI			// start/stop debug sick
@@ -498,6 +498,13 @@ void SelectActionFromPi()
     && ReceivedStringFromPi[3]=='A' 
     && ReceivedStringFromPi[4]=='M')
     {   SendTeam(PIN_TEAM); }
+    
+    // CONF
+    if(ReceivedStringFromPi[1]=='C' 
+    && ReceivedStringFromPi[2]=='O' 
+    && ReceivedStringFromPi[3]=='N' 
+    && ReceivedStringFromPi[4]=='F')
+    {   SendNum_Config(); }
 
     
 		
@@ -507,9 +514,9 @@ void SelectActionFromPi()
     && ReceivedStringFromPi[3]=='A' 
     && ReceivedStringFromPi[4]=='T')
     {
-        __delay_ms(10);
+        //__delay_ms(10);
         printf("$VBAT,%d;", V_Bat);
-        __delay_ms(10);
+        //__delay_ms(10);
     }
     
     // DBUS			// start/stop debug ultrason
@@ -557,26 +564,12 @@ void SendFailAX12(void)
 
 void DetectSick(int channel)
 {
-    //__delay_ms(2);
-    switch(channel){
-        case 1 : printf("$DSI1;");  break;
-        case 2 : printf("$DSI2;");  break;
-        case 3 : printf("$DSI3;");  break;
-        case 4 : printf("$DSI4;");  break;
-    }
-   //__delay_ms(2);
+    printf("$DSI%d;", channel);
 }
 
 void ReleaseSick (int channel)
 {
-    //__delay_ms(50);
-	switch(channel){
-        case 1 : printf("$RSI1;");  break;
-        case 2 : printf("$RSI2;");  break;
-        case 3 : printf("$RSI3;");  break;
-        case 4 : printf("$RSI4;");  break;
-    }
-    //__delay_ms(50);
+    printf("$RSI%d;", channel);
 }
 
 void SendSick_Status(int val8)
@@ -611,4 +604,9 @@ void SendTeam (int team)
         case 1 : printf("$VIOL;");  break;
     }
     //__delay_ms(50);
+}
+
+void SendNum_Config (void)
+{
+    printf ("$CON%d;", Get_Number_Config());
 }
