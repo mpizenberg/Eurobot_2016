@@ -48,10 +48,5 @@ while 1:
 	elif configuration == 6:		
 		functions_macro.Homologation(ser,team)
 
-	if IsDone == -1:
-		functions.reset_pic()
-		functions.init_ax(ser)
-
-
 ser.close()
 

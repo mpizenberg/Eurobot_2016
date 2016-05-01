@@ -14,7 +14,8 @@ def get_ans(ser):
 		chaine += s
 		s=ser.read(1)
 	chaine += s
-	chaine = chaine[-6:] ### Recuperation des 6 derniers caracteres pour eviter le caca de debut de reponse parfois...
+	#if chaine=="$CNCL;":
+		### REBOOT PI
 	if chaine=="$DSI0;":
 		Sicks+=1
 	elif chaine=="$DSI1;":
@@ -47,6 +48,14 @@ def reset_pic():
 	GPIO.output(17, False)
 	sleep(6) # temps d'init du pic
 
+def enable_sicks(ser,sicks):
+	### valeur en hexa de 0 a F.
+	#   0 tous desactives F tous actives
+	#   9 desactive les sicks avant
+	### 6 desactive les sicks arriere
+	command = "$ENSI,"+sicks+";"
+	ser.write(command)
+	print(command)
 
 def move_pos(ser,x,y):
 	angle="0"
@@ -71,7 +80,7 @@ def set_y(ser,y):
         print ("MAJ de coordonnee y="+str(y))
 
 def set_t(ser,angle):
-		angle = 6.28318*angle/360	#conversions degres a radians par seconde
+	angle = 6.28318*angle/360	#conversions degres a radians par seconde
         command ="$SETA,"+str(angle)+";"
         ser.write(command)
         print ("MAJ de coordonnee angle="+str(angle))
@@ -131,8 +140,10 @@ def ask_conf(ser):
 	ser.write(command)
 	print (command)
 	s = get_ans(ser)
-	if s=="$CON1;":
-		configuration = 1
+	if s=="$CON0;":
+		configuration = 0
+        elif s=="$CON1;":
+                configuration = 1
 	elif s=="$CON2;":
 		configuration = 2
 	elif s=="$CON3;":
@@ -141,11 +152,12 @@ def ask_conf(ser):
 		configuration = 4
 	elif s=="$CON5;":
 		configuration = 5
-	elif s=="$CON5;":
+	elif s=="$CON6;":
                 configuration = 6
-	elif s=="$CON5;":
+	elif s=="$CON7;":
                 configuration = 7
-	else configuration = -1
+	else :
+		configuration = -1
 	return configuration
 	
 	

@@ -2,7 +2,7 @@
 
 import serial
 import functions
-import Functions_battle
+import functions_macro
 from time import sleep
 
 ser = serial.Serial("/dev/ttyAMA0",57600)
@@ -31,15 +31,14 @@ ReDo = 0;
 ## DEBUT DE ROUTINE DE MATCH ##
 ###############################
 
-IsDone = Functions_battle.Prise_Petit_Tas_De_Sable(ser,team,configuration)
+functions_macro.Prise_Petit_Tas_De_Sable(ser,team,configuration)
 #	if IsDone > ReDo:
-#		ReDo = IsDone
-IsDone = Functions_battle.Recaler_Coquillage(ser,team,configuration)
-IsDone = Functions_battle.Fermeture_Portes(ser,team)
-IsDone = Functions_battle.Prise_Grand_Tas_De_Sable(ser,team,configuration)
-IsDone = Functions_battle.Prise_Poissons(ser,team)
-IsDone = Functions_battle.Prise_Coquillages_1(ser,team,configuration)
-IsDone = Functions_battle.Prise_Coquillages_2(ser,team,configuration)
+functions_macro.Recaler_Coquillage(ser,team,configuration)
+functions_macro.Fermeture_Portes(ser,team)
+functions_macro.Prise_Grand_Tas_De_Sable(ser,team,configuration)
+functions_macro.Prise_Poissons(ser,team)
+functions_macro.Prise_Coquillages_1(ser,team,configuration)
+functions_macro.Prise_Coquillages_2(ser,team,configuration)
 
 '''	
 if ReDo == 0:
