@@ -125,22 +125,6 @@ void SelectActionFromPi()
             motion_pos(MOVE);
         }
         
-        // ANGL
-        if(ReceivedStringFromPi[1]=='A' 
-		&& ReceivedStringFromPi[2]=='N' 
-		&& ReceivedStringFromPi[3]=='G' 
-		&& ReceivedStringFromPi[4]=='L')
-        {
-            cursorPosition=6;
-
-            for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=';';floatLength++); // Return the number of char taken by the float in the command line
-            ReceivedStringFromPi[cursorPosition+floatLength] = 0;
-            ANGLE = atof(&ReceivedStringFromPi[cursorPosition]);
-            ReceivedStringFromPi[cursorPosition+floatLength] = ';';
-
-            motion_angle(ANGLE);
-        }
-        
         // PUSH
         if(ReceivedStringFromPi[1]=='P' 
 		&& ReceivedStringFromPi[2]=='U' 
@@ -192,8 +176,26 @@ void SelectActionFromPi()
             VITESSE.vt = atof(&ReceivedStringFromPi[cursorPosition]);
             ReceivedStringFromPi[cursorPosition+floatLength] = ';';
             
-            motion_linear_speed(VITESSE.v);
+            
+            motion_speed(VITESSE);
         }
+
+        // ANGL
+        if(ReceivedStringFromPi[1]=='A' 
+		&& ReceivedStringFromPi[2]=='N' 
+		&& ReceivedStringFromPi[3]=='G' 
+		&& ReceivedStringFromPi[4]=='L')
+        {
+            cursorPosition=6;
+
+            for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=';';floatLength++); // Return the number of char taken by the float in the command line
+            ReceivedStringFromPi[cursorPosition+floatLength] = 0;
+            ANGLE = atof(&ReceivedStringFromPi[cursorPosition]);
+            ReceivedStringFromPi[cursorPosition+floatLength] = ';';
+
+            motion_angle(ANGLE);
+        }
+        
     }
     
     // FREE
