@@ -131,14 +131,19 @@ def ask_conf(ser):
 	s = get_ans(ser)
 	if s=="$CON1;":
 		configuration = 1
-	if s=="$CON2;":
+	elif s=="$CON2;":
 		configuration = 2
-	if s=="$CON3;":
+	elif s=="$CON3;":
 		configuration = 3
-	if s=="$CON4;":
+	elif s=="$CON4;":
 		configuration = 4
-	if s=="$CON5;":
+	elif s=="$CON5;":
 		configuration = 5
+	elif s=="$CON5;":
+                configuration = 6
+	elif s=="$CON5;":
+                configuration = 7
+	else configuration = -1
 	return configuration
 	
 	
