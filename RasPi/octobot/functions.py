@@ -14,6 +14,8 @@ def get_ans(ser):
 		chaine += s
 		s=ser.read(1)
 	chaine += s
+	#if chaine=="$CNCL;":
+		# Reboot de la Pi
 	if chaine=="$DSI0;":
 		Sicks+=1
 	elif chaine=="$DSI1;":
@@ -46,7 +48,15 @@ def reset_pic():
 	GPIO.output(17, False)
 	sleep(6) # temps d'init du pic
 
-
+def enable_US(ser,ultrasons):
+	### valeur en hexa de 0 a F.
+	#   0 tous desactives F tous actives
+	#   9 desactive les sicks avant
+	### 6 desactive les sicks arriere
+	command = "$ENUS,"+ultrasons+";"
+	ser.write(command)
+	print(command)
+	
 def move_pos(ser,x,y):
 	angle="0"
 	command = "$MOVE,"+str(x)+","+str(y)+","+angle+";"
@@ -59,10 +69,31 @@ def move_push(ser,x,y,d):
 	ser.write(command)
 	print(command)
 
+def set_x(ser,x):
+	command ="$SETX,"+str(x)+";"
+	ser.write(command)
+	print ("MAJ de coordonnee x="+str(x))
+
+def set_y(ser,y):
+        command ="$SETY,"+str(y)+";"
+        ser.write(command)
+        print ("MAJ de coordonnee y="+str(y))
+
+def set_t(ser,angle):
+	angle = 6.28318*angle/360	#conversions degres a radians par seconde
+        command ="$SETA,"+str(angle)+";"
+        ser.write(command)
+        print ("MAJ de coordonnee angle="+str(angle))
+
 def set_speed(ser,max):
 	command ="$VMAX,"+str(max)+";"
 	ser.write(command)
 	print ("Changement de vmax :"+command)
+
+def set_speed_ang(ser,max):
+	command ="$VTMA,"+str(max)+";"
+	ser.write(command)
+	print ("Changement de vt_max :"+command)
 
 def move_speed(ser,v,vt):
 	vt = 6.28318*vt/360 #conversion degres radians
