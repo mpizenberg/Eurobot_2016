@@ -7,7 +7,8 @@
 #include "../lib_asserv_default.h"
 #include <math.h>
 #include "../../communication.h"
-#include "../../Sick_VBat.h"
+#include "../../Evitement.h"
+
 
 /******************************    Variables    *******************************/
 volatile float motion_initialized = 0;
@@ -52,6 +53,7 @@ void reset_last_order(Position pos)
     lastPosOrder.pos = pos;
     lastPosOrder.stop_distance = 0;
 }
+
 // assigner des valeurs à la position (x, y et theta)
 void set_position(Position pos){motionState.pos = pos;}
 void set_position_x(float x){motionState.pos.x = x;}
@@ -159,7 +161,7 @@ void motion_pos(Position pos){
     lastPosOrder.mode = POSITION_ORDER;
     lastPosOrder.pos = pos;
     lastPosOrder.stop_distance = DEFAULT_STOP_DISTANCE;
-    New_Order_Sick_Handling();
+    New_Order_Evitement_Handling();
     
     set_asserv_pos_mode();
 }
@@ -184,7 +186,7 @@ void motion_push(Position pos, float stop_distance){
         lastPosOrder.mode = POSITION_ORDER;
         lastPosOrder.pos = pos;
         lastPosOrder.stop_distance = stop_distance;
-        New_Order_Sick_Handling();
+        New_Order_Evitement_Handling();
     // sinon on remplace l'ordre suivant par celui là
     } else {
         motionSequence.stop_distance[!motionSequence.in_progress] = stop_distance;
@@ -199,7 +201,7 @@ void motion_speed(Speed speed){
     speed_asserv.speed_order = speed;
 
     lastPosOrder.mode = NO_ORDER;
-    New_Order_Sick_Handling();
+    New_Order_Evitement_Handling();
     
     set_asserv_speed_mode();
 }
@@ -209,7 +211,7 @@ void motion_angle(float abs_angle){
     angle_asserv.angle_order = abs_angle;
 
     lastPosOrder.mode = NO_ORDER;
-    New_Order_Sick_Handling();
+    New_Order_Evitement_Handling();
     
     set_asserv_angle_mode();
 }

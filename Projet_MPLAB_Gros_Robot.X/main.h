@@ -10,6 +10,7 @@
 #include "motor.h"
 #include "uart.h"
 #include "Sick_VBat.h"
+#include "Evitement.h"
 #include "ultrason.h"
 #include "Gestion_IO_AU_Config.h"
 #include "actions_ax12.h"

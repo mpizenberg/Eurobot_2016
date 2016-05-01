@@ -43,13 +43,14 @@ void Init_All(int callback){
     __delay_ms(200);
     Init_PWM();
     Init_QEI();
-    Init_IT_AX12();
+    motion_init(); // start asserv
     Gestion_IO_AU_Config_Init();
     //I2C_Init();
     InitSick_VBat();
-    motion_init(); // start asserv
-    // Init_Ultrasons();
+    // Init_Ultrasons();  // ils ne sont pas là sur crabot..
+    Init_Evitement();
     __delay_ms(500);
+    Init_IT_AX12();
     Init_ax12();
     
     

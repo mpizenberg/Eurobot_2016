@@ -74,13 +74,5 @@ void Start_Stop_Debug_Sick(void);
 
 extern volatile unsigned int V_Bat;
 
-void Choose_Enabled_Sicks(int Sicks_En);
-
-void New_Order_Sick_Handling(void);
-
-void Must_do_Gestion_Sick_Sector(void);
-
-void Gestion_Sick_Every_few_ms(void);
-
 #endif	/* SICK_H */
 
