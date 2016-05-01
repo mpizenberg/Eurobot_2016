@@ -14,6 +14,7 @@ def get_ans(ser):
 		chaine += s
 		s=ser.read(1)
 	chaine += s
+	chaine = chaine[-6:] ### Recuperation des 6 derniers caracteres pour eviter le caca de debut de reponse parfois...
 	if chaine=="$DSI0;":
 		Sicks+=1
 	elif chaine=="$DSI1;":
@@ -69,10 +70,11 @@ def set_y(ser,y):
         ser.write(command)
         print ("MAJ de coordonnee y="+str(y))
 
-def set_t(ser,t):
-        command ="$SETA,"+str(t)+";"
+def set_t(ser,angle):
+		angle = 6.28318*angle/360	#conversions degres a radians par seconde
+        command ="$SETA,"+str(angle)+";"
         ser.write(command)
-        print ("MAJ de coordonnee angle="+str(t))
+        print ("MAJ de coordonnee angle="+str(angle))
 
 def set_speed(ser,max):
 	command ="$VMAX,"+str(max)+";"
