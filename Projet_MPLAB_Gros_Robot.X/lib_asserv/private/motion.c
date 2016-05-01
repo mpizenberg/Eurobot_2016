@@ -134,6 +134,23 @@ float get_vd(){
 // consignes de déplacements du robot
 void motion_free(){set_asserv_off();}
 
+// juste une vitesse lineaire (pas de controle de vitesse angulaire)
+void motion_linear_speed(float linear_speed){
+    speed_asserv.done = 0;
+    speed_asserv.speed_order.v = linear_speed;
+    speed_asserv.speed_order.vt = 0; // mais pas contraint
+    set_asserv_linear_speed_mode();
+}
+
+// juste une vitesse angulaire (pas de controle de vitesse lineaire)
+void motion_angular_speed(float angular_speed){
+    speed_asserv.done = 0;
+    speed_asserv.speed_order.v = 0;
+    speed_asserv.speed_order.vt = angular_speed; // mais pas contraint
+    set_asserv_angular_speed_mode();
+}
+
+
 void motion_pos(Position pos){
     pos_asserv.stop_distance = DEFAULT_STOP_DISTANCE;
     pos_asserv.done = 0;

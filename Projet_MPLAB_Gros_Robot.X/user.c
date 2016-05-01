@@ -45,17 +45,13 @@ void Init_All(int callback){
     Init_QEI();
     Init_IT_AX12();
     Gestion_IO_AU_Config_Init();
-    __delay_ms(500);
-    Init_ax12();
     //I2C_Init();
     InitSick_VBat();
     motion_init(); // start asserv
     // Init_Ultrasons();
+    __delay_ms(500);
+    Init_ax12();
     
-    TRISAbits.TRISA9 = 1;
-    
-    
-
     
     TRIS_LAISSE = 1;            // input for laisse
     
