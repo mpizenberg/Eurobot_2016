@@ -27,7 +27,6 @@
 
 
 int main(int argc, char** argv) {
-    
     Init_All(0);
 
     // __delay_ms(2000);
@@ -38,7 +37,7 @@ int main(int argc, char** argv) {
     while (1) // boucle principale
     {
         Faire_Actions_AX12();
-        
+        Gestion_IO_AU_Config_Loop();
     }
     
 }

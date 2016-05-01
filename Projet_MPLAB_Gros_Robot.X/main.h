@@ -11,6 +11,7 @@
 #include "uart.h"
 #include "Sick_VBat.h"
 #include "ultrason.h"
+#include "Gestion_IO_AU_Config.h"
 #include "actions_ax12.h"
 #include "Timer_Asserv.h"
 #include "Timer_ms.h"

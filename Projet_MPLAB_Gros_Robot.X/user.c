@@ -44,7 +44,8 @@ void Init_All(int callback){
     Init_PWM();
     Init_QEI();
     Init_IT_AX12();
-    __delay_ms(200);
+    Gestion_IO_AU_Config_Init();
+    __delay_ms(500);
     Init_ax12();
     //I2C_Init();
     InitSick_VBat();
@@ -54,7 +55,7 @@ void Init_All(int callback){
     TRISAbits.TRISA9 = 1;
     
     
-    TRIS_TEAM = 1;  // input for bouton vert/violet(rouge)
+
     
     TRIS_LAISSE = 1;            // input for laisse
     
