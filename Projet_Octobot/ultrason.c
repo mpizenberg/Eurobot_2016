@@ -59,7 +59,10 @@ volatile uint16_t Last_For_Degug_Mesure_Timer_Ultrason_AV_End = 0;
 volatile uint16_t Last_For_Degug_Mesure_Timer_Ultrason_AR_Start = 0;
 volatile uint16_t Last_For_Degug_Mesure_Timer_Ultrason_AR_End = 0;
 
-volatile char Ative_Motion_Free_Ultrason = 1;
+volatile uint8_t US_Sector[NUMBER_OF_US] = {0};		// full of 0	// tout ou rien sur les seuils
+uint8_t Motion_Free_Activ_US[2] = {1,1};
+volatile uint8_t Can_Restart_Order = 0;
+volatile uint8_t Old_Blocked_Front = 0, Old_Blocked_Back = 0;
 
 // pas en externe
 volatile uint8_t nb_Coups_Timers = 0;
@@ -156,29 +159,29 @@ void __attribute__((interrupt,auto_psv)) _T4Interrupt(void) {
         if (Ultrason_AV_Detect) {
             if (Mesure_Distance_Ultrason_AV > (ULTRASON_THRESOLD + ULTRASON_THRESOLD_TRIGGER)) {
                 Ultrason_AV_Detect = 0;    // passage en zone ok
-                ReleaseUltrason();         // on previent la PI
+                // ReleaseUltrason(1);         // on previent la PI
             }
         } else {
             if (Mesure_Distance_Ultrason_AV < (ULTRASON_THRESOLD - ULTRASON_THRESOLD_TRIGGER)) {
-                if (Ative_Motion_Free_Ultrason) {
-                    motion_free();
+                if (Motion_Free_Activ_US[0]) {
+                    //motion_free();
                 }
                 Ultrason_AV_Detect = 1; // passage en zone occupé
-                DetectUltrason();		// on previent la PI
+                // DetectUltrason(1);		// on previent la PI
             }
         }
         if (Ultrason_AR_Detect) {
             if (Mesure_Distance_Ultrason_AR > (ULTRASON_THRESOLD + ULTRASON_THRESOLD_TRIGGER)) {
                 Ultrason_AR_Detect = 0;    // passage en zone ok
-                ReleaseUltrason();         // on previent la PI
+                // ReleaseUltrason(2);         // on previent la PI
             }
         } else {
             if (Mesure_Distance_Ultrason_AR < (ULTRASON_THRESOLD - ULTRASON_THRESOLD_TRIGGER)) {
-                if (Ative_Motion_Free_Ultrason) {
-                    motion_free();
+                if (Motion_Free_Activ_US[1]) {
+                    //motion_free();
                 }
                 Ultrason_AR_Detect = 1; // passage en zone occupé
-                DetectUltrason();		// on previent la PI
+                // DetectUltrason(2);		// on previent la PI
             }
         }
         
@@ -245,10 +248,82 @@ void Start_Stop_Debug_Ultrason(void)
         Debug_Ultrason = 1;
     }
 }
-
+/*
 void Enable_Ultrason (char enable)
 {
-    Ative_Motion_Free_Ultrason = enable;
+    Motion_Free_Activ_US[0] = 1;
+    Motion_Free_Activ_US[1] = 1;
+}
+*/
+
+void Choose_Enabled_US(int Sicks_En)
+{
+    int i;
+
+    for (i = 0; i < 2; i++) {
+        if (Sicks_En & (1<<i)) {
+            Motion_Free_Activ_US[i] = 1;
+        } else {
+            Motion_Free_Activ_US[i] = 0;
+        }
+    }
+}
+
+void New_Order_US_Handling(void)
+{
+    Can_Restart_Order = 0;
+    Old_Blocked_Front = 0;
+    Old_Blocked_Back = 0;
+}
+
+void __attribute__ ((interrupt, auto_psv)) _SPI1ErrInterrupt(void)
+{
+    Gestion_US_Every_few_ms();
+    IFS0bits.SPI1EIF = 0;
 }
 
 
+void Gestion_US_Every_few_ms(void)
+{/*
+#define US1_IS_FRONT  1
+#define US2_IS_FRONT  0
+#define US1_IS_BACK   0
+#define US2_IS_BACK   1*/
+
+    uint8_t Blocked_Front, Blocked_Back;
+    // sector 0 = obstacle detecté, sector 1 = "sûr
+    Blocked_Front = ((!US_Sector[0]) && US1_IS_FRONT && Motion_Free_Activ_US[0]) ||
+                    ((!US_Sector[1]) && US2_IS_FRONT && Motion_Free_Activ_US[1]);
+
+    Blocked_Back  = ((!US_Sector[0]) && US1_IS_BACK && Motion_Free_Activ_US[0]) ||
+                    ((!US_Sector[1]) && US2_IS_BACK && Motion_Free_Activ_US[1]);
+
+    Blocked_Front = Blocked_Front && ((Sens_Vitesse_Deplacement() == 1)  || Old_Blocked_Front);
+    Blocked_Back  = Blocked_Back  && ((Sens_Vitesse_Deplacement() == -1) || Old_Blocked_Back);
+
+    if (Blocked_Front && !Old_Blocked_Front) {
+        if (Is_Asserv_Mode_Pos())
+            Can_Restart_Order = 1;
+        motion_free();
+    } else if (!Blocked_Front && Old_Blocked_Front && Can_Restart_Order) {
+        Can_Restart_Order = 0;
+        load_last_order();
+    }
+
+    if (Blocked_Back && !Old_Blocked_Back) {
+        if (Is_Asserv_Mode_Pos())
+            Can_Restart_Order = 1;
+        motion_free();
+    } else if (!Blocked_Back && Old_Blocked_Back && Can_Restart_Order) {
+        Can_Restart_Order = 0;
+        load_last_order();
+    }
+
+    Old_Blocked_Front = Blocked_Front;
+    Old_Blocked_Back = Blocked_Back;
+
+//ReleaseUS(channel_conv+1);			// on previent la PI
+
+//DetectUS(channel_conv+1);				// on previent la PI
+
+}

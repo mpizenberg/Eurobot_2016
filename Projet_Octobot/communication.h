@@ -18,8 +18,8 @@ void DetectSick(int channel);
 void ReleaseSick (int channel);
 void SendSick_Status(int val8);
 
-void DetectUltrason(void);
-void ReleaseUltrason(void);
+void DetectUltrason(int channel);
+void ReleaseUltrason(int channel);
 void SendUltrason_Status(void);
 
 

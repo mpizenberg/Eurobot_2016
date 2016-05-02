@@ -65,8 +65,8 @@ void set_position_t(float t);
 
 // ajout pepino
 void set_Constraint_vitesse_max(float vl_max);
-void set_Constraint_vt_max(float vt_max);
 // ajout Daniel
+void set_Constraint_vt_max(float vt_max);
 void set_Constraint_acceleration_max(float al_max, float at_max, float a_max);
 
 // assigner des valeurs à la vitesse (vitesse et vitesse angulaire)

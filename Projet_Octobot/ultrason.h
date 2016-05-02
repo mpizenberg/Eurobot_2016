@@ -5,7 +5,8 @@
 
 void Init_Ultrasons (void);
 
-#define ULTRASON_THRESOLD  300      // seuil d'alarme en mm
+#define NUMBER_OF_US                2
+#define ULTRASON_THRESOLD           300      // seuil d'alarme en mm
 #define ULTRASON_THRESOLD_TRIGGER   50      // zone du triger de schmitt
 
 
@@ -31,6 +32,11 @@ void Init_Ultrasons (void);
 #define U_ETAT_WAIT0_OVERSHOOT  0x10
 #define U_ETAT_WAIT_FOR_RESTART 0x20
 
+#define US1_IS_FRONT  1
+#define US2_IS_FRONT  0
+#define US1_IS_BACK   0
+#define US2_IS_BACK   1
+
 
 extern volatile uint8_t Etat_Ultrason;
 //extern volatile uint16_t Mesure_Timer_Ultrason;     // mesure brutale du timer
@@ -39,7 +45,7 @@ extern volatile uint8_t Etat_Ultrason;
 
 extern volatile uint8_t Debug_Ultrason;
 extern volatile uint16_t count_Debug_Ultrason;
-extern volatile char Ative_Motion_Free_Ultrason;
+//extern volatile char Motion_Free_Activ_US;
 
 
 extern volatile char UltraSon_Detect;
@@ -49,7 +55,13 @@ void Init_CN(void);
 
 void Start_Stop_Debug_Ultrason(void);
 void Enable_Ultrason (char enable);
+void Choose_Enabled_US(int Sicks_En);
 
+void New_Order_US_Handling(void);
+
+void Must_do_Gestion_US_Sector(void);
+
+void Gestion_US_Every_few_ms(void);
 
 #endif
 
