@@ -9,6 +9,7 @@ uint8_t Motion_Free_Activ_US[2]   = {0,0};
 volatile uint8_t Can_Restart_Order = 0;
 volatile uint8_t Old_Blocked_Front = 0, Old_Blocked_Back = 0;
 
+char var_debug;
 
 void Init_Evitement(void)
 {
@@ -22,10 +23,11 @@ void Init_Evitement(void)
 
 void Choose_Enabled_Sicks(int Sicks_En)
 {
-    Motion_Free_Activ_Sick[0] = ((Sicks_En & 0x01) != 0);
-    Motion_Free_Activ_Sick[1] = ((Sicks_En & 0x02) != 0);
-    Motion_Free_Activ_Sick[2] = ((Sicks_En & 0x04) != 0);
-    Motion_Free_Activ_Sick[3] = ((Sicks_En & 0x08) != 0);
+   
+   Motion_Free_Activ_Sick[0] = ((Sicks_En & 0x01) != 0);
+   Motion_Free_Activ_Sick[1] = ((Sicks_En & 0x02) != 0);
+   Motion_Free_Activ_Sick[2] = ((Sicks_En & 0x04) != 0);
+   Motion_Free_Activ_Sick[3] = ((Sicks_En & 0x08) != 0);
 } 
 
 void Choose_Enabled_US (int US_En)
@@ -61,20 +63,39 @@ void Gestion_Evitement_Every_few_ms(void)
 #define SICK1_IS_BACK   1*/
     
     uint8_t Blocked_Front, Blocked_Back;
+//    // sector 0 = obstacle detecté, sector 1 = "sûr
+//    Blocked_Front = ((!Get_Sick_Sector(0)) && SICK1_IS_FRONT && Motion_Free_Activ_Sick[0]) ||
+//                    ((!Get_Sick_Sector(1)) && SICK2_IS_FRONT && Motion_Free_Activ_Sick[1]) ||
+//                    ((!Get_Sick_Sector(2)) && SICK3_IS_FRONT && Motion_Free_Activ_Sick[2]) ||
+//                    ((!Get_Sick_Sector(3)) && SICK4_IS_FRONT && Motion_Free_Activ_Sick[3]) ||
+//            
+//                    //((!Get_US_Sector(0)) && US1_IS_FRONT && Motion_Free_Activ_US[0]) ||
+//                    //((!Get_US_Sector(1)) && US2_IS_FRONT && Motion_Free_Activ_US[1]) ||
+//            0;  // juste pour commentaires faciles
+//    
+//    Blocked_Back  = ((!Get_Sick_Sector(0)) && SICK1_IS_BACK && Motion_Free_Activ_Sick[0]) ||
+//                    ((!Get_Sick_Sector(1)) && SICK2_IS_BACK && Motion_Free_Activ_Sick[1]) ||
+//                    ((!Get_Sick_Sector(2)) && SICK3_IS_BACK && Motion_Free_Activ_Sick[2]) ||
+//                    ((!Get_Sick_Sector(3)) && SICK4_IS_BACK && Motion_Free_Activ_Sick[3]) ||
+//            
+//                    //((!Get_US_Sector(0)) && US1_IS_BACK && Motion_Free_Activ_US[0]) ||
+//                    //((!Get_US_Sector(1)) && US2_IS_BACK && Motion_Free_Activ_US[1]) ||
+//            0; // juste pour commentaires faciles
+    
     // sector 0 = obstacle detecté, sector 1 = "sûr
-    Blocked_Front = ((!Get_Sick_Sector(0)) && SICK1_IS_FRONT && Motion_Free_Activ_Sick[0]) ||
-                    ((!Get_Sick_Sector(1)) && SICK2_IS_FRONT && Motion_Free_Activ_Sick[1]) ||
-                    ((!Get_Sick_Sector(2)) && SICK3_IS_FRONT && Motion_Free_Activ_Sick[2]) ||
-                    ((!Get_Sick_Sector(3)) && SICK4_IS_FRONT && Motion_Free_Activ_Sick[3]) ||
+    Blocked_Front = ((!Sick_Sector[0]) && SICK1_IS_FRONT && Motion_Free_Activ_Sick[0]) ||
+                    ((!Sick_Sector[1]) && SICK2_IS_FRONT && Motion_Free_Activ_Sick[1]) ||
+                    ((!Sick_Sector[2]) && SICK3_IS_FRONT && Motion_Free_Activ_Sick[2]) ||
+                    ((!Sick_Sector[3]) && SICK4_IS_FRONT && Motion_Free_Activ_Sick[3]) ||
             
                     //((!Get_US_Sector(0)) && US1_IS_FRONT && Motion_Free_Activ_US[0]) ||
                     //((!Get_US_Sector(1)) && US2_IS_FRONT && Motion_Free_Activ_US[1]) ||
             0;  // juste pour commentaires faciles
     
-    Blocked_Back  = ((!Get_Sick_Sector(0)) && SICK1_IS_BACK && Motion_Free_Activ_Sick[0]) ||
-                    ((!Get_Sick_Sector(1)) && SICK2_IS_BACK && Motion_Free_Activ_Sick[1]) ||
-                    ((!Get_Sick_Sector(2)) && SICK3_IS_BACK && Motion_Free_Activ_Sick[2]) ||
-                    ((!Get_Sick_Sector(3)) && SICK4_IS_BACK && Motion_Free_Activ_Sick[3]) ||
+    Blocked_Back  = ((!Sick_Sector[0]) && SICK1_IS_BACK && Motion_Free_Activ_Sick[0]) ||
+                    ((!Sick_Sector[1]) && SICK2_IS_BACK && Motion_Free_Activ_Sick[1]) ||
+                    ((!Sick_Sector[2]) && SICK3_IS_BACK && Motion_Free_Activ_Sick[2]) ||
+                    ((!Sick_Sector[3]) && SICK4_IS_BACK && Motion_Free_Activ_Sick[3]) ||
             
                     //((!Get_US_Sector(0)) && US1_IS_BACK && Motion_Free_Activ_US[0]) ||
                     //((!Get_US_Sector(1)) && US2_IS_BACK && Motion_Free_Activ_US[1]) ||

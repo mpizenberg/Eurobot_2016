@@ -51,6 +51,8 @@ void Init_All(int callback){
     InitSick_VBat();
     // Init_Ultrasons();  // surtout pas sur crabot malheureux !
     Init_Evitement();
+    Position Pos = {0,0,0};
+    set_position(Pos);
     motion_init(); // start asserv
     
     TRISAbits.TRISA9 = 1;
