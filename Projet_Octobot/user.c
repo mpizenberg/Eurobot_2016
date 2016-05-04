@@ -48,8 +48,9 @@ void Init_All(int callback){
     __delay_ms(500);
     Init_ax12();
     InitSick_VBat();
-    motion_init(); // start asserv
     Init_Ultrasons();
+    Init_Evitement();
+    motion_init(); // start asserv
     
     TRISAbits.TRISA9 = 1;
     

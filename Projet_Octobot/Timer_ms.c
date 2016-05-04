@@ -54,7 +54,7 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
     static uint8_t Etat_Laisse = 0;
     static uint8_t Count_Laisse = 0;
     uint8_t Etat_Pin_Laisse = PIN_LAISSE;
-    static char count_evitement = 10;
+    static char count_Evit = 10;
     
     if (Etat_Pin_Laisse) {
         if (Count_Laisse < 30)
@@ -83,10 +83,10 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
         }
     }
     
-    count_evitement--;
-    if (!count_evitement) {
-        Must_do_Gestion_US_Sector();
-        count_evitement = 10;
+    count_Evit--;
+    if (!count_Evit) {
+        Must_do_Gestion_Evitement();
+        count_Evit = 10;
     }
             
     if (Delay_TimeOut_AX12) {

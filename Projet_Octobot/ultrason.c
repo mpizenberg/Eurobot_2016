@@ -37,8 +37,8 @@
 // puis attente, avec mesure du temps à 1       pin en entrée
 // attente 50 ms entre 2 spikes
 
-// aussi en externe
 volatile uint8_t Etat_Ultrason = 0;
+
 volatile uint16_t Mesure_Timer_Ultrason_AV_Start = 0;
 volatile uint16_t Mesure_Timer_Ultrason_AV_End = 0;
 volatile uint16_t Mesure_Timer_Ultrason_AR_Start = 0;
@@ -51,18 +51,13 @@ uint8_t Ultrason_AV_Detect = 0;
 uint8_t Ultrason_AR_Detect = 0;
 
 // debug
-volatile uint8_t Debug_Ultrason = 0;
-volatile uint16_t count_Debug_Ultrason = 0;
+//volatile uint8_t Debug_Ultrason = 0;
+//volatile uint16_t count_Debug_Ultrason = 0;
 
 volatile uint16_t Last_For_Degug_Mesure_Timer_Ultrason_AV_Start = 0;
 volatile uint16_t Last_For_Degug_Mesure_Timer_Ultrason_AV_End = 0;
 volatile uint16_t Last_For_Degug_Mesure_Timer_Ultrason_AR_Start = 0;
 volatile uint16_t Last_For_Degug_Mesure_Timer_Ultrason_AR_End = 0;
-
-volatile uint8_t US_Sector[NUMBER_OF_US] = {0};		// full of 0	// tout ou rien sur les seuils
-uint8_t Motion_Free_Activ_US[2] = {1,1};
-volatile uint8_t Can_Restart_Order = 0;
-volatile uint8_t Old_Blocked_Front = 0, Old_Blocked_Back = 0;
 
 // pas en externe
 volatile uint8_t nb_Coups_Timers = 0;
@@ -78,7 +73,10 @@ void Init_Ultrasons (void)
     __delay_ms(5); // attente de 5 ms pour bien tuer l'IT
     Etat_Ultrason = U_ETAT_OFF;
     nb_Coups_Timers = 0;
-
+    
+    Ultrason_AV_Detect = 0;
+    Ultrason_AR_Detect = 0;
+    
     OpenTimer4(T4_ON & T4_GATE_OFF & T4_PS_1_8 & T4_SOURCE_INT, 0xFFFF );
     // FCY = 40Meg   prescaler à 8 donc F timer = 5Meg
     // 1 coup = 200 ns = 0.2us
@@ -102,11 +100,11 @@ void Init_CN()
 void __attribute__((interrupt,auto_psv)) _T4Interrupt(void) {
     // attente pour envoi : on envoie et on passe à l'état suivant
     if (Etat_Ultrason & U_ETAT_FOR_SEND1) {
-        count_Debug_Ultrason++;
-        if (count_Debug_Ultrason == 50) {
-            count_Debug_Ultrason = 0;
-        }
-        if (!count_Debug_Ultrason && Debug_Ultrason) { printf("$START_SPIKE;"); }
+        //count_Debug_Ultrason++;
+        //if (count_Debug_Ultrason == 50) {
+        //    count_Debug_Ultrason = 0;
+        //}
+        //if (!count_Debug_Ultrason && Debug_Ultrason) { printf("$START_SPIKE;"); }
         PIN_ULTRASON_AV = 1;
         TRIS_ULTRASON_AV = 0;      // pin en sortie
         PIN_ULTRASON_AR = 1;
@@ -114,7 +112,7 @@ void __attribute__((interrupt,auto_psv)) _T4Interrupt(void) {
         PR4 = 200;              // 40 us pour le spike de début
         Etat_Ultrason = U_ETAT_SEND1;
     } else if (Etat_Ultrason & U_ETAT_SEND1) {      // spike en cours => il faut le finir + lancer le truc de mesure
-        if (!count_Debug_Ultrason && Debug_Ultrason) { printf("$END_SPIKE;"); }
+        //if (!count_Debug_Ultrason && Debug_Ultrason) { printf("$END_SPIKE;"); }
         PIN_ULTRASON_AV = 0;
         PIN_ULTRASON_AR = 0;
         Etat_Ultrason = U_ETAT_WAIT;
@@ -163,9 +161,6 @@ void __attribute__((interrupt,auto_psv)) _T4Interrupt(void) {
             }
         } else {
             if (Mesure_Distance_Ultrason_AV < (ULTRASON_THRESOLD - ULTRASON_THRESOLD_TRIGGER)) {
-                if (Motion_Free_Activ_US[0]) {
-                    //motion_free();
-                }
                 Ultrason_AV_Detect = 1; // passage en zone occupé
                 // DetectUltrason(1);		// on previent la PI
             }
@@ -177,9 +172,6 @@ void __attribute__((interrupt,auto_psv)) _T4Interrupt(void) {
             }
         } else {
             if (Mesure_Distance_Ultrason_AR < (ULTRASON_THRESOLD - ULTRASON_THRESOLD_TRIGGER)) {
-                if (Motion_Free_Activ_US[1]) {
-                    //motion_free();
-                }
                 Ultrason_AR_Detect = 1; // passage en zone occupé
                 // DetectUltrason(2);		// on previent la PI
             }
@@ -242,87 +234,22 @@ void __attribute__ ((__interrupt__, no_auto_psv)) _CNInterrupt(void)
 
 void Start_Stop_Debug_Ultrason(void)
 {
-    if (Debug_Ultrason) {
-        Debug_Ultrason = 0;
-    } else {
-        Debug_Ultrason = 1;
-    }
+//    if (Debug_Ultrason) {
+//        Debug_Ultrason = 0;
+//    } else {
+//        Debug_Ultrason = 1;
+//    }
 }
 
 
-void Choose_Enabled_US(int US_En)
+// return 1 si rien devant
+// return 0 si detection
+char Get_US_Sector(int US)
 {
-    int i;
-
-    for (i = 0; i < 2; i++) {
-        if (US_En & (1<<i)) {
-            Motion_Free_Activ_US[i] = 1;
-        } else {
-            Motion_Free_Activ_US[i] = 0;
-        }
+    if (US == 0) {
+        return (1-Ultrason_AV_Detect);
+    } else if (US == 1) {
+        return (1-Ultrason_AR_Detect);
     }
-}
-
-void New_Order_US_Handling(void)
-{
-    Can_Restart_Order = 0;
-    Old_Blocked_Front = 0;
-    Old_Blocked_Back = 0;
-}
-
-void Must_do_Gestion_US_Sector(void)
-{
-    IFS0bits.SPI1EIF = 1;   
-}
-
-void __attribute__ ((interrupt, auto_psv)) _SPI1ErrInterrupt(void)
-{
-    Gestion_US_Every_few_ms();
-    IFS0bits.SPI1EIF = 0;
-}
-
-
-void Gestion_US_Every_few_ms(void)
-{/*
-#define US1_IS_FRONT  1
-#define US2_IS_FRONT  0
-#define US1_IS_BACK   0
-#define US2_IS_BACK   1*/
-
-    uint8_t Blocked_Front, Blocked_Back;
-    // sector 0 = obstacle detecté, sector 1 = "sûr
-    Blocked_Front = ((!US_Sector[0]) && US1_IS_FRONT && Motion_Free_Activ_US[0]) ||
-                    ((!US_Sector[1]) && US2_IS_FRONT && Motion_Free_Activ_US[1]);
-
-    Blocked_Back  = ((!US_Sector[0]) && US1_IS_BACK && Motion_Free_Activ_US[0]) ||
-                    ((!US_Sector[1]) && US2_IS_BACK && Motion_Free_Activ_US[1]);
-
-    Blocked_Front = Blocked_Front && ((Sens_Vitesse_Deplacement() == 1)  || Old_Blocked_Front);
-    Blocked_Back  = Blocked_Back  && ((Sens_Vitesse_Deplacement() == -1) || Old_Blocked_Back);
-
-    if (Blocked_Front && !Old_Blocked_Front) {
-        if (Is_Asserv_Mode_Pos())
-            Can_Restart_Order = 1;
-        motion_free();
-    } else if (!Blocked_Front && Old_Blocked_Front && Can_Restart_Order) {
-        Can_Restart_Order = 0;
-        load_last_order();
-    }
-
-    if (Blocked_Back && !Old_Blocked_Back) {
-        if (Is_Asserv_Mode_Pos())
-            Can_Restart_Order = 1;
-        motion_free();
-    } else if (!Blocked_Back && Old_Blocked_Back && Can_Restart_Order) {
-        Can_Restart_Order = 0;
-        load_last_order();
-    }
-
-    Old_Blocked_Front = Blocked_Front;
-    Old_Blocked_Back = Blocked_Back;
-
-//ReleaseUS(channel_conv+1);			// on previent la PI
-
-//DetectUS(channel_conv+1);				// on previent la PI
-
+    else return 1;
 }

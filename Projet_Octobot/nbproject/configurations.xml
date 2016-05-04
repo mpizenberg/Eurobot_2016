@@ -27,6 +27,7 @@
       <itemPath>Timer_Asserv.h</itemPath>
       <itemPath>Timer_ms.h</itemPath>
       <itemPath>Gestion_IO_AU.h</itemPath>
+      <itemPath>Evitement.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -56,6 +57,7 @@
       <itemPath>lib_asserv/private/tools.c</itemPath>
       <itemPath>Gestion_IO_AU.c</itemPath>
       <itemPath>Pragma_Config.c</itemPath>
+      <itemPath>Evitement.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
