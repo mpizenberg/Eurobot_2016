@@ -13,7 +13,7 @@
 /*############################################################################*/
 
 #ifndef DEFAULT_CONSTRAINT_V_MAX // {v, vt}
-#define DEFAULT_CONSTRAINT_V_MAX {0.7, 4} // crabot: {0.8, 4}
+#define DEFAULT_CONSTRAINT_V_MAX {0.3, 2} // crabot: {0.8, 4}
 #endif
 
 #ifndef DEFAULT_CONSTRAINT_A_MAX // {a, at, v_vt}
@@ -53,18 +53,18 @@
 
 // 2 PID lies a l'asserve en vitesse (delta: vitesse absolue, alpha: vitesse angulaire)
 #ifndef DEFAULT_PID_COEFS_DELTA // {kp, ki, kd, mu_p}
-#define DEFAULT_PID_COEFS_DELTA {140,3,0,1} // crabot: {160,20,0,0.2}
+#define DEFAULT_PID_COEFS_DELTA {160, 16, 0, 1} // crabot: {160,20,0,0.2}
 #endif
 #ifndef DEFAULT_PID_COEFS_ALPHA // {kp, ki, kd, mu_p}
-#define DEFAULT_PID_COEFS_ALPHA {30,1,0,1} // crabot: {32,8,0,0.8}
+#define DEFAULT_PID_COEFS_ALPHA {20, 2, 2, 1} // crabot: {32,8,0,0.8}
 #endif
 
 // valeurs max de l'intégrale en vitesse et vitesse angulaire
 #ifndef DEFAULT_PID_MAX_INT_DELTA
-#define DEFAULT_PID_MAX_INT_DELTA 1000 // crabot: 4
+#define DEFAULT_PID_MAX_INT_DELTA 4 // crabot: 4
 #endif
 #ifndef DEFAULT_PID_MAX_INT_ALPHA
-#define DEFAULT_PID_MAX_INT_ALPHA 1000 // crabot: 4
+#define DEFAULT_PID_MAX_INT_ALPHA 30 // crabot: 4
 #endif
 
 // conditions d'arrêt des PID en vitesse et vitesse angulaire
@@ -72,7 +72,7 @@
 #define DEFAULT_PID_EPS_DELTA {0.02,0.02}
 #endif
 #ifndef DEFAULT_PID_EPS_ALPHA
-#define DEFAULT_PID_EPS_ALPHA {0.05,0.05}
+#define DEFAULT_PID_EPS_ALPHA {0.02,0.02}
 #endif
 
 /*############################################################################*/
