@@ -20,18 +20,18 @@ def Script_Recalage (ser,team):
 	functions.move_speed(ser,-0.2,0)
 	sleep(0.5)
 
-    functions.set_x(ser,0.25)
-    functions.set_y(ser,team*(-0.94))
+ 	functions.set_x(ser,0.25)
+    	functions.set_y(ser,team*(-0.94))
 	functions.set_t(ser,team*(90))
 
 	functions.move_pos(ser,0.25,0)
-    answer = functions.get_ans(ser)
-    while answer != "$DONE;":
+	answer = functions.get_ans(ser)
+	while answer != "$DONE;":
 		answer = functions.get_ans(ser)
 
 	functions.rotate(ser,0)
-    answer = functions.get_ans(ser)
-    while answer != "$DONE;":
+	answer = functions.get_ans(ser)
+	while answer != "$DONE;":
 		answer = functions.get_ans(ser)
 
 	functions.move_pos(ser,0,0)
@@ -456,7 +456,7 @@ def Prise_Coquillages_2(ser,team,configuration):
 			while answer != "$DONE;":
 				answer = functions.get_ans(ser)
 						 
-		print "Ce sont pas des moules mais on s en contentera ! +10 points potentiels."
+			print "Ce sont pas des moules mais on s en contentera ! +10 points potentiels."
 
 
 	elif configuration==4:		 ### CONFIGURATION 4 A MODIFIER ###
@@ -546,7 +546,7 @@ def Prise_Coquillages_2(ser,team,configuration):
 
 def Homologation(ser,team):
 	functions.set_speed(ser,0.2)
-	functions.set_speed(ser,1)
+	functions.set_speed_ang(ser,1)
 
 	functions.open_bras(ser)
 
@@ -559,6 +559,8 @@ def Homologation(ser,team):
 	answer = functions.get_ans(ser)
 	while answer != "$DONE;":
 	    answer = functions.get_ans(ser)
+
+	functions.close_bras(ser)
 	
 	functions.rotate(ser,team*1.5708)
 	answer = functions.get_ans(ser)
