@@ -3,6 +3,7 @@
 import serial
 from time import sleep
 import RPi.GPIO as GPIO
+from UrgenceReleveException import UrgenceReleveException
 
 Sicks=0
 
@@ -36,6 +37,8 @@ def get_ans(ser):
 		Sicks-=8
 	elif chaine=="$RULS;":
 		Sicks-=16
+        elif chaine=="$URGE;":
+                raise UrgenceReleveException("bouton d'urgence relevé")
 	print ("    "+chaine)
 	sleep(0.1)
 	return chaine

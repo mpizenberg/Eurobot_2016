@@ -3,6 +3,7 @@
 import serial
 import functions
 import functions_macro
+from UrgenceReleveException import UrgenceReleveException
 
 ser = serial.Serial("/dev/ttyAMA0",57600)
 
@@ -10,6 +11,7 @@ functions.reset_pic()
 functions.init_ax(ser)
 while 1:
 
+    try:
 	# Attente du start
 	print "waiting for start"
 	answer = functions.get_ans(ser)
@@ -47,6 +49,8 @@ while 1:
 	### SCRIPT D'HOMOLOGATION ###
 	elif configuration == 6:		
 		functions_macro.Homologation(ser,team)
+    except UrgenceReleveException as e:
+        print e.value
 
 ser.close()
 
