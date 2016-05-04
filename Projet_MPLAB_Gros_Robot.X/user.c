@@ -55,11 +55,7 @@ void Init_All(int callback){
     TRISAbits.TRISA9 = 1;
     
     
-
-    
     TRIS_LAISSE = 1;            // input for laisse
-    
-    Init_CN();
 
     if(callback) {
         SendDone();
