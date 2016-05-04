@@ -29,11 +29,11 @@
 
 #include "main.h"
 
-
+void reglage_asserv(void);
 
 int main(int argc, char** argv) {
     Init_All(0);
-    //reglage_asserv();
+    reglage_asserv();
     while (1)
     {
         Faire_Actions_AX12();
@@ -44,13 +44,22 @@ int main(int argc, char** argv) {
 
 void reglage_asserv(void)
 {
-    while (PIN_LAISSE);
-    motion_angular_speed(4);
-    debug_count = 0;
-    //PWM_Moteurs(60, -60);
-    //motion_angular_speed(1);
-    //Speed speed = {-0.3, 0};
-    //motion_speed(speed);
+    int i;
+    Position Pos0, Pos1, Pos2, Pos3;
+    Pos0.x = 0; Pos0.y = 0;
+    Pos1.x = 1; Pos1.y = 0;
+    Pos2.x = 1; Pos2.y = 1;
+    Pos3.x = 0; Pos3.y = 1;
+    for (i = 0; i < 4; i++) {
+        motion_push(Pos1, 0.1);
+        while (!pos_asserv.done);
+        motion_push(Pos2, 0.1);
+        while (!pos_asserv.done);
+        motion_push(Pos3, 0.1);
+        while (!pos_asserv.done);
+        motion_push(Pos0, 0.1);
+        while (!pos_asserv.done);
+    }
 }
 
 void Debug_Asserv_Start(void)
