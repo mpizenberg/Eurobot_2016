@@ -52,17 +52,34 @@ int main(int argc, char** argv) {
 void reglage_asserv(void)
 {
     //while (PIN_LAISSE);
-    Speed speed0;
-    speed0.v = 0.3;
-    speed0.vt = 0;
-    //Speed speed1 = {0, 3};
-    //motion_angular_speed(4);
-    debug_count = 0;
-    motion_linear_speed(speed0);
-    //motion_angular_speed(1);
-    //motion_speed(speed1);
-    while(debug_count<300);
-    //motion_speed(speed0);
+    Position Pos0, Pos1, Pos2, Pos3;
+    Pos0.x = 0;
+    Pos0.y = 0;
+    Pos1.x = 0.5;
+    Pos1.y = 0;
+    Pos2.x = 0.5;
+    Pos2.y = 0.5;
+    Pos3.x = 0;
+    Pos3.y = 0.5;
+    
+    motion_pos(Pos1);
+    while(!pos_asserv.done);
+    motion_pos(Pos2);
+    while(!pos_asserv.done);
+    motion_pos(Pos3);
+    while(!pos_asserv.done);
+    motion_pos(Pos0);
+    while(!pos_asserv.done);
+    
+    motion_pos(Pos1);
+    while(!pos_asserv.done);
+    motion_pos(Pos2);
+    while(!pos_asserv.done);
+    motion_pos(Pos3);
+    while(!pos_asserv.done);
+    motion_pos(Pos0);
+    while(!pos_asserv.done);
+    
     
 }
 
