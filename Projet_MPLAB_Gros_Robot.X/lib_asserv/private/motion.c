@@ -177,6 +177,16 @@ void motion_speed(Speed speed){
     
     set_asserv_speed_mode();
 }
+
+void motion_linear_speed(Speed speed){
+    speed_asserv.done = 0;
+    speed_asserv.speed_order = speed;
+
+    lastPosOrder.mode = NO_ORDER;
+    New_Order_Sick_Handling();
+    
+    set_asserv_linear_speed_mode();
+}
 // tourner pour être à un angle (absolu) alpha
 void motion_angle(float abs_angle){
     angle_asserv.done = 0;
