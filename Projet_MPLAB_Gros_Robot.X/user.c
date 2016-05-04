@@ -49,8 +49,9 @@ void Init_All(int callback){
     Init_ax12();
     //I2C_Init();
     InitSick_VBat();
-    motion_init(); // start asserv
     // Init_Ultrasons();
+    Init_Evitement();
+    motion_init(); // start asserv
     
     TRISAbits.TRISA9 = 1;
     

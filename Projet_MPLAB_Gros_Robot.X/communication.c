@@ -532,7 +532,7 @@ void SelectActionFromPi()
     && ReceivedStringFromPi[4]=='T')
     {
         //__delay_ms(10);
-        printf("$VBAT,%d;", V_Bat);
+        printf("$VBAT,%d;", Get_VBat());
         //__delay_ms(10);
     }
     
@@ -548,7 +548,13 @@ void SelectActionFromPi()
     && ReceivedStringFromPi[2]=='N' 
     && ReceivedStringFromPi[3]=='U' 
     && ReceivedStringFromPi[4]=='S')
-    {   Enable_Ultrason(ReceivedStringFromPi[6] != '0');    }
+    {
+        valc = ReceivedStringFromPi[6];
+        if (valc >= '0' && valc <= '3') {
+            valc -= '0';
+            Choose_Enabled_US(valc);
+        }
+    }
 }
 
 void SendDone(void)

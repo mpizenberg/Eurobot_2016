@@ -50,11 +50,7 @@ volatile unsigned int V_Bat = 0;
 volatile uint16_t V_Bat_Tab[NUMBER_MEAS_VBAT];
 
 volatile uint8_t debug_sick_on = 0;
-volatile uint8_t Ative_Motion_Free_Sicks = 1;
-uint8_t Motion_Free_Activ_Sick[4] = {1,1,1,1};
 
-volatile uint8_t Can_Restart_Order = 0;
-volatile uint8_t Old_Blocked_Front = 0, Old_Blocked_Back = 0;
 /******************************************************************************/
 /* User Functions                                                             */
 /******************************************************************************/
@@ -140,14 +136,6 @@ void InitSick_VBat()
     IPC3bits.AD1IP = 2;      //Et les priorit√©s (ici prio = 2)
     AD1CON1bits.SAMP = 0;
     AD1CON1bits.ADON = 1;    // Turn on the A/D converter
-    
-    
-    // Soft IT pour la gestion des secteurs
-    // qui prend l'IT SPI1 Erreur
-    IFS0bits.SPI1EIF = 0;   
-    IEC0bits.SPI1EIE = 1;
-    IPC2bits.SPI1EIP = 1;   // pas tres prioritaire
-    //_SPI1ErrInterrupt
     
 }
 
@@ -313,86 +301,5 @@ void Start_Stop_Debug_Sick(void)
     }
 }
 
-void Choose_Enabled_Sicks(int Sicks_En)
-{
-    int i;
-    
-    for (i = 0; i < 4; i++) {
-        if (Sicks_En & (1<<i)) {
-            Motion_Free_Activ_Sick[i] = 1;
-        } else {
-            Motion_Free_Activ_Sick[i] = 0;
-        }
-    }
-} 
-
-void New_Order_Sick_Handling(void)
-{   
-    Can_Restart_Order = 0;  
-    Old_Blocked_Front = 0;
-    Old_Blocked_Back = 0;
-}
-
-void Must_do_Gestion_Sick_Sector(void)
-{
-    IFS0bits.SPI1EIF = 1;   
-}
-
-void __attribute__ ((interrupt, auto_psv)) _SPI1ErrInterrupt(void)
-{
-    Gestion_Sick_Every_few_ms();
-    IFS0bits.SPI1EIF = 0;   
-}
-
-
-void Gestion_Sick_Every_few_ms(void)
-{/*
-    SICK1_IS_FRONT  0
-#define SICK2_IS_FRONT  0
-#define SICK3_IS_FRONT  1
-#define SICK4_IS_FRONT  1
-#define SICK1_IS_BACK   1*/
-    
-    uint8_t Blocked_Front, Blocked_Back;
-    // sector 0 = obstacle detectÈ, sector 1 = "s˚r
-    Blocked_Front = ((!Sick_Sector[0]) && SICK1_IS_FRONT && Motion_Free_Activ_Sick[0]) ||
-                    ((!Sick_Sector[1]) && SICK2_IS_FRONT && Motion_Free_Activ_Sick[1]) ||
-                    ((!Sick_Sector[2]) && SICK3_IS_FRONT && Motion_Free_Activ_Sick[2]) ||
-                    ((!Sick_Sector[3]) && SICK4_IS_FRONT && Motion_Free_Activ_Sick[3]);
-    
-    Blocked_Back  = ((!Sick_Sector[0]) && SICK1_IS_BACK && Motion_Free_Activ_Sick[0]) ||
-                    ((!Sick_Sector[1]) && SICK2_IS_BACK && Motion_Free_Activ_Sick[1]) ||
-                    ((!Sick_Sector[2]) && SICK3_IS_BACK && Motion_Free_Activ_Sick[2]) ||
-                    ((!Sick_Sector[3]) && SICK4_IS_BACK && Motion_Free_Activ_Sick[3]);
-    
-    Blocked_Front = Blocked_Front && ((Sens_Vitesse_Deplacement() == 1)  || Old_Blocked_Front);
-    Blocked_Back  = Blocked_Back  && ((Sens_Vitesse_Deplacement() == -1) || Old_Blocked_Back);
-    
-    if (Blocked_Front && !Old_Blocked_Front) {
-        if (Is_Asserv_Mode_Pos())
-            Can_Restart_Order = 1;
-        motion_free();
-    } else if (!Blocked_Front && Old_Blocked_Front && Can_Restart_Order) {
-        Can_Restart_Order = 0;
-        load_last_order();
-    }
-    
-    if (Blocked_Back && !Old_Blocked_Back) {
-        if (Is_Asserv_Mode_Pos())
-            Can_Restart_Order = 1;
-        motion_free();
-    } else if (!Blocked_Back && Old_Blocked_Back && Can_Restart_Order) {
-        Can_Restart_Order = 0;
-        load_last_order();
-    }
-    
-    Old_Blocked_Front = Blocked_Front;
-    Old_Blocked_Back = Blocked_Back;
-    
-//ReleaseSick(channel_conv+1);			// on previent la PI
-
-//DetectSick(channel_conv+1);				// on previent la PI
-
-}
-
-
+unsigned int Get_VBat(void)
+{   return V_Bat;   }
