@@ -27,14 +27,22 @@ while team==0
 ### LA POSITION INITIALE EST PENCHEE !!
 functions.set_angle(ser,team*45)
 
-# Déplacement
-functions.move_pos(ser,0.1,team*0.5)
+# Deplacement
+functions.move_pos(ser,0.15,team*0.59)
 answer = functions.get_ans(ser)
 while answer != "$DONE;":
-    answer = functions.get_ans(ser)
+	answer = functions.get_ans(ser)
+functions.enable_US(ser,'0')
 
-
-
-
+while answer!="$END9":
+	functions.move_pos(ser,0,0)
+	answer = functions.get_ans(ser)
+	while answer != "$DONE;":
+		answer = functions.get_ans(ser)
+		
+	functions.move_pos(ser,0,team*(-0.6))
+	answer = functions.get_ans(ser)
+	while answer != "$DONE;":
+		answer = functions.get_ans(ser)		
 
 ser.close()

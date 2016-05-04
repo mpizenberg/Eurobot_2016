@@ -1,7 +1,9 @@
 #ifndef _MOTION_H_
 #define _MOTION_H_
 
-
+#define NO_ORDER        0
+#define POSITION_ORDER  1
+#define ANGLE_ORDER     2
 /*****************************    Structures    *******************************/
 
 // Position absolue du robot (x, y, et theta)
@@ -45,12 +47,17 @@ typedef struct {
     int waiting; // 0, 1, ou 2 si un ordre en attente
 } MotionSequence;
 
-
+// Sauvegarde du dernier ordre demande par la PI.
+typedef struct {
+    int mode;
+    Position pos;
+    float stop_distance;    // Distance d'arret dans le cas d'un motion push
+} PositionOrder;
 /******************************    Fonctions    *******************************/
 
 // initialiser la lib d'asservissement
 void motion_init();
-
+void reset_last_order();
 // assigner des valeurs à la position (x, y et theta)
 void set_position(Position pos);
 void set_position_x(float x);
@@ -59,6 +66,8 @@ void set_position_t(float t);
 
 // ajout pepino
 void set_Constraint_vitesse_max(float vl_max);
+void set_Constraint_vt_max(float vt_max);
+void set_Constraint_acceleration_max(float al_max, float at_max, float a_max);
 
 // assigner des valeurs à la vitesse (vitesse et vitesse angulaire)
 void set_speed(MotionState *state, Speed speed);
@@ -96,6 +105,8 @@ void done(); // callback
 
 // vérifier qu'on est pas bloqué par un obstacle
 void check_blocked(Speed speed,Speed order);
+// Deblocage apres release de ultrasons
+void load_last_order(void);
 
 // renvoie les commandes des roues gauche et droite (appelé par l'interruption toutes les 5 ms)
 void motion_step(int tics_g, int tics_d, float *commande_g, float *commande_d);

@@ -65,8 +65,8 @@ void set_position_t(float t);
 
 // ajout pepino
 void set_Constraint_vitesse_max(float vl_max);
-void set_Constraint_vt_max(float vt_max);
 // ajout Daniel
+void set_Constraint_vt_max(float vt_max);
 void set_Constraint_acceleration_max(float al_max, float at_max, float a_max);
 
 // assigner des valeurs à la vitesse (vitesse et vitesse angulaire)
@@ -95,6 +95,7 @@ void motion_pos(Position pos); // aller à cette position
 void motion_sequence(Position pos1, Position pos2); // sequence de 2 positions
 void motion_push(Position pos, float stop_distance); // ajoute ou remplace le prochain ordre de la sequence
 void motion_speed(Speed speed); // avancer à cette vitesse
+void motion_linear_speed(Speed speed); // avancer à cette vitesse, sans s'occuper de l'angle
 void motion_angle(float abs_angle); // tourner pour être à un angle (absolu) alpha
 
 // checker si le déplacement est terminé

@@ -158,6 +158,28 @@ void SelectActionFromPi()
             motion_push(MOVE, valf);
         }
         
+//        // SPED
+//        if(ReceivedStringFromPi[1]=='S' 
+//		&& ReceivedStringFromPi[2]=='P' 
+//		&& ReceivedStringFromPi[3]=='E' 
+//		&& ReceivedStringFromPi[4]=='D')
+//        {
+//            cursorPosition=6;
+//            for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=',';floatLength++); // Return the number of char taken by the float in the command line
+//            ReceivedStringFromPi[cursorPosition+floatLength] = 0;
+//            VITESSE.v = atof(&ReceivedStringFromPi[cursorPosition]);
+//            ReceivedStringFromPi[cursorPosition+floatLength] = ',';
+//            
+//            cursorPosition+=floatLength+1;
+//            for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=',';floatLength++); // Return the number of char taken by the float in the command line
+//            ReceivedStringFromPi[cursorPosition+floatLength] = 0;
+//            VITESSE.vt = atof(&ReceivedStringFromPi[cursorPosition]);
+//            ReceivedStringFromPi[cursorPosition+floatLength] = ';';
+//            
+//            
+//            motion_speed(VITESSE);
+//        }
+
         // SPED
         if(ReceivedStringFromPi[1]=='S' 
 		&& ReceivedStringFromPi[2]=='P' 
@@ -165,19 +187,14 @@ void SelectActionFromPi()
 		&& ReceivedStringFromPi[4]=='D')
         {
             cursorPosition=6;
-            for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=',';floatLength++); // Return the number of char taken by the float in the command line
+            for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=';';floatLength++); // Return the number of char taken by the float in the command line
             ReceivedStringFromPi[cursorPosition+floatLength] = 0;
             VITESSE.v = atof(&ReceivedStringFromPi[cursorPosition]);
-            ReceivedStringFromPi[cursorPosition+floatLength] = ',';
-            
-            cursorPosition+=floatLength+1;
-            for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=',';floatLength++); // Return the number of char taken by the float in the command line
-            ReceivedStringFromPi[cursorPosition+floatLength] = 0;
-            VITESSE.vt = atof(&ReceivedStringFromPi[cursorPosition]);
             ReceivedStringFromPi[cursorPosition+floatLength] = ';';
             
+            VITESSE.vt = 0;
             
-            motion_speed(VITESSE);
+            motion_linear_speed(VITESSE);
         }
 
         // ANGL
@@ -515,7 +532,7 @@ void SelectActionFromPi()
     && ReceivedStringFromPi[4]=='T')
     {
         //__delay_ms(10);
-        printf("$VBAT,%d;", V_Bat);
+        printf("$VBAT,%d;", Get_VBat());
         //__delay_ms(10);
     }
     
@@ -531,7 +548,13 @@ void SelectActionFromPi()
     && ReceivedStringFromPi[2]=='N' 
     && ReceivedStringFromPi[3]=='U' 
     && ReceivedStringFromPi[4]=='S')
-    {   Enable_Ultrason(ReceivedStringFromPi[6] != '0');    }
+    {
+        valc = ReceivedStringFromPi[6];
+        if (valc >= '0' && valc <= '3') {
+            valc -= '0';
+            Choose_Enabled_US(valc);
+        }
+    }
 }
 
 void SendDone(void)
