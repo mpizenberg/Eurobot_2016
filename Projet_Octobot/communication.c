@@ -506,7 +506,7 @@ void SelectActionFromPi()
             if (valc >= '0' && valc <= '9') {
                 valc -= '0';
             } else if (valc >= 'A' && valc <= 'F') {
-                valc -= 'A';
+                valc = valc + 10 - 'A';
             } else {
                 valc = 0x0F;
             }

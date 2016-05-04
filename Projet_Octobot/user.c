@@ -50,13 +50,13 @@ void Init_All(int callback){
     InitSick_VBat();
     Init_Ultrasons();
     Init_Evitement();
+    Position Pos0 = {0,0,0};
+    set_position(Pos0);
     motion_init(); // start asserv
     
     TRISAbits.TRISA9 = 1;
     
-    TRIS_TEAM = 1;  // input for bouton vert/violet(rouge)
     
-    TRIS_LAISSE = 1;            // input for laisse
     
 	POMPE_HAUTE = 0;
 	POMPE_BASSE = 0;

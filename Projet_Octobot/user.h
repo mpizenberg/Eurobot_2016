@@ -5,8 +5,6 @@
 /* User Level #define Macros                                                  */
 /******************************************************************************/
 #define led _LATA2
-#define PIN_LAISSE _RC3     // ==> Pin 5V numero 4.
-#define TRIS_LAISSE _TRISC3
 
 
 
