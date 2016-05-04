@@ -44,11 +44,13 @@ void Init_All(int callback){
     Init_PWM();
     Init_QEI();
     Init_IT_AX12();
-    __delay_ms(200);
+    Gestion_IO_AU_Init();
+    __delay_ms(500);
     Init_ax12();
     InitSick_VBat();
     motion_init(); // start asserv
     Init_Ultrasons();
+    
     TRISAbits.TRISA9 = 1;
     
     TRIS_TEAM = 1;  // input for bouton vert/violet(rouge)

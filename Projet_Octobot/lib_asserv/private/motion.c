@@ -7,6 +7,7 @@
 #include "../lib_asserv_default.h"
 #include <math.h>
 #include "../../communication.h"
+#include "../../ultrason.h"
 
 /******************************    Variables    *******************************/
 volatile float motion_initialized = 0;

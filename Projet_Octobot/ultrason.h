@@ -38,13 +38,13 @@ void Init_Ultrasons (void);
 #define US2_IS_BACK   1
 
 
-extern volatile uint8_t Etat_Ultrason;
+//extern volatile uint8_t Etat_Ultrason;
 //extern volatile uint16_t Mesure_Timer_Ultrason;     // mesure brutale du timer
 //extern volatile uint16_t Mesure_Distance_Ultrason;  // distance en mm
 //extern uint8_t Sector_Ultrason;
 
-extern volatile uint8_t Debug_Ultrason;
-extern volatile uint16_t count_Debug_Ultrason;
+//extern volatile uint8_t Debug_Ultrason;
+//extern volatile uint16_t count_Debug_Ultrason;
 //extern volatile char Motion_Free_Activ_US;
 
 
@@ -58,6 +58,7 @@ void Enable_Ultrason (char enable);
 void Choose_Enabled_US(int Sicks_En);
 
 void New_Order_US_Handling(void);
+
 
 void Must_do_Gestion_US_Sector(void);
 

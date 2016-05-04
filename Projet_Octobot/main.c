@@ -21,17 +21,6 @@
 /* Configuration                                                             */
 /******************************************************************************/
 
-// Select Oscillator and switching.
-_FOSCSEL(FNOSC_FRCPLL & IESO_OFF);
-// Select clock.
-_FOSC(POSCMD_NONE & OSCIOFNC_ON & IOL1WAY_ON & FCKSM_CSDCMD);
-// Watchdog Timer.
-_FWDT(FWDTEN_OFF);
-// Select debug channel.
-_FICD(ICS_PGD3 & JTAGEN_OFF);
-
-_FPOR(PWMPIN_ON);
-
 
 #include <stdint.h>        // Includes uint16_t definition
 #include <stdio.h>         // Includes sprintf
@@ -48,6 +37,7 @@ int main(int argc, char** argv) {
     while (1)
     {
         Faire_Actions_AX12();
+        Gestion_IO_AU_Loop();
     }
 }
 

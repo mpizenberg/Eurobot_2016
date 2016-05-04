@@ -248,20 +248,14 @@ void Start_Stop_Debug_Ultrason(void)
         Debug_Ultrason = 1;
     }
 }
-/*
-void Enable_Ultrason (char enable)
-{
-    Motion_Free_Activ_US[0] = 1;
-    Motion_Free_Activ_US[1] = 1;
-}
-*/
 
-void Choose_Enabled_US(int Sicks_En)
+
+void Choose_Enabled_US(int US_En)
 {
     int i;
 
     for (i = 0; i < 2; i++) {
-        if (Sicks_En & (1<<i)) {
+        if (US_En & (1<<i)) {
             Motion_Free_Activ_US[i] = 1;
         } else {
             Motion_Free_Activ_US[i] = 0;
@@ -274,6 +268,11 @@ void New_Order_US_Handling(void)
     Can_Restart_Order = 0;
     Old_Blocked_Front = 0;
     Old_Blocked_Back = 0;
+}
+
+void Must_do_Gestion_US_Sector(void)
+{
+    IFS0bits.SPI1EIF = 1;   
 }
 
 void __attribute__ ((interrupt, auto_psv)) _SPI1ErrInterrupt(void)

@@ -51,7 +51,7 @@ volatile uint16_t V_Bat_Tab[NUMBER_MEAS_VBAT];
 
 volatile uint8_t debug_sick_on = 0;
 volatile uint8_t Ative_Motion_Free_Sicks = 1;
-volatile uint8_t Motion_Free_Activ_Each = 0x0F;
+volatile uint8_t Motion_Free_Activ_Each = 0;    // ça desactive les sicks !! mais c'est pour octo, donc pas grave
 /******************************************************************************/
 /* User Functions                                                             */
 /******************************************************************************/
