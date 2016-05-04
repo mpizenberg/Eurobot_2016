@@ -49,7 +49,7 @@ void Init_All(int callback){
     Init_ax12();
     //I2C_Init();
     InitSick_VBat();
-    // Init_Ultrasons();
+    // Init_Ultrasons();  // surtout pas sur crabot malheureux !
     Init_Evitement();
     motion_init(); // start asserv
     
