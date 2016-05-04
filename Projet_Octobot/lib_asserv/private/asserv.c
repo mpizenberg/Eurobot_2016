@@ -213,7 +213,7 @@ void linear_speed_asserv_step(Odo *odo, float *commande_g, float *commande_d){
     float commande_delta;
 
     // verifier qu'on est pas bloque par un obstacle
-    check_blocked(motionState.speed, speed_asserv.speed_order_constrained);
+    //check_blocked(motionState.speed, speed_asserv.speed_order_constrained);
 
     // on commence par verifier les contraintes de vitesses et acceleration
     constrain_speed_order();

@@ -52,10 +52,13 @@ int main(int argc, char** argv) {
 void reglage_asserv(void)
 {
     //while (PIN_LAISSE);
-    Speed speed0 = {0, 0};
-    Speed speed1 = {0, 3};
+    Speed speed0;
+    speed0.v = 0.3;
+    speed0.vt = 0;
+    //Speed speed1 = {0, 3};
     //motion_angular_speed(4);
     debug_count = 0;
+    motion_linear_speed(speed0);
     //motion_angular_speed(1);
     //motion_speed(speed1);
     while(debug_count<300);
