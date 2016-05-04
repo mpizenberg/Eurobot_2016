@@ -15,7 +15,7 @@ def get_ans(ser):
 		s=ser.read(1)
 	chaine += s
 	#if chaine=="$CNCL;":
-		### REBOOT PI
+		# Reboot de la Pi
 	if chaine=="$DSI0;":
 		Sicks+=1
 	elif chaine=="$DSI1;":
@@ -48,15 +48,15 @@ def reset_pic():
 	GPIO.output(17, False)
 	sleep(6) # temps d'init du pic
 
-def enable_sicks(ser,sicks):
+def enable_US(ser,ultrasons):
 	### valeur en hexa de 0 a F.
 	#   0 tous desactives F tous actives
 	#   9 desactive les sicks avant
 	### 6 desactive les sicks arriere
-	command = "$ENSI,"+sicks+";"
+	command = "$ENUS,"+ultrasons+";"
 	ser.write(command)
 	print(command)
-
+	
 def move_pos(ser,x,y):
 	angle="0"
 	command = "$MOVE,"+str(x)+","+str(y)+","+angle+";"
@@ -91,14 +91,9 @@ def set_speed(ser,max):
 	print ("Changement de vmax :"+command)
 
 def set_speed_ang(ser,max):
-        command ="$VTMA,"+str(max)+";"
-        ser.write(command)
-        print ("Changement de vt_max :"+command)
-
-def set_acc(ser,al,at,a):
-	command ="$AMAX,"+str(al)+","+str(at)+","+str(a)+";"
+	command ="$VTMA,"+str(max)+";"
 	ser.write(command)
-	print ("Chamgement d'accelerations max : "+str(al)+" ,"+str(at)+" ,"+str(a)+";")
+	print ("Changement de vt_max :"+command)
 
 def move_speed(ser,v,vt):
 	vt = 6.28318*vt/360 #conversion degres radians
@@ -135,96 +130,54 @@ def ask_team(ser):
 		team = 0
 	return team
 
-def ask_conf(ser):
-	command = "$CONF;"
-	ser.write(command)
-	print (command)
-	s = get_ans(ser)
-	if s=="$CON0;":
-		configuration = 0
-        elif s=="$CON1;":
-                configuration = 1
-	elif s=="$CON2;":
-		configuration = 2
-	elif s=="$CON3;":
-		configuration = 3
-	elif s=="$CON4;":
-		configuration = 4
-	elif s=="$CON5;":
-		configuration = 5
-	elif s=="$CON6;":
-                configuration = 6
-	elif s=="$CON7;":
-                configuration = 7
-	else :
-		configuration = -1
-	return configuration
-	
-	
 #listes des actions propres au robot
 
-def deploy_fish_av(ser): # deploie les bras pour la peche a l avant
-	command = "$DFAV;"
+def deploy_wings(ser): # deploie les ailes
+	command = "$OWIA;"
 	print command
 	ser.write(command)
 
-def deploy_fish_ar(ser): # deploie les bras pour la peche a l arriere
-	command = "$DFAR;"
+def deploy_wings_H(ser): # deploie les ailes du haut
+	command = "$OWIH;"
 	print command
 	ser.write(command)
 
-def deploy_fish(ser): # deploie les bras pour la peche
-        command = "$DFIS;"
-        print command
-        ser.write(command)
-
-def moveup_fish_av(ser): # souleve un peu les bras avant pour emmener les poissons dans le filet
-	command = "$UPAV;"
+def deploy_wings_B(ser): # deploie les ailes du bas
+	command = "$OWIB;"
+	print command
+	ser.write(command)
+	
+def close_wings(ser): # Ferme les ailes
+	command = "$CWIA;"
 	print command
 	ser.write(command)
 
-def moveup_fish_ar(ser): # souleve un peu les bras arriere pour emmener les poissons dans le filet
-	command = "$UPAR;"
+def close_wings_H(ser): # deploie les ailes
+	command = "$CWIH;"
 	print command
 	ser.write(command)
 
-def rlz_fish_av(ser): # lache les poissons dans le filet et range les bras avant 
-	command = "$RFAV;"
+def close_wings_B(ser): # deploie les ailes
+	command = "$CWIB;"
 	print command
 	ser.write(command)
-
-def rlz_fish_ar(ser): # lache les poissons dans le filet et range les bras arriere 
-	command = "$RFAR;"
+	
+def I_Believe(ser): # Je peux voler !!!
+	command = "$IFLY;"
 	print command
 	ser.write(command)
-
-def rlz_fish(ser): # lache les poissons dans le filet et range les bras arriere
-        command = "$RFIS;"
-        print command
-        ser.write(command)
-
-
-def open_bras(ser): # ouvre les petit bras du robot pour prendre blocs de sable
-	command = "$OPNB;"
+	
+def enable_pumps(ser): # Active les pompes
+	command = "$POMA;"
 	print command
 	ser.write(command)
-
-def open_full_bras(ser): #ouvre les bras en entier pour pouvoir pousser les portes
-	command = "$OPFB;"
+	
+def enable_pump_bas(ser): # Active les pompes
+	command = "$POAB;"
 	print command
 	ser.write(command)
-
-def close_bras(ser): # referme les bras
-	command = "$CLOB;"
-	print command
-	ser.write(command)
-
-def catch(ser): # referme un peu les bras pour serrer les blocs
-	command = "$CATB;"
-	print command
-	ser.write(command)
-
-def funny_action(ser): # demarre la funny action
-	command = "$FUNA;"
+	
+def disable_pumps(ser): # Active les pompes
+	command = "$POMD;"
 	print command
 	ser.write(command)
