@@ -40,7 +40,7 @@ _FPOR(PWMPIN_ON);
 
 #include "main.h"
 
-
+void reglage_asserv(void);
 
 int main(int argc, char** argv) {
     Init_All(0);
@@ -56,11 +56,9 @@ void reglage_asserv(void)
     Speed speed1 = {0, 3};
     //motion_angular_speed(4);
     debug_count = 0;
-    motion_pwm_angle(10);
     //motion_angular_speed(1);
     //motion_speed(speed1);
     while(debug_count<300);
-    motion_pwm_angle(0);
     //motion_speed(speed0);
     
 }

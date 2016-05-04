@@ -27,20 +27,16 @@ void debug_init(){
     init_debug_table(speedDebug.vt);
     init_debug_table(speedDebug.cons_v);
     init_debug_table(speedDebug.cons_vt);
-    init_debug_table(speedDebug.cmd_v);
-    init_debug_table(speedDebug.cmd_vt);
     //init_debug_table(posXYDebug.x);
     //init_debug_table(posXYDebug.y);
 }
 
-void debug_speed_asserv(float cmd_g, float cmd_d){
+void debug_speed_asserv(){
     if (debug_count < DEBUG_COUNT_MAX){
         (speedDebug.v)[debug_count] = motionState.speed.v;
         (speedDebug.vt)[debug_count] = motionState.speed.vt;
         (speedDebug.cons_v)[debug_count] = speed_asserv.speed_order_constrained.v;
         (speedDebug.cons_vt)[debug_count] = speed_asserv.speed_order_constrained.vt;
-        (speedDebug.cmd_v)[debug_count] = 0.5 * (cmd_d + cmd_g);
-        (speedDebug.cmd_vt)[debug_count] = 0.5 * (cmd_d - cmd_g);
         debug_count++;
     }
 }
