@@ -5,8 +5,6 @@
 /* User Level #define Macros                                                  */
 /******************************************************************************/
 #define led _LATA2
-#define PIN_LAISSE _RC3     // ==> Pin 5V numero 4.
-#define TRIS_LAISSE _TRISC3
 
 // ultrason : en RC4 // defini dans ultrason .h
 
@@ -28,9 +26,7 @@
 
 
 
-extern volatile char Active_Delay_90;
-extern volatile long Delay_90;
-extern volatile char Delay_90_Over;
+
 
 /******************************************************************************/
 /* System Function Prototypes                                                 */

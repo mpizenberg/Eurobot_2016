@@ -23,6 +23,10 @@
 #define PIN_TEAM _RA4       // ==> Pin 3.3V numero 2
 #define TRIS_TEAM _TRISA4 
 
+#define PIN_LAISSE _RC3     // ==> Pin 5V numero 4.
+#define TRIS_LAISSE _TRISC3
+
+
 
 void Gestion_IO_AU_Config_Init(void);
 
