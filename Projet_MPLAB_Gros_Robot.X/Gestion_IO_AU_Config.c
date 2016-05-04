@@ -28,6 +28,9 @@ void Gestion_IO_AU_Config_Loop(void){
         }
         old_Detect_10V = 1;
     } else {
+        if (old_Detect_10V) {
+            SendUrge();
+        }
         old_Detect_10V = 0;
     }
 }

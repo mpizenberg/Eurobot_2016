@@ -22,6 +22,7 @@ void SendSick_Status(int val8);
 void DetectUltrason(void);
 void ReleaseUltrason(void);
 void SendUltrason_Status(void);
+void SendUrge(void);
 
 
 

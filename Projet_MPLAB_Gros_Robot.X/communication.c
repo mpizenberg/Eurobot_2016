@@ -634,3 +634,7 @@ void SendNum_Config (void)
 {
     printf ("$CON%d;", Get_Number_Config());
 }
+
+void SendUrge(void){
+    printf ("$URGE;");
+}
