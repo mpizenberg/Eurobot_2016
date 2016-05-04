@@ -20,7 +20,7 @@
 /******************************************************************************/
 
 #define NUMBER_OF_SICK 4
-#define NUMBER_OF_POINTS_MOY_SICK 16
+#define NUMBER_OF_POINTS_MOY_SICK 8
 
 #define SICK1_IS_FRONT  1
 #define SICK2_IS_FRONT  0
@@ -50,7 +50,7 @@
 */
 
 
-#define DEFAULT_THRESHOLD 480 // 300 ~> 16 cm //420 pas assez homolo1
+#define DEFAULT_THRESHOLD 420 // 300 ~> 16 cm //420 pas assez homolo1
 #define MARGIN_SICK 20		// en réalité, plutot un triger de schmitt
 #define SICK_LIMIT_MIN 30	// limite minimum qui fait passer un sick en off
 
@@ -69,6 +69,7 @@ void InitSick_VBat();
 
 unsigned int Get_Sick(int Sick_Voulu);
 char Get_Sick_Sector (int Sick_Voulu);
+extern volatile char Sick_Sector[];
 
 void Start_Stop_Debug_Sick(void);
 

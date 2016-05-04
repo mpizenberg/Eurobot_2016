@@ -92,6 +92,7 @@ void SelectActionFromPi()
     Speed VITESSE;
     uint8_t val8;
     char valc;
+    int vali;
     
     
     //**************************************************************************//
@@ -487,13 +488,13 @@ void SelectActionFromPi()
         // l'utilisateur a juste droit à de 0 à F
         valc = ReceivedStringFromPi[6];
         if (valc >= '0' && valc <= '9') {
-            valc -= '0';
+            vali = valc - '0';
         } else if (valc >= 'A' && valc <= 'F') {
-            valc -= 'A';
+            vali = valc - 'A' + 10;
         } else {
-            valc = 0x0F;
+            vali = 0x0F;
         }
-        Choose_Enabled_Sicks(valc);
+        Choose_Enabled_Sicks(vali);
     }
     
     // ULS?			// demande status sick

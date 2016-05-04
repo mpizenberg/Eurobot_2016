@@ -42,7 +42,8 @@ volatile int channel_conv = 0;		// canal de conversion actuel
 volatile uint8_t i_moy_sick = 0;
 volatile uint16_t Value_Sick[NUMBER_OF_SICK][NUMBER_OF_POINTS_MOY_SICK];	// récupèrere la valeur de l'ADC du sick, puis fait une moyenne tournante
 volatile uint32_t Sum_Value_Sick[NUMBER_OF_SICK];
-volatile uint8_t Sick_Sector[NUMBER_OF_SICK] = {0};		// full of 0	// tout ou rien sur les seuils
+// dispo en externe :
+volatile char Sick_Sector[NUMBER_OF_SICK] = {0};		// full of 0	// tout ou rien sur les seuils
 
 volatile uint16_t Threshold[NUMBER_OF_SICK] = {DEFAULT_THRESHOLD, DEFAULT_THRESHOLD, DEFAULT_THRESHOLD, DEFAULT_THRESHOLD};
 
@@ -171,9 +172,9 @@ void __attribute__ ((interrupt, auto_psv)) _ADC1Interrupt(void)
     uint16_t val16 = ADC1BUF0;// rÃ©cupÃ©ration valeur depuis ADC
 
     if (channel_conv != NUMBER_OF_SICK) {   // si on est pas sur V_Bat
-        Sum_Value_Sick[channel_conv] -= Value_Sick[channel_conv][i_moy_sick];     // enlève la valeur de X coups d'avant
-        Sum_Value_Sick[channel_conv] += val16;                               // ajoute la valeur de maintenant
-
+        //Sum_Value_Sick[channel_conv] -= Value_Sick[channel_conv][i_moy_sick];     // enlève la valeur de X coups d'avant
+        //Sum_Value_Sick[channel_conv] += val16;                               // ajoute la valeur de maintenant
+        
         Value_Sick[channel_conv][i_moy_sick] = val16;                        // enregistrement de la valeur lue
 
         if (channel_conv == (NUMBER_OF_SICK - 1)) {
@@ -182,8 +183,12 @@ void __attribute__ ((interrupt, auto_psv)) _ADC1Interrupt(void)
                 i_moy_sick = 0;
             }
         }
+        Sum_Value_Sick[channel_conv] = 0;
+        for (i = 0; i < NUMBER_OF_POINTS_MOY_SICK; i++) {
+            Sum_Value_Sick[channel_conv] += Value_Sick[channel_conv][i];
+        }
         
-        val16 = (uint16_t)(Sum_Value_Sick[channel_conv] >> 4);   // récup de la somme et division par 16
+        val16 = (uint16_t)(Sum_Value_Sick[channel_conv] >> 3);   // récup de la somme et division par 8
 
         if (Sick_Sector[channel_conv] == 0) {     // si on considère pour l'instant qu'il y a un truc "pres"
             if (val16 > (Threshold[channel_conv] + MARGIN_SICK)) {  // si la valeur repasse au dessus de seuil + marge
@@ -284,11 +289,11 @@ unsigned int Get_Sick(int Sick_Voulu)
 // return 0 si detection
 char Get_Sick_Sector (int Sick_Voulu)
 {
-    Sick_Voulu --;
+    //Sick_Voulu --;
     if (Sick_Voulu < NUMBER_OF_SICK) {
         return Sick_Sector[Sick_Voulu];
     } else {
-        return 0;
+        return 1;
     }
 }
 
