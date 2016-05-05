@@ -10,6 +10,8 @@ volatile char Active_Delay_90 = 0;
 volatile long Delay_90 = 0;
 volatile char Delay_90_Over = 0;
 
+volatile long Delay_10 = 0;
+
 
 void Timer_ms_Init(void)
 {
@@ -46,6 +48,9 @@ char Get_Maxtime(void)
     else
         return 0;
 }
+
+void Raz_Delay_10(void)
+{	Delay_10 = 0;	}
 
 
 
@@ -98,6 +103,14 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
     }
     if (Loc_Maxtime)
         Loc_Maxtime--;
+	
+	if (asserv_mode != ASSERV_MODE_OFF) {
+		if (Delay_10 >= 10000){
+			SendDone();
+		} else {
+			Delay_10 ++;
+		}
+	}
     
     if (Delay_90 < 90000) {
         if (Active_Delay_90) {

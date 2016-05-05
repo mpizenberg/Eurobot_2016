@@ -12,5 +12,7 @@ void Set_Maxtime_Seq_AX12(unsigned int val);
 
 void Set_Maxtime(unsigned int val);
 char Get_Maxtime(void);
+void Raz_Delay_10(void);
+
 
 #endif

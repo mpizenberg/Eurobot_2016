@@ -559,6 +559,7 @@ void SelectActionFromPi()
 void SendDone(void)
 {
     //__delay_ms(50);
+	Raz_Delay_10();
     printf("$DONE;");
     //__delay_ms(50);
 }
