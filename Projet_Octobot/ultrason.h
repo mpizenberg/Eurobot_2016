@@ -6,7 +6,7 @@
 void Init_Ultrasons (void);
 
 #define NUMBER_OF_US                2
-#define ULTRASON_THRESOLD           250      // seuil d'alarme en mm
+#define ULTRASON_THRESOLD           350      // seuil d'alarme en mm
 #define ULTRASON_THRESOLD_TRIGGER   25      // zone du triger de schmitt
 
 
@@ -44,6 +44,8 @@ void Init_CN(void);
 void Start_Stop_Debug_Ultrason(void);
 
 int Get_US_Sector(int US);
+
+void Set_Threshold_US(int limit_mm);
 
 
 #endif

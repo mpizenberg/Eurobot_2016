@@ -92,6 +92,7 @@ void SelectActionFromPi()
     Speed VITESSE;
     uint8_t val8;
     char valc;
+    
     if (!Delay_90_Over) {
         // INIT
         if(ReceivedStringFromPi[1]=='I'
@@ -471,6 +472,22 @@ void SelectActionFromPi()
         {
             Start_Stop_Debug_Ultrason();
         }
+        
+        // DTUS			// change la distance de detection des ultrasons
+        if(ReceivedStringFromPi[1]=='D'
+        && ReceivedStringFromPi[2]=='T'
+        && ReceivedStringFromPi[3]=='U'
+        && ReceivedStringFromPi[4]=='S')
+        {
+            cursorPosition = 6;
+            for(floatLength=0;ReceivedStringFromPi[cursorPosition+floatLength]!=';';floatLength++); // Return the number of char taken by the float in the command line
+            ReceivedStringFromPi[cursorPosition+floatLength] = 0;
+            valf = atof(&ReceivedStringFromPi[cursorPosition]);
+            ReceivedStringFromPi[cursorPosition+floatLength] = ';';
+            Set_Threshold_US(valf*1000);
+        }
+        
+        
 
     //**************************************************************************//
     //************** PARTIE AUTRES MOUVEMENTS **********************************//

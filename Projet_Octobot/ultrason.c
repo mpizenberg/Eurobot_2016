@@ -50,6 +50,8 @@ volatile uint16_t Mesure_Distance_Ultrason_AR = 3000;  // distance en mm
 uint8_t Ultrason_AV_Detect = 0;
 uint8_t Ultrason_AR_Detect = 0;
 
+volatile int Threshold_US = ULTRASON_THRESOLD;
+
 // debug
 //volatile uint8_t Debug_Ultrason = 0;
 //volatile uint16_t count_Debug_Ultrason = 0;
@@ -76,6 +78,7 @@ void Init_Ultrasons (void)
     
     Ultrason_AV_Detect = 0;
     Ultrason_AR_Detect = 0;
+    Threshold_US = ULTRASON_THRESOLD;
     
     OpenTimer4(T4_ON & T4_GATE_OFF & T4_PS_1_8 & T4_SOURCE_INT, 0xFFFF );
     // FCY = 40Meg   prescaler à 8 donc F timer = 5Meg
@@ -155,23 +158,23 @@ void __attribute__((interrupt,auto_psv)) _T4Interrupt(void) {
         }
         
         if (Ultrason_AV_Detect) {
-            if (Mesure_Distance_Ultrason_AV > (ULTRASON_THRESOLD + ULTRASON_THRESOLD_TRIGGER)) {
+            if (Mesure_Distance_Ultrason_AV > (Threshold_US + ULTRASON_THRESOLD_TRIGGER)) {
                 Ultrason_AV_Detect = 0;    // passage en zone ok
                 // ReleaseUltrason(1);         // on previent la PI
             }
         } else {
-            if (Mesure_Distance_Ultrason_AV < (ULTRASON_THRESOLD - ULTRASON_THRESOLD_TRIGGER)) {
+            if (Mesure_Distance_Ultrason_AV < (Threshold_US - ULTRASON_THRESOLD_TRIGGER)) {
                 Ultrason_AV_Detect = 1; // passage en zone occupé
                 // DetectUltrason(1);		// on previent la PI
             }
         }
         if (Ultrason_AR_Detect) {
-            if (Mesure_Distance_Ultrason_AR > (ULTRASON_THRESOLD + ULTRASON_THRESOLD_TRIGGER)) {
+            if (Mesure_Distance_Ultrason_AR > (Threshold_US + ULTRASON_THRESOLD_TRIGGER)) {
                 Ultrason_AR_Detect = 0;    // passage en zone ok
                 // ReleaseUltrason(2);         // on previent la PI
             }
         } else {
-            if (Mesure_Distance_Ultrason_AR < (ULTRASON_THRESOLD - ULTRASON_THRESOLD_TRIGGER)) {
+            if (Mesure_Distance_Ultrason_AR < (Threshold_US - ULTRASON_THRESOLD_TRIGGER)) {
                 Ultrason_AR_Detect = 1; // passage en zone occupé
                 // DetectUltrason(2);		// on previent la PI
             }
@@ -256,4 +259,9 @@ int Get_US_Sector(int US)
         return (1-Ultrason_AR_Detect);
     }
     else return 1;
+}
+
+void Set_Threshold_US(int limit_mm)
+{
+    Threshold_US = limit_mm;
 }

@@ -45,6 +45,7 @@ void Start_Stop_Debug_Ultrason(void);
 
 int Get_US_Sector(int US);
 
+void Set_Threshold_US(int limit_mm);
 
 #endif
 
