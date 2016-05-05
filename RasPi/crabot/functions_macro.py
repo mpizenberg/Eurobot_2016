@@ -3,11 +3,11 @@
 ####
 # CONFIGURATIONS
 # 0 -> Configuration de recalage OK
-# 1 -> OK
-# 2 -> OK Ameliorable
+# 1 -> OK - recul sur petit tas de sable a ameliorer
+# 2 -> La fin est a revoir, possible fusionner avec 3
 # 3 -> OK
-# 4 -> FIN A VERIFIER/REFAIRE
-# 5 -> FIN A AJUSTER
+# 4 -> OK enlever actions inutiles a la fin.
+# 5 -> Fin a refaire.
 # 6 -> Script d'homologation
 ####
 import serial
@@ -118,16 +118,18 @@ def Fermeture_Portes(ser,team):
 	functions.open_full_bras(ser)
 
 	### Fermeture des portes
-	functions.move_push(ser,0.35,team*(0.79),0.3)
+	functions.move_push(ser,0.33,team*(0.79),0.3)
 	answer = functions.get_ans(ser)
 	while answer != "$DONE;":
 		answer = functions.get_ans(ser)
 	functions.enable_sicks(ser,'0')
+        
 	functions.move_push(ser,0.35,team*(0.79),0)
-	answer = functions.get_ans(ser)
-	while answer != "$DONE;":
-		answer = functions.get_ans(ser)
-	#######################################   functions.move_speed(ser,0.2,0)
+        answer = functions.get_ans(ser)
+        while answer != "$DONE;":
+                answer = functions.get_ans(ser)
+	functions.move_speed(ser,0.2,0)
+	
 	sleep(0.2)
 	
 	### RECUL & FERMETURE DES BRAS
@@ -176,7 +178,7 @@ def Prise_Grand_Tas_De_Sable(ser,team,configuration):
 	### PRISE DES BLOCS
 	functions.catch(ser)
 	sleep(1.2)
-	### functions.set_acc(ser,0.2,6,0.3)	###########
+	functions.set_acc(ser,0.4,12,0.9)
 	functions.set_speed(ser,0.2)
 	functions.set_speed_ang(ser,1)
 
@@ -201,8 +203,8 @@ def Prise_Grand_Tas_De_Sable(ser,team,configuration):
 	answer = functions.get_ans(ser)
 	while answer != "$DONE;":
 		answer = functions.get_ans(ser)
+	functions.move_push(ser,1.05,team*(-0.4),0)
 
-	functions.move_push(ser,1.1,team*(-0.4),0)
 	answer = functions.get_ans(ser)
 	while answer != "$DONE;":
 		answer = functions.get_ans(ser)
@@ -266,9 +268,6 @@ def Prise_Poissons(ser,team):
 
 	### Changement de vitesse max
 	functions.set_speed(ser,0.2)
-	answer = functions.get_ans(ser)
-	while answer != "$DONE;":
-		 answer = functions.get_ans(ser)
 
 	### Et 3 pas en avant !!
 	functions.move_pos(ser,0.69,team*(-0.90))
@@ -381,7 +380,10 @@ def Prise_Coquillages_2(ser,team,configuration):
 	if configuration==2:	### CONFIGURATION 2 ###
 		### RECALAGE AVANT DEPART
 		functions.rotate(ser,0)
-		functions.move_speed(ser,-0.1)
+                answer = functions.get_ans(ser)
+                while answer != "$DONE;":
+                         answer = functions.get_ans(ser)
+		functions.move_speed(ser,-0.1,0)
 		sleep(0.3)
 		functions.set_x(ser,0)
 		functions.set_t(ser,0)

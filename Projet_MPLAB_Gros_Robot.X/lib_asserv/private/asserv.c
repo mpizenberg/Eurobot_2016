@@ -71,6 +71,7 @@ void asserv_init(){
 void set_asserv_off(){asserv_mode = ASSERV_MODE_OFF;}
 void set_asserv_pos_mode(){asserv_mode = ASSERV_MODE_POS;}
 void set_asserv_speed_mode(){asserv_mode = ASSERV_MODE_SPEED;}
+void set_asserv_linear_speed_mode(){asserv_mode = ASSERV_MODE_LINEAR_SPEED;}
 void set_asserv_angle_mode(){asserv_mode = ASSERV_MODE_ANGLE;}
 void set_asserv_seq_mode(){asserv_mode = ASSERV_MODE_SEQUENCE;}
 
@@ -165,6 +166,11 @@ void asserv_step(Odo *odo, float *commande_g, float *commande_d){
         case ASSERV_MODE_SEQUENCE :
             seq_asserv_step(odo, commande_g, commande_d);
             break;
+        // si on est en asservissement en vitesse, sans regarder l'angle
+        case ASSERV_MODE_LINEAR_SPEED :
+            if (debug_mode){debug_speed_asserv();}
+            linear_speed_asserv_step(odo, commande_g, commande_d);
+            break;
     }
 }
 
@@ -201,6 +207,31 @@ void speed_asserv_step(Odo *odo, float *commande_g, float *commande_d){
     } else {speed_asserv.done = 0;}
      */
 }
+
+void linear_speed_asserv_step(Odo *odo, float *commande_g, float *commande_d){
+    // commandes des PID en vitesse absolue (delta)
+    float commande_delta;
+
+    // verifier qu'on est pas bloque par un obstacle
+    check_blocked(motionState.speed, speed_asserv.speed_order_constrained);
+
+    // on commence par verifier les contraintes de vitesses et acceleration
+    constrain_speed_order();
+
+    // maj des consignes des PID
+    pid_set_order((Pid*)&(speed_asserv.pid_delta), speed_asserv.speed_order_constrained.v);
+
+    // maj des valeurs des PID
+    pid_maj((Pid*)&(speed_asserv.pid_delta), odo->state->speed.v);
+
+    // calcul des sorties des PID
+    commande_delta = pid_process((Pid*)&(speed_asserv.pid_delta));
+
+    // renvoie des commandes gauche et droite
+    *commande_g = commande_delta;
+    *commande_d = commande_delta;
+}
+
 
 void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d){
     /*
@@ -357,6 +388,7 @@ int asserv_done(){
     else if (asserv_mode == ASSERV_MODE_SPEED) {return speed_asserv.done;}
     else if (asserv_mode == ASSERV_MODE_ANGLE) {return angle_asserv.done;}
     else if (asserv_mode == ASSERV_MODE_SEQUENCE) {return !(motionSequence.waiting);}
+    else if (asserv_mode == ASSERV_MODE_LINEAR_SPEED) {return speed_asserv.done;}
     else {return 0;}
 }
 

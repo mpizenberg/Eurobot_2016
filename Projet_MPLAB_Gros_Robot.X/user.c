@@ -49,17 +49,16 @@ void Init_All(int callback){
     Init_ax12();
     //I2C_Init();
     InitSick_VBat();
+    // Init_Ultrasons();  // surtout pas sur crabot malheureux !
+    Init_Evitement();
+    Position Pos = {0,0,0};
+    set_position(Pos);
     motion_init(); // start asserv
-    // Init_Ultrasons();
     
     TRISAbits.TRISA9 = 1;
     
     
-
     
-    TRIS_LAISSE = 1;            // input for laisse
-    
-    Init_CN();
 
     if(callback) {
         SendDone();

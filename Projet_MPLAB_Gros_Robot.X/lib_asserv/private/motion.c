@@ -7,7 +7,7 @@
 #include "../lib_asserv_default.h"
 #include <math.h>
 #include "../../communication.h"
-#include "../../Sick_VBat.h"
+#include "../../Evitement.h"
 
 /******************************    Variables    *******************************/
 volatile float motion_initialized = 0;
@@ -133,7 +133,7 @@ void motion_pos(Position pos){
     lastPosOrder.mode = POSITION_ORDER;
     lastPosOrder.pos = pos;
     lastPosOrder.stop_distance = DEFAULT_STOP_DISTANCE;
-    New_Order_Sick_Handling();
+    New_Order_Evitement_Handling();
     
     set_asserv_pos_mode();
 }
@@ -158,7 +158,7 @@ void motion_push(Position pos, float stop_distance){
         lastPosOrder.mode = POSITION_ORDER;
         lastPosOrder.pos = pos;
         lastPosOrder.stop_distance = stop_distance;
-        New_Order_Sick_Handling();
+        New_Order_Evitement_Handling();
     // sinon on remplace l'ordre suivant par celui là
     } else {
         motionSequence.stop_distance[!motionSequence.in_progress] = stop_distance;
@@ -173,9 +173,19 @@ void motion_speed(Speed speed){
     speed_asserv.speed_order = speed;
 
     lastPosOrder.mode = NO_ORDER;
-    New_Order_Sick_Handling();
+    New_Order_Evitement_Handling();
     
     set_asserv_speed_mode();
+}
+
+void motion_linear_speed(Speed speed){
+    speed_asserv.done = 0;
+    speed_asserv.speed_order = speed;
+
+    lastPosOrder.mode = NO_ORDER;
+    New_Order_Evitement_Handling();
+    
+    set_asserv_linear_speed_mode();
 }
 // tourner pour être à un angle (absolu) alpha
 void motion_angle(float abs_angle){
@@ -183,7 +193,7 @@ void motion_angle(float abs_angle){
     angle_asserv.angle_order = abs_angle;
 
     lastPosOrder.mode = NO_ORDER;
-    New_Order_Sick_Handling();
+    New_Order_Evitement_Handling();
     
     set_asserv_angle_mode();
 }
