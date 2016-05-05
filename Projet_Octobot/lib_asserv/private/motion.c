@@ -24,8 +24,8 @@ volatile MotionSequence motionSequence;
 // initialiser la lib d'asservissement
 void motion_init(void) {
     Position posZero = {0,0,0};
-    reset_last_order(posZero);
 
+    reset_last_order(posZero);
     Speed v_max = DEFAULT_CONSTRAINT_V_MAX;
     Acceleration a_max = DEFAULT_CONSTRAINT_A_MAX;
     blocked = 0;
@@ -52,7 +52,6 @@ void reset_last_order(Position pos)
     lastPosOrder.pos = pos;
     lastPosOrder.stop_distance = 0;
 }
-
 // assigner des valeurs à la position (x, y et theta)
 void set_position(Position pos){motionState.pos = pos;}
 void set_position_x(float x){motionState.pos.x = x;}
@@ -66,7 +65,7 @@ void set_Constraint_vitesse_max(float vl_max) {
     } else {
         float tab_default[] = DEFAULT_CONSTRAINT_V_MAX;
         motionConstraint.v_max.v = tab_default[0];
-    }       
+    }
 }
 
 void set_Constraint_vt_max(float vt_max) {
@@ -130,12 +129,12 @@ void motion_pos(Position pos){
     pos_asserv.stop_distance = DEFAULT_STOP_DISTANCE;
     pos_asserv.done = 0;
     pos_asserv.pos_order = pos;
-
+    
     lastPosOrder.mode = POSITION_ORDER;
     lastPosOrder.pos = pos;
     lastPosOrder.stop_distance = DEFAULT_STOP_DISTANCE;
     New_Order_Evitement_Handling();
-
+    
     set_asserv_pos_mode();
 }
 void motion_sequence(Position pos1, Position pos2){
@@ -144,7 +143,7 @@ void motion_sequence(Position pos1, Position pos2){
     motionSequence.waiting = 2; // 2 positions en attente
     motionSequence.pos_seq[0] = pos1;
     motionSequence.pos_seq[1] = pos2;
-
+    
     set_asserv_seq_mode();
 }
 void motion_push(Position pos, float stop_distance){
@@ -172,12 +171,21 @@ void motion_push(Position pos, float stop_distance){
 void motion_speed(Speed speed){
     speed_asserv.done = 0;
     speed_asserv.speed_order = speed;
-    set_asserv_speed_mode();
 
     lastPosOrder.mode = NO_ORDER;
     New_Order_Evitement_Handling();
-
+    
     set_asserv_speed_mode();
+}
+
+void motion_linear_speed(Speed speed){
+    speed_asserv.done = 0;
+    speed_asserv.speed_order = speed;
+
+    lastPosOrder.mode = NO_ORDER;
+    New_Order_Evitement_Handling();
+    
+    set_asserv_linear_speed_mode();
 }
 // tourner pour être à un angle (absolu) alpha
 void motion_angle(float abs_angle){
@@ -186,31 +194,8 @@ void motion_angle(float abs_angle){
 
     lastPosOrder.mode = NO_ORDER;
     New_Order_Evitement_Handling();
-
+    
     set_asserv_angle_mode();
-}
-
-// juste une vitesse lineaire (pas de controle de vitesse angulaire)
-void motion_linear_speed(float linear_speed){
-    speed_asserv.done = 0;
-    speed_asserv.speed_order.v = linear_speed;
-    speed_asserv.speed_order.vt = 0; // mais pas contraint
-    set_asserv_linear_speed_mode();
-}
-
-// juste une vitesse angulaire (pas de controle de vitesse lineaire)
-void motion_angular_speed(float angular_speed){
-    speed_asserv.done = 0;
-    speed_asserv.speed_order.v = 0;
-    speed_asserv.speed_order.vt = angular_speed; // mais pas contraint
-    set_asserv_angular_speed_mode();
-}
-
-void load_last_order(void)
-{
-    if (lastPosOrder.mode != NO_ORDER) {
-        motion_push(lastPosOrder.pos, lastPosOrder.stop_distance);
-    }
 }
 
 // checker si le déplacement est terminé
@@ -231,6 +216,12 @@ void check_blocked(Speed speed,Speed order){
     }
 }
 
+void load_last_order(void)
+{
+    if (lastPosOrder.mode != NO_ORDER) {
+        motion_push(lastPosOrder.pos, lastPosOrder.stop_distance);
+    }
+}
 
 // renvoie les commandes des roues gauche et droite (appelé par l'interruption toutes les 5 ms)
 void motion_step(int tics_g, int tics_d, float *commande_g, float *commande_d){

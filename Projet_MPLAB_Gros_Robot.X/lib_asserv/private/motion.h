@@ -104,7 +104,7 @@ void done(); // callback
 
 // vérifier qu'on est pas bloqué par un obstacle
 void check_blocked(Speed speed,Speed order);
-// Deblocage apres release de sick
+// Deblocage apres release de sick/ultrason/evitement
 void load_last_order(void);
 
 // renvoie les commandes des roues gauche et droite (appelé par l'interruption toutes les 5 ms)

@@ -5,11 +5,10 @@
 #define POSITION_ORDER  1
 #define ANGLE_ORDER     2
 /*****************************    Structures    *******************************/
-
 // Position absolue du robot (x, y, et theta)
 typedef struct {
-    float x; // en mètre
-    float y; // en mètre
+    float x; // en metre
+    float y; // en metre
     float t; // en radian
 } Position;
 
@@ -50,7 +49,7 @@ typedef struct {
 // Sauvegarde du dernier ordre demande par la PI.
 typedef struct {
     int mode;
-    Position pos;
+    Position pos;           
     float stop_distance;    // Distance d'arret dans le cas d'un motion push
 } PositionOrder;
 /******************************    Fonctions    *******************************/
@@ -66,6 +65,7 @@ void set_position_t(float t);
 
 // ajout pepino
 void set_Constraint_vitesse_max(float vl_max);
+// ajout Daniel
 void set_Constraint_vt_max(float vt_max);
 void set_Constraint_acceleration_max(float al_max, float at_max, float a_max);
 
@@ -95,9 +95,8 @@ void motion_pos(Position pos); // aller à cette position
 void motion_sequence(Position pos1, Position pos2); // sequence de 2 positions
 void motion_push(Position pos, float stop_distance); // ajoute ou remplace le prochain ordre de la sequence
 void motion_speed(Speed speed); // avancer à cette vitesse
+void motion_linear_speed(Speed speed); // avancer à cette vitesse, sans s'occuper de l'angle
 void motion_angle(float abs_angle); // tourner pour être à un angle (absolu) alpha
-void motion_linear_speed(float linear_speed); // juste une vitesse lineaire (pas de controle de vitesse angulaire)
-void motion_angular_speed(float linear_speed); // juste une vitesse angulaire (pas de controle de vitesse lineaire)
 
 // checker si le déplacement est terminé
 int motion_done();
@@ -105,7 +104,7 @@ void done(); // callback
 
 // vérifier qu'on est pas bloqué par un obstacle
 void check_blocked(Speed speed,Speed order);
-// Deblocage apres release de ultrasons
+// Deblocage apres release de sick/ultrason/evitement
 void load_last_order(void);
 
 // renvoie les commandes des roues gauche et droite (appelé par l'interruption toutes les 5 ms)

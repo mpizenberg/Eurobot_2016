@@ -179,7 +179,7 @@ void speed_asserv_step(Odo *odo, float *commande_g, float *commande_d){
     float commande_delta, commande_alpha;
 
     // verifier qu'on est pas bloque par un obstacle
-    check_blocked(motionState.speed, speed_asserv.speed_order_constrained);
+    // check_blocked(motionState.speed, speed_asserv.speed_order_constrained);
 
     // on commence par verifier les contraintes de vitesses et acceleration
     constrain_speed_order();
@@ -213,7 +213,7 @@ void linear_speed_asserv_step(Odo *odo, float *commande_g, float *commande_d){
     float commande_delta;
 
     // verifier qu'on est pas bloque par un obstacle
-    check_blocked(motionState.speed, speed_asserv.speed_order_constrained);
+    // check_blocked(motionState.speed, speed_asserv.speed_order_constrained);
 
     // on commence par verifier les contraintes de vitesses et acceleration
     constrain_speed_order();
@@ -253,7 +253,7 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d){
     float x = odo->state->pos.x;
     float y = odo->state->pos.y;
     float v = odo->state->speed.v;
-    float vt = odo->state->speed.vt;
+    //float vt = odo->state->speed.vt;
 
     // contraintes
     float a_max = motionConstraint.a_max.a;

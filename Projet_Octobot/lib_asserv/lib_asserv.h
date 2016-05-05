@@ -15,15 +15,14 @@ void motion_pos(Position pos); // aller à cette position
 void motion_sequence(Position pos1, Position pos2); // sequence de 2 positions
 void motion_push(Position pos, float stop_distance); // ajoute ou remplace le prochain ordre de la sequence
 void motion_speed(Speed speed); // avancer à cette vitesse
+void motion_linear_speed(Speed speed); // avancer à cette vitesse, sans s'occuper de l'angle
 void motion_angle(float abs_angle); // tourner pour être à un angle (absolu) alpha
-void motion_linear_speed(float linear_speed); // juste une vitesse lineaire (pas de controle de vitesse angulaire)
-void motion_angular_speed(float linear_speed); // juste une vitesse angulaire (pas de controle de vitesse lineaire)
 
 // checker si le déplacement est terminé
 int motion_done();
 
 int Is_Asserv_Mode_Pos(void); // r�pond 1 si vraiment position (ou s�quence de position)
-int Sens_Vitesse_Deplacement (void);    // 1 si vitesse positive -1 si negative, 0 si moins que 5 cm/sec
+int Sens_Vitesse_Deplacement (void);    // 1 si vitesse positive -1 si negative, 0 si moins que 3 cm/sec
 
 
 // renvoie les commandes des roues gauche et droite (appelé par l'interruption toutes les 10 ms)
