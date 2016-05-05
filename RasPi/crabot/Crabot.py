@@ -9,7 +9,16 @@ ser = serial.Serial("/dev/ttyAMA0",57600)
 
 functions.reset_pic()
 functions.init_ax(ser)
-while 1:
+#ouverture du fichier
+mon_fichier = open("~/Eurobot_2016/RasPi/crabot/quitter.txt","r")
+continuer = True
+while continuer:
+
+    #lecture du fichier pour savoir si l'on sort de la boucle
+    if mon_fichier.read()=="exit":
+        mon_fichier.close()
+        continuer = False
+        break
 
     try:
 	# Attente du start
