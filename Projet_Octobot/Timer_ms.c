@@ -9,6 +9,7 @@
 volatile char Active_Delay_90 = 0;
 volatile long Delay_90 = 0;
 volatile char Delay_90_Over = 0;
+volatile long Delay_10 = 0;
 
 
 void Timer_ms_Init(void)
@@ -63,12 +64,13 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
         if (Count_Laisse)
             Count_Laisse --;
     }
-    
+
     if (Etat_Laisse) {
         if (!Count_Laisse) {
             Etat_Laisse = 0;
             Active_Delay_90 = 1;
             Delay_90 = 0;
+            Delay_10 = 0;
             SendStart();
             IPC2bits.T3IP = 7;  // passage de cette IT en haute priorité, pour ne pas perdre le compte
             //Debug_Asserv_Start();
@@ -79,6 +81,7 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
             Etat_Laisse = 1;
             Active_Delay_90 = 0;
             Delay_90 = 0;
+            Delay_10 = 0;
             IPC2bits.T3IP = 1;
         }
     }
@@ -97,26 +100,41 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
     }
     if (Loc_Maxtime)
         Loc_Maxtime--;
-    
+
+    if (Delay_10 == 10000 && asserv_mode != ASSERV_MODE_OFF)
+    {
+        SendDone();
+    }
+    else if (asserv_mode == ASSERV_MODE_OFF)
+    {
+        Delay_10--;
+    }
+
+
     if (Delay_90 < 90000) {
         if (Active_Delay_90) {
             Delay_90 ++;
+            Delay_10 ++;
         } else {
             Delay_90 = 0;
+            Delay_10 = 0;
         }
         Delay_90_Over = 0;
     } else if (Delay_90 == 90000) {
         Delay_90 ++;
+        Delay_10 ++;
         IPC2bits.T3IP = 1;
         Delay_90_Over = 1;
     } else if (Delay_90 == 90001) {
         Delay_90 ++;
+        Delay_10 ++;
         SendEnd();
     } else {
         motion_free();
         Delay_90_Over = 1;
         if (!Active_Delay_90) {
             Delay_90 = 0;
+            Delay_10 = 0;
         }
     }
 
