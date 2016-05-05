@@ -3,9 +3,9 @@
 ####
 # CONFIGURATIONS
 # 0 -> Configuration de recalage OK
-# 1 -> OK - recul sur petit tas de sable a ameliorer
-# 2 -> La fin est a revoir, possible fusionner avec 3
-# 3 -> OK
+# 1 -> OK - a check
+# 2 -> OK -
+# 3 -> OK -
 # 4 -> OK enlever actions inutiles a la fin.
 # 5 -> Fin a refaire.
 # 6 -> Script d'homologation
@@ -21,7 +21,7 @@ def Script_Recalage (ser,team):
 	sleep(0.5)
 
  	functions.set_x(ser,0.25)
-    	functions.set_y(ser,team*(-0.94))
+    	functions.set_y(ser,team*(-0.935))
 	functions.set_t(ser,team*(90))
 
 	functions.move_pos(ser,0.25,0)
@@ -40,7 +40,7 @@ def Script_Recalage (ser,team):
 		answer = functions.get_ans(ser)
 
 	functions.move_speed(ser,-0.2,0)
-	sleep(0.5)
+	sleep(1)
 
 	functions.set_x(ser,0)
 	functions.set_y(ser,0)
@@ -170,9 +170,13 @@ def Prise_Grand_Tas_De_Sable(ser,team,configuration):
 	### CALAGE SUR LES BLOCS
 	functions.move_speed(ser,0.1,0)
 	sleep(0.5)
-	functions.set_y(ser,team*0.7)
+	functions.set_y(ser,team*0.71)
 	sleep(0.01)
-	functions.move_pos(ser,0.83,team*0.7)
+	functions.move_push(ser,0.83,team*0.71,0)
+	answer = functions.get_ans(ser)
+        while answer != "$DONE;":
+                answer = functions.get_ans(ser)
+
 
 	### PRISE DES BLOCS
 	functions.catch(ser)
@@ -214,14 +218,15 @@ def Prise_Grand_Tas_De_Sable(ser,team,configuration):
 	while answer != "$DONE;":
 		answer = functions.get_ans(ser)
 	functions.open_bras(ser)
-	sleep(1)
+	sleep(1.5)
 	
 	### CONTRAINTES DE VITESSE PAR DEFAUT
+	functions.set_acc(ser,0.7,20,0.8)
 	functions.set_speed(ser,0)
 	functions.set_speed_ang(ser,4)
 	
 	if configuration<4:
-		functions.move_push(ser,0.72,team*(-0.8),0.2)
+		functions.move_push(ser,0.72,team*(-0.8),0.1)
 		answer = functions.get_ans(ser)
 		while answer != "$DONE;":
 				answer = functions.get_ans(ser)
@@ -253,17 +258,19 @@ def Prise_Poissons(ser,team):
 		 answer = functions.get_ans(ser)
 
 	### Placement en centre de bassin et deploiement des bras
-	functions.move_push(ser,0.55,team*(-0.90),0)
+	functions.move_push(ser,0.55,team*(-0.895),0)
 	answer = functions.get_ans(ser)
 	while answer != "$DONE;":
 		 answer = functions.get_ans(ser)
-	functions.deploy_fish(ser)
+	###functions.deploy_fish(ser)
 
 	### Rotation pour s'aligner avec la mer
 	functions.rotate(ser,0)
 	answer = functions.get_ans(ser)
 	while answer != "$DONE;":
 		 answer = functions.get_ans(ser)
+	functions.deploy_fish(ser)
+	sleep(2)
 
 	### Changement de vitesse max
 	functions.set_speed(ser,0.2)
@@ -279,7 +286,7 @@ def Prise_Poissons(ser,team):
 			answer = functions.get_ans(ser)
 
 	### Et 3 pas en arriere !!
-	functions.move_pos(ser,0.47,team*(-0.90))
+	functions.move_pos(ser,0.48,team*(-0.90))
 	answer = functions.get_ans(ser)
 	while answer != "$DONE;":
 		 answer = functions.get_ans(ser)
@@ -295,7 +302,7 @@ def Prise_Poissons(ser,team):
 
 
 	### DEPLACEMENT VERS LE FILET
-	functions.set_speed(ser,0.5)
+	functions.set_speed(ser,0)
 	functions.move_push(ser,0.90,team*(-0.85),0.1)
 	answer = functions.get_ans(ser)
 	while answer != "$DONE;":
@@ -336,7 +343,7 @@ def Prise_Coquillages_1(ser,team,configuration):
 			 
 		print "Ce sont pas des moules mais on s en contentera ! +8 points potentiels."
 
-	elif configuration==3:		### CONFIGURATION 3 A MODIFIER ###
+	elif (configuration==2) or (configuration==3):		### CONFIGURATION 2 OU 3 ###
 		functions.move_push(ser,1.6,team*(-0.7),0.1)
 		answer = functions.get_ans(ser)
 		while answer != "$DONE;":
@@ -352,7 +359,7 @@ def Prise_Coquillages_1(ser,team,configuration):
 		while answer != "$DONE;":
 			 answer = functions.get_ans(ser)
 			 
-	elif (configuration==2) or (configuration==4) or (configuration==5):### OK ###
+	elif (configuration==4) or (configuration==5):### OK ###
 		functions.move_push(ser,0.90,team*(-0.85),0.1)
 		answer = functions.get_ans(ser)
 		while answer != "$DONE;":
@@ -375,8 +382,8 @@ def Prise_Coquillages_1(ser,team,configuration):
 	
 def Prise_Coquillages_2(ser,team,configuration):
 	### LA CONFIGURATION 1 A UNE SEULE PRISE DE COQUILLAGES ###
-	
-	if configuration==2:	### CONFIGURATION 2 ###
+	'''
+	if configuration==2:	### CONFIGURATION 2 ###	
 		### RECALAGE AVANT DEPART
 		functions.rotate(ser,0)
                 answer = functions.get_ans(ser)
@@ -433,9 +440,9 @@ def Prise_Coquillages_2(ser,team,configuration):
 				 answer = functions.get_ans(ser)
 
 		print "Ce sont pas des moules mais on s en contentera ! +12 points potentiels."
+	'''
 
-
-        if configuration==3:    ### CONFIGURATION 3 ###
+        if (configuration==2) or (configuration==3):    ### CONFIGURATION 2 ou 3 ###
 			functions.move_push(ser,0.5,team*(-0.5),0.15)
 			answer = functions.get_ans(ser)
 			while answer != "$DONE;":
@@ -457,7 +464,36 @@ def Prise_Coquillages_2(ser,team,configuration):
 				answer = functions.get_ans(ser)
 						 
 			print "Ce sont pas des moules mais on s en contentera ! +10 points potentiels."
+	if configuration == 2:
+                ### On va au fond du board
+		functions.move_push(ser,0.4,team*(-0.8),0.1)
+		answer = functions.get_ans(ser)
+		while answer != "$DONE;":
+			answer = functions.get_ans(ser)
 
+		functions.move_push(ser,1.7,team*(-0.82),0.2)
+		answer = functions.get_ans(ser)
+		while answer != "$DONE;":
+			answer = functions.get_ans(ser)
+
+		functions.move_push(ser,2.2,team*(-0.8),0.25)
+		answer = functions.get_ans(ser)
+		while answer != "$DONE;":
+			answer = functions.get_ans(ser)
+			
+		 ### On ramene tout sur le passage
+		functions.move_push(ser,1.6,team*(-0.7),0.1)
+		answer = functions.get_ans(ser)
+		while answer != "$DONE;":
+			answer = functions.get_ans(ser)
+		functions.move_push(ser,0.6,team*(-0.68),0.15)
+		answer = functions.get_ans(ser)
+		while answer != "$DONE;":
+			answer = functions.get_ans(ser)
+		functions.move_push(ser,0.2,team*(-0.6),0)
+		answer = functions.get_ans(ser)
+		while answer != "$DONE;":
+			answer = functions.get_ans(ser)
 
 	elif configuration==4:		 ### CONFIGURATION 4 A MODIFIER ###
 		functions.move_push(ser,0.35,team*(-0.85),0.2)
@@ -480,17 +516,8 @@ def Prise_Coquillages_2(ser,team,configuration):
 		while answer != "$DONE;":
 			answer = functions.get_ans(ser)
 			 
-		functions.rotate(ser,team*5)
-		answer = functions.get_ans(ser)
-		while answer != "$DONE;":
-			answer = functions.get_ans(ser)
-		functions.rotate(ser,180)
-		answer = functions.get_ans(ser)
-		while answer != "$DONE;":
-			answer = functions.get_ans(ser)
-		functions.move_push(ser,1.7,team*(-0.85),0)
 
-		functions.rotate(ser,team*10)
+		functions.move_push(ser,1.7,team*(-0.85),0)
 		answer = functions.get_ans(ser)
 		while answer != "$DONE;":
 			answer = functions.get_ans(ser)
