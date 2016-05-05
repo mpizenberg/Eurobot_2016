@@ -390,11 +390,11 @@ void Open_bras(void)
 
 void Openfull_bras (void) 
 {	// Ouverture à 180° des bras pour fermer les portes.
-    PutAX(Bras_D,       AX_GOAL_POSITION,800);
+    PutAX(Bras_D,       AX_GOAL_POSITION,795);
                         __delay_ms(delay_min_ax);
     PutAX(Bras_C,       AX_GOAL_POSITION,670);
                         __delay_ms(delay_min_ax);
-    PutAX(Bras_G,       AX_GOAL_POSITION,200);
+    PutAX(Bras_G,       AX_GOAL_POSITION,225);
                         __delay_ms(delay_min_ax);
 }
 
