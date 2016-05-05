@@ -44,22 +44,34 @@ int main(int argc, char** argv) {
 
 void reglage_asserv(void)
 {
-    int i;
-    Position Pos0, Pos1, Pos2, Pos3;
-    Pos0.x = 0;     Pos0.y = 0;
-    Pos1.x = 0.5;   Pos1.y = 0;
-    Pos2.x = 0.5;   Pos2.y = 0.5;
-    Pos3.x = 0;     Pos3.y = 0.5;
-    for (i = 0; i < 4; i++) {
-        motion_pos(Pos1);
-        while (!pos_asserv.done);
-        motion_pos(Pos2);
-        while (!pos_asserv.done);
-        motion_pos(Pos3);
-        while (!pos_asserv.done);
-        motion_pos(Pos0);
-        while (!pos_asserv.done);
-    }
+//    int i;
+//    Position Pos0, Pos1, Pos2, Pos3;
+//    Speed Speed1;
+//    Choose_Enabled_US(0);
+//    Pos0.x = 0;     Pos0.y = 0;
+//    Speed1.v = 0.3;
+//    Speed1.vt = 0;
+//    Pos1.x = 1;   Pos1.y = 0;
+//    Pos2.x = 1;   Pos2.y = 1;
+//    Pos3.x = 0;   Pos3.y = 1;
+//    for (i = 1; i < 6; i++) {
+//        set_Constraint_vitesse_max(0.1*i);
+//        motion_pos(Pos1);
+//        while (!pos_asserv.done);
+//        motion_pos(Pos2);
+//        while (!pos_asserv.done);
+//        motion_pos(Pos3);
+//        while (!pos_asserv.done);
+//        motion_pos(Pos0);
+//        while (!pos_asserv.done);
+//    }
+//    debug_count = 0;
+//    motion_speed(Speed1);
+//    __delay_ms(2500);
+//    motion_free();
+//    __delay_ms(2500);
+//    
+//    motion_pos(Pos0);
 }
 
 void Debug_Asserv_Start(void)
