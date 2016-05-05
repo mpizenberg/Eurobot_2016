@@ -62,6 +62,8 @@ void Gestion_Evitement_Every_few_ms(void)
     
     
     uint8_t Blocked_Front, Blocked_Back;
+    
+    int must_do_motion_free = 0;
     // sector 0 = obstacle detecté, sector 1 = "sûr
     Blocked_Front = //((!Get_Sick_Sector(0)) && SICK1_IS_FRONT && Motion_Free_Activ_Sick[0]) ||
                     //((!Get_Sick_Sector(1)) && SICK2_IS_FRONT && Motion_Free_Activ_Sick[1]) ||
@@ -88,7 +90,8 @@ void Gestion_Evitement_Every_few_ms(void)
     if (Blocked_Front && !Old_Blocked_Front) {
         if (Is_Asserv_Mode_Pos())
             Can_Restart_Order = 1;
-        motion_free();
+        //motion_free();
+        must_do_motion_free = 1;
     } else if (!Blocked_Front && Old_Blocked_Front && Can_Restart_Order) {
         Can_Restart_Order = 0;
         load_last_order();
@@ -97,10 +100,18 @@ void Gestion_Evitement_Every_few_ms(void)
     if (Blocked_Back && !Old_Blocked_Back) {
         if (Is_Asserv_Mode_Pos())
             Can_Restart_Order = 1;
-        motion_free();
+        //motion_free();
+        must_do_motion_free = 1;
     } else if (!Blocked_Back && Old_Blocked_Back && Can_Restart_Order) {
         Can_Restart_Order = 0;
         load_last_order();
+    }
+    
+    if (must_do_motion_free) {
+        must_do_motion_free++;
+        must_do_motion_free++;
+        must_do_motion_free++;
+        motion_free();
     }
     
     Old_Blocked_Front = Blocked_Front;

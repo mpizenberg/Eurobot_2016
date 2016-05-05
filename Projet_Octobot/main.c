@@ -33,7 +33,7 @@ void reglage_asserv(void);
 
 int main(int argc, char** argv) {
     Init_All(0);
-    reglage_asserv();
+    //reglage_asserv();
     while (1)
     {
         Faire_Actions_AX12();
@@ -46,18 +46,18 @@ void reglage_asserv(void)
 {
     int i;
     Position Pos0, Pos1, Pos2, Pos3;
-    Pos0.x = 0; Pos0.y = 0;
-    Pos1.x = 1; Pos1.y = 0;
-    Pos2.x = 1; Pos2.y = 1;
-    Pos3.x = 0; Pos3.y = 1;
+    Pos0.x = 0;     Pos0.y = 0;
+    Pos1.x = 0.5;   Pos1.y = 0;
+    Pos2.x = 0.5;   Pos2.y = 0.5;
+    Pos3.x = 0;     Pos3.y = 0.5;
     for (i = 0; i < 4; i++) {
-        motion_push(Pos1, 0.1);
+        motion_pos(Pos1);
         while (!pos_asserv.done);
-        motion_push(Pos2, 0.1);
+        motion_pos(Pos2);
         while (!pos_asserv.done);
-        motion_push(Pos3, 0.1);
+        motion_pos(Pos3);
         while (!pos_asserv.done);
-        motion_push(Pos0, 0.1);
+        motion_pos(Pos0);
         while (!pos_asserv.done);
     }
 }
