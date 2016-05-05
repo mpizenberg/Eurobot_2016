@@ -70,7 +70,7 @@
 
 // conditions d'arrêt des PID en vitesse et vitesse angulaire
 #ifndef DEFAULT_PID_EPS_DELTA
-#define DEFAULT_PID_EPS_DELTA {0.02,0.02}
+#define DEFAULT_PID_EPS_DELTA {0.01,0.01}
 #endif
 #ifndef DEFAULT_PID_EPS_ALPHA
 #define DEFAULT_PID_EPS_ALPHA {0.02,0.02}
