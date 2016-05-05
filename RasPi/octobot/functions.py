@@ -98,6 +98,12 @@ def set_speed_ang(ser,max):
 	ser.write(command)
 	print ("Changement de vt_max :"+command)
 
+def set_acc(ser,max):
+        command ="$AMAX,"+str(max)+";"
+        ser.write(command)
+        print ("Changement de a_max :"+command)
+
+
 def move_speed(ser,v,vt):
 	vt = 6.28318*vt/360 #conversion degres radians
 	command ="$SPED,"+str(v)+","+str(vt)+";"

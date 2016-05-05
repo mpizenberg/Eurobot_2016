@@ -13,12 +13,20 @@ B			 |_||_||_|
 C				(_)
 '''
 def Prise_Colonne_De_Sable(ser,team,x,y):
-	functions.move_pos(ser,x,team*y)
+	functions.move_pos(ser,x-0.3,team*y)
+        answer = functions.get_ans(ser)
+        while answer != "$DONE;":
+                answer = functions.get_ans(ser)
+	functions.enable_US(ser,'0')
+	functions.move_pos(ser,x+0.04,team*y)
 	answer = functions.get_ans(ser)
 	while answer != "$DONE;":
 		answer = functions.get_ans(ser)
-	
-	functions.enable_US(ser,'0')
+	functions.move_pos(ser,x,team*y)
+        answer = functions.get_ans(ser)
+        while answer != "$DONE;":
+                answer = functions.get_ans(ser)
+
 	functions.rotate(ser,team*(-90))
 	answer = functions.get_ans(ser)
 	while answer != "$DONE;":
@@ -28,12 +36,14 @@ def Prise_Colonne_De_Sable(ser,team,x,y):
 	
 	functions.move_speed(ser,-0.2,0)
 	sleep(1)
-	functions.set_speed(ser,0.2)
-	functions.set_speed(ser,1.5)
+	#functions.move_speed(ser,0.01,0)
+	functions.set_speed(ser,0.1)
+	functions.set_speed_ang(ser,1.5)
+	functions.set_acc(ser,0.1)
 	sleep(0.05)
 	
-	functions.enable_US(ser,'9')
-	functions.move_pos(ser,x,team*y-0.1)
+	#functions.enable_US(ser,'9')
+	functions.move_pos(ser,x,team*(y-0.1))
 	answer = functions.get_ans(ser)
 	while answer != "$DONE;":
 		answer = functions.get_ans(ser)
@@ -41,7 +51,7 @@ def Prise_Colonne_De_Sable(ser,team,x,y):
 	functions.deploy_wings(ser)
 	sleep(1)
 	
-	functions.move_push(ser,0.15,team*(0),0.2)
+	functions.move_push(ser,0.35,team*(0.1),0.2)
 	answer = functions.get_ans(ser)
 	while answer != "$DONE;":
 		answer = functions.get_ans(ser)

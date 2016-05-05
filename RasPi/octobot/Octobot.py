@@ -36,10 +36,11 @@ while continuer:
 		team = functions.ask_team(ser)
 
 	### SCRIPTS DE MATCH ###
-	functions_macro.Prise_Colonne_De_Sable(ser,team,1.4,0.6)
-	functions_macro.Prise_Colonne_De_Sable(ser,team,1.4,0.6)
-	functions_macro.Prise_Colonne_De_Sable(ser,team,1.4,0.6)
-	functions_macro.Prise_Colonne_De_Sable(ser,team,1.4,0.6)
+	functions.set_t(ser,team*(45))
+	functions_macro.Prise_Colonne_De_Sable(ser,team,1.22,-team*0.45)
+	#functions_macro.Prise_Colonne_De_Sable(ser,team,1.4,0.6)
+	#functions_macro.Prise_Colonne_De_Sable(ser,team,1.4,0.6)
+	#functions_macro.Prise_Colonne_De_Sable(ser,team,1.4,0.6)
     
     except UrgenceReleveException as e:
         print e.value
