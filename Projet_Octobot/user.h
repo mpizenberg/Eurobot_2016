@@ -10,8 +10,8 @@
 
 #define TRIS_POMPE_HAUTE    _TRISB8
 #define TRIS_POMPE_BASSE    _TRISB9
-#define POMPE_HAUTE         _RB8
-#define POMPE_BASSE         _RB9
+#define POMPE_HAUTE         _LATB8
+#define POMPE_BASSE         _LATB9
 
 /******************************************************************************/
 /* System Level #define Macros                                                */
