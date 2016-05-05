@@ -322,18 +322,17 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d){
         // Pour une trajectoire avec la moitie de ce rayon de courbure:
         //     vt = 4*sin(dt)/d * v
         courbure = 4 * sin(dt) / fabs(d);
-        if (fabs(v_o)< 0.3)
+        if (fabs(v_o)< motionConstraint.v_max.v)
             vt_o = courbure * fabs(v_o);
         else 
-            vt_o = courbure * 0.3;
+            vt_o = courbure * motionConstraint.v_max.v;
         
         
-
         // appel de l'asserve en vitesse avec les bonnes consignes
         // et un changement temporaire de la contrainte a_max
         speed_asserv.speed_order.v = v_o;
         speed_asserv.speed_order.vt = vt_o;
-        motionConstraint.a_max.a = fmin(a_max, fabs(1/courbure)*at_max);
+        motionConstraint.a_max.a = fmin(a_max, 0.5*fabs(1/courbure)*at_max);
         speed_asserv_step(odo,commande_g,commande_d);
         motionConstraint.a_max.a = a_max;
 

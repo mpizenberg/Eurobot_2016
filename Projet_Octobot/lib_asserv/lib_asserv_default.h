@@ -17,7 +17,7 @@
 #endif
 
 #ifndef DEFAULT_CONSTRAINT_A_MAX // {a, at, v_vt}
-#define DEFAULT_CONSTRAINT_A_MAX {1, 10, 0.7} // crabot: {0.7, 20, 0.8}
+#define DEFAULT_CONSTRAINT_A_MAX {1, 7, 0.7} // crabot: {0.7, 20, 0.8}
 #endif
 
 #ifndef BLOCK_LIMIT
@@ -56,7 +56,8 @@
 #define DEFAULT_PID_COEFS_DELTA {160, 16, 0, 1} // crabot: {160,20,0,0.2}
 #endif
 #ifndef DEFAULT_PID_COEFS_ALPHA // {kp, ki, kd, mu_p}
-#define DEFAULT_PID_COEFS_ALPHA {20, 2, 2, 1} // crabot: {32,8,0,0.8}
+//#define DEFAULT_PID_COEFS_ALPHA {20, 2, 2, 1} // crabot: {32,8,0,0.8} // asserv costaude
+#define DEFAULT_PID_COEFS_ALPHA {15, 1, 0, 1} // crabot: {32,8,0,0.8}   // asserv pataude, mais beaucoup plus fluide...
 #endif
 
 // valeurs max de l'intégrale en vitesse et vitesse angulaire
