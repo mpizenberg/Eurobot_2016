@@ -635,3 +635,7 @@ void SendTeam (int team)
     }
     //__delay_ms(50);
 }
+
+void SendUrge(void){
+    printf ("$URGE;");
+}

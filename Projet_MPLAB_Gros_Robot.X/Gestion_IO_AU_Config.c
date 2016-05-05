@@ -20,8 +20,12 @@ void Gestion_IO_AU_Config_Init(void)
 }
 
 void Gestion_IO_AU_Config_Loop(void){
-
-    static int old_Detect_10V = 0;
+    static int old_Detect_10V = 1;
+    static int first = 1;
+    if (first) {
+        old_Detect_10V = PIN_DETECT_10V;
+        first = 0;
+    }
     if (PIN_DETECT_10V) {
         if (!old_Detect_10V) {
             Init_All(0);
