@@ -21,17 +21,6 @@
 /* Configuration                                                             */
 /******************************************************************************/
 
-// Select Oscillator and switching.
-_FOSCSEL(FNOSC_FRCPLL & IESO_OFF);
-// Select clock.
-_FOSC(POSCMD_NONE & OSCIOFNC_ON & IOL1WAY_ON & FCKSM_CSDCMD);
-// Watchdog Timer.
-_FWDT(FWDTEN_OFF);
-// Select debug channel.
-_FICD(ICS_PGD3 & JTAGEN_OFF);
-
-_FPOR(PWMPIN_ON);
-
 
 #include <stdint.h>        // Includes uint16_t definition
 #include <stdio.h>         // Includes sprintf
@@ -40,7 +29,7 @@ _FPOR(PWMPIN_ON);
 
 #include "main.h"
 
-
+void reglage_asserv(void);
 
 int main(int argc, char** argv) {
     Init_All(0);
@@ -48,19 +37,29 @@ int main(int argc, char** argv) {
     while (1)
     {
         Faire_Actions_AX12();
+        Gestion_IO_AU_Loop();
     }
 }
 
 
 void reglage_asserv(void)
 {
-    while (PIN_LAISSE);
-    motion_angular_speed(4);
-    debug_count = 0;
-    //PWM_Moteurs(60, -60);
-    //motion_angular_speed(1);
-    //Speed speed = {-0.3, 0};
-    //motion_speed(speed);
+    int i;
+    Position Pos0, Pos1, Pos2, Pos3;
+    Pos0.x = 0;     Pos0.y = 0;
+    Pos1.x = 0.5;   Pos1.y = 0;
+    Pos2.x = 0.5;   Pos2.y = 0.5;
+    Pos3.x = 0;     Pos3.y = 0.5;
+    for (i = 0; i < 4; i++) {
+        motion_pos(Pos1);
+        while (!pos_asserv.done);
+        motion_pos(Pos2);
+        while (!pos_asserv.done);
+        motion_pos(Pos3);
+        while (!pos_asserv.done);
+        motion_pos(Pos0);
+        while (!pos_asserv.done);
+    }
 }
 
 void Debug_Asserv_Start(void)

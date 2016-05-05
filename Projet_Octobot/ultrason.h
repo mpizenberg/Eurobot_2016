@@ -6,21 +6,21 @@
 void Init_Ultrasons (void);
 
 #define NUMBER_OF_US                2
-#define ULTRASON_THRESOLD           300      // seuil d'alarme en mm
-#define ULTRASON_THRESOLD_TRIGGER   50      // zone du triger de schmitt
+#define ULTRASON_THRESOLD           250      // seuil d'alarme en mm
+#define ULTRASON_THRESOLD_TRIGGER   25      // zone du triger de schmitt
 
 
-#define PIN_ULTRASON_AV        _LATC4            // RC4 = connecteur 5V n3
-#define TRIS_ULTRASON_AV       _TRISC4
-#define PIN_CN_ULTRASON_AV_IE  _CN25IE
-//#define PULL_UP_ULTRASON_AV    _CN25PUE
-#define ULTRASON_AV_NUM_PIN     4
+#define PIN_ULTRASON_AR        _LATC4            // RC4 = connecteur 5V n3
+#define TRIS_ULTRASON_AR       _TRISC4
+#define PIN_CN_ULTRASON_AR_IE  _CN25IE
+//#define PULL_UP_ULTRASON_AR    _CN25PUE
+#define ULTRASON_AR_NUM_PIN     4
 
-#define PIN_ULTRASON_AR        _LATC5            // RC5 = connecteur 5V n2
-#define TRIS_ULTRASON_AR       _TRISC5
-#define PIN_CN_ULTRASON_AR_IE  _CN26IE
-//#define PULL_UP_ULTRASON_AR    _CN26PUE
-#define ULTRASON_AR_NUM_PIN     5
+#define PIN_ULTRASON_AV        _LATC5            // RC5 = connecteur 5V n2
+#define TRIS_ULTRASON_AV       _TRISC5
+#define PIN_CN_ULTRASON_AV_IE  _CN26IE
+//#define PULL_UP_ULTRASON_AV    _CN26PUE
+#define ULTRASON_AV_NUM_PIN     5
 
 
 
@@ -38,30 +38,13 @@ void Init_Ultrasons (void);
 #define US2_IS_BACK   1
 
 
-extern volatile uint8_t Etat_Ultrason;
-//extern volatile uint16_t Mesure_Timer_Ultrason;     // mesure brutale du timer
-//extern volatile uint16_t Mesure_Distance_Ultrason;  // distance en mm
-//extern uint8_t Sector_Ultrason;
-
-extern volatile uint8_t Debug_Ultrason;
-extern volatile uint16_t count_Debug_Ultrason;
-//extern volatile char Motion_Free_Activ_US;
-
-
-extern volatile char UltraSon_Detect;
-
 void Init_Ultrasons(void);
 void Init_CN(void);
 
 void Start_Stop_Debug_Ultrason(void);
-void Enable_Ultrason (char enable);
-void Choose_Enabled_US(int Sicks_En);
 
-void New_Order_US_Handling(void);
+int Get_US_Sector(int US);
 
-void Must_do_Gestion_US_Sector(void);
-
-void Gestion_US_Every_few_ms(void);
 
 #endif
 

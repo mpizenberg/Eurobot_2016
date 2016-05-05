@@ -434,14 +434,10 @@ void SelectActionFromPi()
         {
             // l'utilisateur a juste droit à de 0 à F
             valc = ReceivedStringFromPi[6];
-            if (valc >= '0' && valc <= '9') {
+            if (valc >= '0' && valc <= '3') {
                 valc -= '0';
-            } else if (valc >= 'A' && valc <= 'F') {
-                valc -= 'A';
-            } else {
-                valc = 0x0F;
+                Choose_Enabled_US(valc);
             }
-            Choose_Enabled_US(valc);
         }
 
         // ULS?			// demande status ultrasons
@@ -485,9 +481,9 @@ void SelectActionFromPi()
             if (val8 >= NUMBER_OF_SICK) {
                     val8 = 0;
             }
-            __delay_ms(50);
+            //__delay_ms(50);
             SendSick_Status(val8);
-            __delay_ms(50);
+            //__delay_ms(50);
         }
 
         // DBSI			// start/stop debug sick
@@ -510,7 +506,7 @@ void SelectActionFromPi()
             if (valc >= '0' && valc <= '9') {
                 valc -= '0';
             } else if (valc >= 'A' && valc <= 'F') {
-                valc -= 'A';
+                valc = valc + 10 - 'A';
             } else {
                 valc = 0x0F;
             }
@@ -524,9 +520,9 @@ void SelectActionFromPi()
 	&& ReceivedStringFromPi[3]=='A' 
 	&& ReceivedStringFromPi[4]=='T')
         {
-            __delay_ms(50);
-            printf("$VBAT,%d;", V_Bat);
-            __delay_ms(50);
+            //__delay_ms(50);
+            printf("$VBAT,%d;", Get_VBat());
+            //__delay_ms(50);
         }
 
     }
@@ -534,30 +530,30 @@ void SelectActionFromPi()
 
 void SendDone(void)
 {
-    __delay_ms(50);
+    //__delay_ms(50);
     printf("$DONE;");
-    __delay_ms(50);
+    //__delay_ms(50);
 }
 
 void SendStart(void)
 {
-    __delay_ms(50);
+    //__delay_ms(50);
     printf("$STRT;");
-    __delay_ms(50);
+    //__delay_ms(50);
 }
 
 void SendEnd (void)
 {
-    __delay_ms(10);
+    //__delay_ms(10);
     printf("$END9;");
-    __delay_ms(10);
+    //__delay_ms(10);
 }
 
 void SendFailAX12(void)
 {
-    __delay_ms(50);
+    //__delay_ms(50);
     printf("$FAAX;");
-    __delay_ms(50);
+    //__delay_ms(50);
 }
 
 void DetectSick(int channel)
@@ -586,9 +582,9 @@ void ReleaseSick (int channel)
 
 void SendSick_Status(int val8)
 {
-    __delay_ms(50);
+    //__delay_ms(50);
     printf("$SICK,%d,%d,%d;", val8, Get_Sick(val8), Get_Sick_Sector(val8) );
-	__delay_ms(50);
+	//__delay_ms(50);
 }
 
 void DetectUltrason(int channel)
@@ -610,17 +606,18 @@ void ReleaseUltrason(int channel)
 
 void SendUltrason_Status(void)
 {
-    __delay_ms(50);
+    //__delay_ms(50);
     //printf("$SULS,%d,%d,%d;", Sector_Ultrason, Mesure_Distance_Ultrason, Mesure_Timer_Ultrason);
-    __delay_ms(50);
+    printf("$SULS,%d,%d,%d;", 0, 0, 0);
+    //__delay_ms(50);
 }
 
 void SendTeam (int team)
 {
-    __delay_ms(50);
+    //__delay_ms(50);
     switch(team) {
         case 0 : printf("$VERT;");  break;
         case 1 : printf("$VIOL;");  break;
     }
-    __delay_ms(50);
+    //__delay_ms(50);
 }

@@ -240,7 +240,7 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d){
     // contraintes
     float a_max = motionConstraint.a_max.a;
     float at_max = motionConstraint.a_max.at;
-    float deceleration_max = a_max;
+    float deceleration_max = 0.5*a_max;
 
     // calcul de la distance a la consigne en position
     float d = sqrt((x_o-x)*(x_o-x) + (y_o-y)*(y_o-y));
@@ -250,6 +250,7 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d){
 
     // declaration des consignes en vitesse et vitesse angulaire
     float v_o, vt_o, courbure;
+    //float v_o2, vt_o2;
 
     // hysteresis pour eviter les allers retours
     float epsi;
@@ -303,7 +304,12 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d){
         // Pour une trajectoire avec la moitie de ce rayon de courbure:
         //     vt = 4*sin(dt)/d * v
         courbure = 4 * sin(dt) / fabs(d);
-        vt_o = courbure * fabs(v_o);
+        if (fabs(v_o)< 0.3)
+            vt_o = courbure * fabs(v_o);
+        else 
+            vt_o = courbure * 0.3;
+        
+        
 
         // appel de l'asserve en vitesse avec les bonnes consignes
         // et un changement temporaire de la contrainte a_max

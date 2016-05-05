@@ -11,8 +11,12 @@
 #include "uart.h"
 #include "Sick_VBat.h"
 #include "ultrason.h"
+#include "Evitement.h"
 #include "actions_ax12.h"
+#include "Gestion_IO_AU.h"
 #include "communication.h"
+#include "Timer_Asserv.h"
+#include "Timer_ms.h"
 #include "ax12.h"
 #include "lib_asserv/private/tools.h"
 
