@@ -1,1 +1,0 @@
-ce fichier doit contenir "exit" pour couper le script

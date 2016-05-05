@@ -181,9 +181,10 @@ def Prise_Grand_Tas_De_Sable(ser,team,configuration):
 	### PRISE DES BLOCS
 	functions.catch(ser)
 	sleep(1.2)
+
 	functions.set_acc(ser,0.4,12,0.9)
-	functions.set_speed(ser,0.2)
-	functions.set_speed_ang(ser,1)
+	functions.set_speed(ser,0.2)  
+        functions.set_speed_ang(ser,1)        
 
 	### Recul
 	functions.move_push(ser,0.83,team*0.50,0.1)
@@ -214,18 +215,22 @@ def Prise_Grand_Tas_De_Sable(ser,team,configuration):
 		
 	### LACHER DU SABLE
 	functions.rotate(ser,team*50)
+	functions.set_acc(ser,0.7,20,0.8)
 	answer = functions.get_ans(ser)
 	while answer != "$DONE;":
 		answer = functions.get_ans(ser)
 	functions.open_bras(ser)
-	sleep(1.5)
+	sleep(1)
+	print functions.ask_team(ser)
 	
 	### CONTRAINTES DE VITESSE PAR DEFAUT
-	functions.set_acc(ser,0.7,20,0.8)
+        #functions.ask_team(ser)
 	functions.set_speed(ser,0)
 	functions.set_speed_ang(ser,4)
-	
+
+	print functions.ask_team(ser)
 	if configuration<4:
+		functions.move_push(ser,0.72,team*(-0.8),0.1)
 		functions.move_push(ser,0.72,team*(-0.8),0.1)
 		answer = functions.get_ans(ser)
 		while answer != "$DONE;":
@@ -258,7 +263,7 @@ def Prise_Poissons(ser,team):
 		 answer = functions.get_ans(ser)
 
 	### Placement en centre de bassin et deploiement des bras
-	functions.move_push(ser,0.55,team*(-0.895),0)
+	functions.move_push(ser,0.65,team*(-0.895),0)
 	answer = functions.get_ans(ser)
 	while answer != "$DONE;":
 		 answer = functions.get_ans(ser)
@@ -276,7 +281,7 @@ def Prise_Poissons(ser,team):
 	functions.set_speed(ser,0.2)
 
 	### Et 3 pas en avant !!
-	functions.move_pos(ser,0.69,team*(-0.90))
+	functions.move_pos(ser,0.75,team*(-0.90))
 	answer = functions.get_ans(ser)
 	while answer != "$DONE;":
 		 answer = functions.get_ans(ser)
@@ -286,7 +291,7 @@ def Prise_Poissons(ser,team):
 			answer = functions.get_ans(ser)
 
 	### Et 3 pas en arriere !!
-	functions.move_pos(ser,0.48,team*(-0.90))
+	functions.move_pos(ser,0.55,team*(-0.90))
 	answer = functions.get_ans(ser)
 	while answer != "$DONE;":
 		 answer = functions.get_ans(ser)

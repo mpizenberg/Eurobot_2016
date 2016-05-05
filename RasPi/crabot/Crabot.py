@@ -20,6 +20,7 @@ while continuer:
         continuer = False
 	mon_fichier.close()
         break
+    mon_fichier.close()
 
     try:
 	# Attente du start
@@ -52,6 +53,7 @@ while continuer:
 			functions_macro.Prise_Poissons(ser,team)
 			functions_macro.Prise_Coquillages_1(ser,team,configuration)
 			functions_macro.Prise_Coquillages_2(ser,team,configuration)
+			functions_macro.Prise_Poissons(ser,team)
 		else :
 			functions_macro.Prise_Coquillages_1(ser,team,configuration)
 			functions_macro.Prise_Poissons(ser,team)
