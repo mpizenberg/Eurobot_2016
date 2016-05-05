@@ -20,7 +20,6 @@ while continuer:
         continuer = False
 	mon_fichier.close()
         break
-    mon_fichier.close()
 
     try:
 	# Attente du start
