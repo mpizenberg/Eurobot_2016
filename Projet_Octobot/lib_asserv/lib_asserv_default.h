@@ -13,7 +13,7 @@
 /*############################################################################*/
 
 #ifndef DEFAULT_CONSTRAINT_V_MAX // {v, vt}
-#define DEFAULT_CONSTRAINT_V_MAX {0.3, 2} // crabot: {0.8, 4}
+#define DEFAULT_CONSTRAINT_V_MAX {0.8, 2} // crabot: {0.8, 4}
 #endif
 
 #ifndef DEFAULT_CONSTRAINT_A_MAX // {a, at, v_vt}
