@@ -3,8 +3,8 @@
 
 #include "main.h"
 
-uint8_t Motion_Free_Activ_Sick[4] = {1,1,1,1};
-uint8_t Motion_Free_Activ_US[2]   = {0,0};
+uint8_t Motion_Free_Activ_Sick[4];
+uint8_t Motion_Free_Activ_US[2];
 
 volatile uint8_t Can_Restart_Order = 0;
 volatile uint8_t Old_Blocked_Front = 0, Old_Blocked_Back = 0;
@@ -13,6 +13,12 @@ char var_debug;
 
 void Init_Evitement(void)
 {
+    Motion_Free_Activ_US[0] = 0;
+    Motion_Free_Activ_US[1] = 0;
+    Motion_Free_Activ_Sick[0] = 1;
+    Motion_Free_Activ_Sick[1] = 1;
+    Motion_Free_Activ_Sick[2] = 1;
+    Motion_Free_Activ_Sick[3] = 1;
     // Soft IT pour la gestion des secteurs
     // qui prend l'IT SPI1 Erreur
     IFS0bits.SPI1EIF = 0;   
