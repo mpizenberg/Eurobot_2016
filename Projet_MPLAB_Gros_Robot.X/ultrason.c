@@ -83,7 +83,7 @@ void Init_Ultrasons (void)
     // max = 65535 => 13.107 ms     // ce qui correspondra à de l'overshoot
 
     // configuration des interruptions
-    ConfigIntTimer4(T4_INT_PRIOR_3 & T4_INT_ON);        // meme priorité que CN
+    ConfigIntTimer4(T4_INT_PRIOR_2 & T4_INT_ON); 
     Init_CN();
     Etat_Ultrason = U_ETAT_FOR_SEND1;
 
@@ -91,7 +91,7 @@ void Init_Ultrasons (void)
 
 void Init_CN()
 {
-    IPC4bits.CNIP = 3;      // Interrupt level 3
+    IPC4bits.CNIP = 6;      // Interrupt level 6 
     IFS1bits.CNIF = 0;      // Reset CN interrupt
     IEC1bits.CNIE = 1;      // Enable CN interrupts
 }
@@ -219,6 +219,8 @@ void __attribute__ ((__interrupt__, no_auto_psv)) _CNInterrupt(void)
             }
         } else if (!Mesure_Timer_Ultrason_AV_End && Mesure_Timer_Ultrason_AV_Start) {
             Mesure_Timer_Ultrason_AV_End = TMR4;
+            if (Mesure_Timer_Ultrason_AV_End < Mesure_Timer_Ultrason_AV_Start)
+                Mesure_Timer_Ultrason_AV_End = 0xFFFF;
             //PIN_CN_ULTRASON_AV_IE = 0;     // desactivation de cette IT
         }
         if (Etat_Pin_Ultrason_AR) {
@@ -227,6 +229,8 @@ void __attribute__ ((__interrupt__, no_auto_psv)) _CNInterrupt(void)
             }
         } else if (!Mesure_Timer_Ultrason_AR_End && Mesure_Timer_Ultrason_AR_Start) {
             Mesure_Timer_Ultrason_AR_End = TMR4;
+            if (Mesure_Timer_Ultrason_AR_End < Mesure_Timer_Ultrason_AR_Start)
+                Mesure_Timer_Ultrason_AR_End = 0xFFFF;
             //PIN_CN_ULTRASON_AR_IE = 0;     // desactivation de cette IT
         }
     }
@@ -244,7 +248,7 @@ void Start_Stop_Debug_Ultrason(void)
 
 // return 1 si rien devant
 // return 0 si detection
-char Get_US_Sector(int US)
+int Get_US_Sector(int US)
 {
     if (US == 0) {
         return (1-Ultrason_AV_Detect);
