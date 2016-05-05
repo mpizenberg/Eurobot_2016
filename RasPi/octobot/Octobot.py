@@ -15,7 +15,7 @@ continuer = True
 while continuer:
 
     #lecture du fichier pour savoir si l'on sort de la boucle
-    mon_fichier = open("~/Eurobot_2016/RasPi/crabot/quitter.txt","r")
+    mon_fichier = open("/home/pi/Eurobot_2016/RasPi/octobot/quitter.txt","r")
     if mon_fichier.read()=="exit\n":
         mon_fichier.close()
         continuer = False

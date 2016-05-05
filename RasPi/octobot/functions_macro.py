@@ -53,7 +53,7 @@ def Prise_Colonne_De_Sable(ser,team,x,y):
 	
 	### On s enfonce dans la zone de construction.
 	functions.enable_US(ser,'0')
-	functions.move_push(ser,x-0.3,team*(y-0.75))
+	functions.move_push(ser,x-0.3,team*(y-0.75),0.10)
 	answer = functions.get_ans(ser)
 	while answer != "$DONE;":
 		answer = functions.get_ans(ser)
