@@ -281,7 +281,7 @@ def Prise_Poissons(ser,team):
 	functions.set_speed(ser,0.2)
 
 	### Et 3 pas en avant !!
-	functions.move_pos(ser,0.75,team*(-0.90))
+	functions.move_pos(ser,0.85,team*(-0.90))
 	answer = functions.get_ans(ser)
 	while answer != "$DONE;":
 		 answer = functions.get_ans(ser)
