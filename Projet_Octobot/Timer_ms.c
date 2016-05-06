@@ -9,7 +9,7 @@
 volatile char Active_Delay_90 = 0;
 volatile long Delay_90 = 0;
 volatile char Delay_90_Over = 0;
-volatile long Delay_WatchDone = 0;
+volatile long Delay_10 = 0;
 
 
 void Timer_ms_Init(void)
@@ -28,28 +28,28 @@ void Timer_ms_Init(void)
 
 
 
-//volatile unsigned int Maxtime_Seq_AX12 = 0;
-//volatile unsigned int Loc_Maxtime = 0;
-//
-//unsigned int Get_Maxtime_Seq_AX12(void)
-//{   return Maxtime_Seq_AX12;    }
-//
-//void Set_Maxtime_Seq_AX12(unsigned int val)
-//{   Maxtime_Seq_AX12 = val;    }
-//
-//void Set_Maxtime(unsigned int val)
-//{    Loc_Maxtime = val; }
-//
-//char Get_Maxtime(void)
-//{
-//    if (Loc_Maxtime)
-//        return 1;
-//    else
-//        return 0;
-//}
+volatile unsigned int Maxtime_Seq_AX12 = 0;
+volatile unsigned int Loc_Maxtime = 0;
 
-void Raz_Delay_WatchDone (void)
-{   Delay_WatchDone = 0;   }
+unsigned int Get_Maxtime_Seq_AX12(void)
+{   return Maxtime_Seq_AX12;    }
+
+void Set_Maxtime_Seq_AX12(unsigned int val)
+{   Maxtime_Seq_AX12 = val;    }
+
+void Set_Maxtime(unsigned int val)
+{    Loc_Maxtime = val; }
+
+char Get_Maxtime(void)
+{
+    if (Loc_Maxtime)
+        return 1;
+    else
+        return 0;
+}
+
+void Raz_Delay_10 (void)
+{   Delay_10 = 0;   }
 
 
 // every ms
@@ -96,18 +96,18 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
     if (Delay_TimeOut_AX12) {
         Delay_TimeOut_AX12 --;
     }
-//    if (Maxtime_Seq_AX12) {
-//        Maxtime_Seq_AX12 --;
-//    }
-//    if (Loc_Maxtime)
-//        Loc_Maxtime--;
+    if (Maxtime_Seq_AX12) {
+        Maxtime_Seq_AX12 --;
+    }
+    if (Loc_Maxtime)
+        Loc_Maxtime--;
 	
 	if (asserv_mode != ASSERV_MODE_OFF) {
-		if (Delay_WatchDone >= MAX_DELAY_WATCHDONE){
+		if (Delay_10 >= 10000){
             motion_free();
 			SendDone();
 		} else {
-			Delay_WatchDone ++;
+			Delay_10 ++;
 		}
 	}
 

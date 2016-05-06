@@ -57,8 +57,11 @@ void __attribute__((__interrupt__, no_auto_psv)) _U1TXInterrupt(void){
 }
 
 
+
 void AnalyzeCommandFromPi (char b)
 {
+    
+
     // If byte is "$" symbol, the string can be valid
     if (b == '$')
     {

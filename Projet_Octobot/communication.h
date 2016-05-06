@@ -2,11 +2,11 @@
 #define	COMMUNICATION_H
 
 
-#define SIZE_BUFFER_COM 100
+
 
 void Init_Communication_RasPi(void);
 
-void AnalyzeCommandFromPi (char b);
+void AnalyzeCommandFromPi (void);
 void SelectActionFromPi (void);
 void SendDone(void);
 void SendStart(void);
