@@ -49,12 +49,9 @@ while continuer:
 
         ### SCRIPTS DE MATCH ###
 
-#        functions.set_t(ser,team*(45))
-
         functions_macro.Prise_Colonne_De_Sable(ser,team,1.50,0.633)
-	
-#	functions_macro.Prise_Colonne_De_Sable(ser,team,0.5,0)
-#        functions_macro.Prise_Colonne_De_Sable(ser,team,1.4,0.6)
+	functions_macro.Prise_Colonne_De_Sable(ser,team,1.50,0.691)
+        #functions_macro.Prise_Colonne_De_Sable(ser,team,1.4,0.6)
         #functions_macro.Prise_Colonne_De_Sable(ser,team,1.4,0.6)
         #functions_macro.Prise_Colonne_De_Sable(ser,team,1.4,0.6)
     

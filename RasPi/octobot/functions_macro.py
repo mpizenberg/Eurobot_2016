@@ -74,58 +74,74 @@ def Prise_Colonne_De_Sable(ser,team,x,y):
     functions.enable_pumps(ser)
     sleep(0.1)
 
-    functions.move_pos(ser,x-0.180,team*(y-0.105))
+    functions.move_pos(ser,x-0.180,team*(y-0.125))
     answer = functions.get_ans(ser)
     while answer != "$DONE;":
         answer = functions.get_ans(ser)
     functions.move_speed(ser,-0.2,0)
     sleep(0.4)
-    #functions.move_speed(ser,0.01,0)
-    functions.set_speed(ser,0.3)
+    functions.motion_free(ser)
+
+    functions.set_speed(ser,0.1)
     sleep(0.1)
     functions.set_speed_ang(ser,1.5)
-    sleep(0.1)    
-    functions.set_acc(ser,0.1)
-    sleep(0.05)
+    sleep(0.1)
 
-    functions.enable_US(ser,'3')
     functions.move_pos(ser,x-0.190,team*(y-0.245))
     answer = functions.get_ans(ser)
     while answer != "$DONE;":
         answer = functions.get_ans(ser)
 
     functions.deploy_wings(ser)
-    sleep(1)
-
-    functions.move_push(ser,0.20,team*(0.15),0.2)
     answer = functions.get_ans(ser)
     while answer != "$DONE;":
         answer = functions.get_ans(ser)
 
-    functions.move_push(ser,0.60,team*(-0.20),0.2)
+    functions.move_pos(ser,0.40,team*0.15)
+    answer = functions.get_ans(ser)
+    while answer != "$DONE;":
+        answer = functions.get_ans(ser)
+   
+    functions.rotate(ser,team*100)
+    answer = functions.get_ans(ser)
+    while answer != "$DONE;":
+        answer = functions.get_ans(ser)
+
+    functions.move_pos(ser,0.40,team*(-0.20))
+    answer = functions.get_ans(ser)
+    while answer != "$DONE;":
+        answer = functions.get_ans(ser)
+
+    functions.rotate(ser,team*(170))
     answer = functions.get_ans(ser)
     while answer != "$DONE;":
         answer = functions.get_ans(ser)
 
     ### On s enfonce dans la zone de construction.
     functions.enable_US(ser,'0')
-    functions.move_push(ser,x-0.3,team*(y-0.75),0.10)
+    functions.move_pos(ser,1,team*(-0.20))
     answer = functions.get_ans(ser)
     while answer != "$DONE;":
         answer = functions.get_ans(ser)
         
     functions.disable_pumps(ser)
-    functions.close_wings(ser)
+    sleep(0.1)
+    #functions.close_wings(ser)
+    functions.init_ax(ser)
     sleep(0.5)
     functions.set_speed(ser,0)
-    functions.set_speed(ser,3)
-    sleep(0.05)
+    sleep(0.1)
 
-    functions.move_push(ser,0.3,team*(0.2),0.15)
+    functions.move_pos(ser,0.5,team*(-0.2))
     answer = functions.get_ans(ser)
     while answer != "$DONE;":
         answer = functions.get_ans(ser)
-        
+    
+    functions.move_pos(ser,0,team*0.4)
+    answer = functions.get_ans(ser)
+    while answer != "$DONE;":
+        answer = functions.get_ans(ser)
+
     functions.enable_US(ser,'F')
 
     print "Et une colonne de plus ! Une !"
