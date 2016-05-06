@@ -26,6 +26,8 @@ def Script_Recalage (ser,team):
 	sleep(0.1)
 	functions.set_t(ser,team*(135))
 	sleep(0.1)
+	functions.move_speed(ser,-0.3,0)
+	sleep(0.2)
 
 	functions.move_pos(ser,0.30,0.30*team)
     	answer = functions.get_ans(ser)
@@ -46,7 +48,7 @@ def Script_Recalage (ser,team):
 	functions.set_speed(ser,0.8)
 
 def Prise_Colonne_De_Sable(ser,team,x,y):
-    functions.move_pos(ser,x-0.37,team*(y-0.185))
+    functions.move_pos(ser,x-0.60,team*(y-0.165))
     answer = functions.get_ans(ser)
     while answer != "$DONE;":
         answer = functions.get_ans(ser)
@@ -55,11 +57,11 @@ def Prise_Colonne_De_Sable(ser,team,x,y):
     answer = functions.get_ans(ser)
     while answer != "$DONE;":
         answer = functions.get_ans(ser)
-    functions.move_pos(ser,x+0.174,team*y)
+    functions.move_pos(ser,x,team*(y-0.165))
     answer = functions.get_ans(ser)
     while answer != "$DONE;":
         answer = functions.get_ans(ser)
-    functions.move_pos(ser,x,team*y)
+    functions.move_pos(ser,x-0.190,team*(y-0.300))
     answer = functions.get_ans(ser)
     while answer != "$DONE;":
         answer = functions.get_ans(ser)
@@ -70,17 +72,24 @@ def Prise_Colonne_De_Sable(ser,team,x,y):
         answer = functions.get_ans(ser)
 
     functions.enable_pumps(ser)
+    sleep(0.1)
 
+    functions.move_pos(ser,x-0.180,team*(y-0.105))
+    answer = functions.get_ans(ser)
+    while answer != "$DONE;":
+        answer = functions.get_ans(ser)
     functions.move_speed(ser,-0.2,0)
-    sleep(1)
+    sleep(0.4)
     #functions.move_speed(ser,0.01,0)
     functions.set_speed(ser,0.3)
+    sleep(0.1)
     functions.set_speed_ang(ser,1.5)
+    sleep(0.1)    
     functions.set_acc(ser,0.1)
     sleep(0.05)
 
     functions.enable_US(ser,'3')
-    functions.move_pos(ser,x,team*(y-0.1))
+    functions.move_pos(ser,x-0.190,team*(y-0.245))
     answer = functions.get_ans(ser)
     while answer != "$DONE;":
         answer = functions.get_ans(ser)
