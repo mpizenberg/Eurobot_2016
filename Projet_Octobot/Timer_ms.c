@@ -127,6 +127,7 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
         Delay_90 ++;
         SendEnd();
     } else {
+        Eteindre_Pompes();
         motion_free();
         Delay_90_Over = 1;
         if (!Active_Delay_90) {
