@@ -46,8 +46,10 @@ void Init_Communication_RasPi(void)
 
 
 void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void){
-    AnalyzeCommandFromPi();
+    // Receive first Byte
+    char b = ReadUART1();
     _U1RXIF = 0; // On baisse le FLAG
+    AnalyzeCommandFromPi(b);
 }
 
 void __attribute__((__interrupt__, no_auto_psv)) _U1TXInterrupt(void){
@@ -56,30 +58,25 @@ void __attribute__((__interrupt__, no_auto_psv)) _U1TXInterrupt(void){
 
 
 
-void AnalyzeCommandFromPi (void)
+void AnalyzeCommandFromPi (char b)
 {
-    // Receive first Byte
-    char b = ReadUART1();
-
     // If byte is "$" symbol, the string can be valid
-    if (b=='$')
+    if (b == '$')
     {
-        CharFromPiNumber = 0;
-        ReceivedStringFromPi[CharFromPiNumber] = b;
-        CharFromPiNumber++;
+        ReceivedStringFromPi[0] = b;
+        CharFromPiNumber = 1;
     }
     // Here we are collecting all the char from the frame
-    else if (b!=';' && CharFromPiNumber > 0)
-    {
-        ReceivedStringFromPi[CharFromPiNumber] = b;
-        CharFromPiNumber++;
-    }
-    // End of the frame, the symbol is a ;
-    else if (CharFromPiNumber > 0)
-    {
-        ReceivedStringFromPi[CharFromPiNumber] = b;
-        /*** Full frame received and available in ReceivedStringFromPi ***/
-        SelectActionFromPi();
+    else if (CharFromPiNumber) {
+        if (CharFromPiNumber == SIZE_BUFFER_COM) {
+            CharFromPiNumber = 0;  // commande trop longue => on la drope, retourne attendre le prochain '$'
+        } else if (b == ';') {     // si on a reçu le carractère de fin...
+            ReceivedStringFromPi[CharFromPiNumber] = b;
+            SelectActionFromPi();
+        } else {
+            ReceivedStringFromPi[CharFromPiNumber] = b;
+            CharFromPiNumber++;
+        }
     }
 }
 
@@ -548,7 +545,7 @@ void SelectActionFromPi()
 void SendDone(void)
 {
     //__delay_ms(50);
-    Raz_Delay_10();
+    Raz_Delay_WatchDone();
     printf("$DONE;");
     //__delay_ms(50);
 }
