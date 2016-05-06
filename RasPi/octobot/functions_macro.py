@@ -118,6 +118,12 @@ def Prise_Colonne_De_Sable(ser,team,x,y):
         answer = functions.get_ans(ser)
 
     ### On s enfonce dans la zone de construction.
+    
+    functions.set_speed(ser,0.1)
+    sleep(0.1)
+    functions.set_speed_ang(ser,1.5)
+    sleep(0.1)
+  
     functions.enable_US(ser,'0')
     functions.move_pos(ser,1,team*(-0.20))
     answer = functions.get_ans(ser)
@@ -126,8 +132,7 @@ def Prise_Colonne_De_Sable(ser,team,x,y):
         
     functions.disable_pumps(ser)
     sleep(0.1)
-    #functions.close_wings(ser)
-    functions.init_ax(ser)
+    functions.close_wings(ser)
     sleep(0.5)
     functions.set_speed(ser,0)
     sleep(0.1)

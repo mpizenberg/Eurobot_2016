@@ -4,7 +4,7 @@ import serial
 import functions
 import functions_macro
 from UrgenceReleveException import UrgenceReleveException
-
+from time import sleep
 
 ser = serial.Serial("/dev/ttyAMA0",57600)
 
@@ -24,6 +24,9 @@ while continuer:
 
     try:
         # Attente du start
+        functions.deploy_wings_H(ser)
+        sleep(0.1)
+        functions.close_wings(ser)
         print "waiting for start"
         answer = functions.get_ans(ser)
         while answer != "$STRT;":
@@ -40,7 +43,9 @@ while continuer:
 	functions_macro.Script_Recalage(ser,team)
 
 	##Reattente du start
-
+        functions.deploy_wings_H(ser)
+        sleep(0.1)
+        functions.close_wings(ser)
 	print "waiting for start"
         answer = functions.get_ans(ser)
         while answer != "$STRT;":
