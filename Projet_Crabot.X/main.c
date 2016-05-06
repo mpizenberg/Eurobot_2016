@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
     // Debug_Asserv_Start2();
     //reglage_asserv();
     
-     while (1) // boucle principale
+    while (1) // boucle principale
     {
         Faire_Actions_AX12();
         Gestion_IO_AU_Config_Loop();

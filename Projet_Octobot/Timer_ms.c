@@ -104,6 +104,7 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
 	
 	if (asserv_mode != ASSERV_MODE_OFF) {
 		if (Delay_10 >= 10000){
+            motion_free();
 			SendDone();
 		} else {
 			Delay_10 ++;

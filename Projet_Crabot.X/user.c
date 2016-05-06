@@ -40,7 +40,8 @@ void Init_All(int callback){
     motion_free();
     InitTimers();
     Init_Communication_RasPi();
-    
+    Position Pos0= {0,0,0};
+    set_position(Pos0);
     __delay_ms(200);
     Init_PWM();
     Init_QEI();
@@ -52,9 +53,9 @@ void Init_All(int callback){
     InitSick_VBat();
     // Init_Ultrasons();  // surtout pas sur crabot malheureux !
     Init_Evitement();
-    Position Pos = {0,0,0};
-    set_position(Pos);
     motion_init(); // start asserv
+    __delay_ms(30);
+    set_position(Pos0);
     
     TRISAbits.TRISA9 = 1;
     
