@@ -176,10 +176,10 @@ void Init_ax12() {
                         __delay_ms(delay_min_ax);
     PutAX(Bras_G,           AX_GOAL_POSITION, 830);
                         __delay_ms(delay_min_ax);
-    if(!PIN_TEAM)
+    if(!PIN_TEAM)       // VERT
     {
         PutAX(Bras_C,           AX_GOAL_POSITION, 120);
-    } else {
+    } else {            // VIOLET
         PutAX(Bras_C,           AX_GOAL_POSITION, 670);
     }
                         __delay_ms(delay_min_ax);
@@ -194,11 +194,11 @@ void Init_ax12() {
 
  void Deploy_fish_Av(void)		// Déploie le bras de pêche Avant.
  {
-    if(!PIN_TEAM)       // Côté Violet.
+    if(!PIN_TEAM)       // VERT
     {    
         PutAX(Fish_AvG,     AX_GOAL_POSITION,210);
     }
-    else                // Côté Vert.
+    else                // VIOLET
     {
         PutAX(Fish_AvD,     AX_GOAL_POSITION,810);
     }
@@ -207,11 +207,11 @@ void Init_ax12() {
 
  void Deploy_fish_Ar(void)		// Déploie le bras de pêche Arriere.
  {
-    if(!PIN_TEAM)
+    if(!PIN_TEAM)           // VERT
     {    
         PutAX(Fish_ArG,     AX_GOAL_POSITION,510);
     }
-    else
+    else                    // VIOLET
     {    
         PutAX(Fish_ArD,     AX_GOAL_POSITION,510);
     }
@@ -220,7 +220,7 @@ void Init_ax12() {
 
  void Deploy_fish(void)
  {
-    if(!PIN_TEAM)       // Côté Violet.
+    if(!PIN_TEAM)       // Côté VERT
     {   
         PutAX(Fish_AvG,         AX_MOVING_SPEED, 512);
                             __delay_ms(delay_min_ax);
@@ -234,7 +234,7 @@ void Init_ax12() {
                             __delay_ms(delay_min_ax);
         PutAX(Fish_ArG,         AX_MOVING_SPEED, 70);
     }
-    else                // Côté Vert.
+    else                // VIOLET
     {
         PutAX(Fish_AvD,         AX_MOVING_SPEED, 512);
                             __delay_ms(delay_min_ax);
@@ -254,11 +254,11 @@ void Init_ax12() {
 
  void Moveup_fish_Av(void)		// Releve legerement le bras de pêche Avant.
  {
-    if(!PIN_TEAM)
+    if(!PIN_TEAM)               // VERT
     {    
         PutAX(Fish_AvG,     AX_GOAL_POSITION,390);
     }
-    else
+    else                        // VIOLET
     {    
         PutAX(Fish_AvD,     AX_GOAL_POSITION,620);
     }
@@ -267,11 +267,11 @@ void Init_ax12() {
 
  void Moveup_fish_Ar(void)		// Releve legerement le bras de pêche Arriere.
  {
-    if(!PIN_TEAM)
+    if(!PIN_TEAM)           // VERT
     {
         PutAX(Fish_ArG,AX_GOAL_POSITION,327);
     }
-    else
+    else                    // VIOLET
     {
         PutAX(Fish_ArD,AX_GOAL_POSITION,713);
     }
@@ -280,7 +280,7 @@ void Init_ax12() {
 
  void Rlz_fish_Av(void)		// Leve le bras d'aimants Avant.
  {  
-    if(!PIN_TEAM)
+    if(!PIN_TEAM)           // VERT
     {
         PutAX(Fish_AvG,         AX_GOAL_POSITION,220);
         __delay_ms(1500);
@@ -290,7 +290,7 @@ void Init_ax12() {
                                 __delay_ms(delay_min_ax);
         PutAX(Fish_AvG, 	AX_GOAL_POSITION, 527); // Rangement du bras de pêche.
     }
-    else
+    else                    // VIOLET
     {
         PutAX(Fish_AvD,         AX_GOAL_POSITION,800);
         __delay_ms(1500);
@@ -306,7 +306,7 @@ void Init_ax12() {
 
  void Rlz_fish_Ar(void)		// Leve le bras d'aimants Avant.
  {
-    if(!PIN_TEAM)
+    if(!PIN_TEAM)       // VERT
 	{
         PutAX(Fish_ArG,         AX_GOAL_POSITION, 500);
         __delay_ms(1500);
@@ -316,7 +316,7 @@ void Init_ax12() {
                             __delay_ms(delay_min_ax);
         PutAX(Fish_ArG, 	AX_GOAL_POSITION, 195); // Rangement du bras de pêche.
 	}
-    else
+    else                // VIOLET
     {
         PutAX(Fish_ArD,         AX_GOAL_POSITION, 520);
         __delay_ms(1500);
@@ -332,7 +332,7 @@ void Init_ax12() {
  
  void Rlz_fish(void)		// Leve le bras d'aimants Avant.
  {  
-    if(!PIN_TEAM)
+    if(!PIN_TEAM)       // VERT
     {
         PutAX(Fish_AvG,         AX_GOAL_POSITION,220);           // Placement des bras
                                 __delay_ms(delay_min_ax);
@@ -352,7 +352,7 @@ void Init_ax12() {
                                 __delay_ms(delay_min_ax);
 
     }
-    else
+    else                // VIOLET
     {
         PutAX(Fish_AvD,         AX_GOAL_POSITION,780);  // Placement des bras
                                 __delay_ms(delay_min_ax);
