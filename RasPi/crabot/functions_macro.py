@@ -170,7 +170,7 @@ def Prise_Grand_Tas_De_Sable(ser,team,configuration):
     ### CALAGE SUR LES BLOCS
     functions.move_speed(ser,0.1,0)
     sleep(0.5)
-    functions.set_y(ser,team*0.71)
+    functions.set_y(ser,team*0.70)
     sleep(0.01)
     functions.move_push(ser,0.83,team*0.71,0)
     answer = functions.get_ans(ser)
@@ -264,7 +264,7 @@ def Prise_Poissons(ser,team):
         answer = functions.get_ans(ser)
 
     ### Placement en centre de bassin et deploiement des bras
-    functions.move_push(ser,0.54,team*(-0.895),0)
+    functions.move_push(ser,0.53,team*(-0.895),0)
     answer = functions.get_ans(ser)
     while answer != "$DONE;":
         answer = functions.get_ans(ser)
@@ -292,7 +292,7 @@ def Prise_Poissons(ser,team):
         answer = functions.get_ans(ser)
 
     ### Et 3 pas en arriere !!
-    functions.move_pos(ser,0.47,team*(-0.90))
+    functions.move_pos(ser,0.42,team*(-0.90))
     answer = functions.get_ans(ser)
     while answer != "$DONE;":
         answer = functions.get_ans(ser)
