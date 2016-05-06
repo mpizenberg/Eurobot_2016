@@ -23,24 +23,40 @@ while continuer:
     mon_fichier.close()
 
     try:
-	# Attente du start
+        # Attente du start
+        print "waiting for start"
+        answer = functions.get_ans(ser)
+        while answer != "$STRT;":
+            answer = functions.get_ans(ser)
+            print answer
+
+        # demande de l'equipe
+        team = 0
+        while team==0 :
+            team = functions.ask_team(ser)
+
+	## Script de recalage ##
+
+	functions_macro.Script_Recalage(ser,team)
+
+	##Reattente du start
+
 	print "waiting for start"
-	answer = functions.get_ans(ser)
-	while answer != "$STRT;":
-		 answer = functions.get_ans(ser)
-		 print answer
+        answer = functions.get_ans(ser)
+        while answer != "$STRT;":
+            answer = functions.get_ans(ser)
+            print answer
 
-	# demande de l'equipe
-	team = 0
-	while team==0 :
-		team = functions.ask_team(ser)
+        ### SCRIPTS DE MATCH ###
 
-	### SCRIPTS DE MATCH ###
-	functions.set_t(ser,team*(45))
-	functions_macro.Prise_Colonne_De_Sable(ser,team,1.22,-team*0.45)
-	#functions_macro.Prise_Colonne_De_Sable(ser,team,1.4,0.6)
-	#functions_macro.Prise_Colonne_De_Sable(ser,team,1.4,0.6)
-	#functions_macro.Prise_Colonne_De_Sable(ser,team,1.4,0.6)
+#        functions.set_t(ser,team*(45))
+
+        functions_macro.Prise_Colonne_De_Sable(ser,team,1.50,0.633)
+	
+#	functions_macro.Prise_Colonne_De_Sable(ser,team,0.5,0)
+#        functions_macro.Prise_Colonne_De_Sable(ser,team,1.4,0.6)
+        #functions_macro.Prise_Colonne_De_Sable(ser,team,1.4,0.6)
+        #functions_macro.Prise_Colonne_De_Sable(ser,team,1.4,0.6)
     
     except UrgenceReleveException as e:
         print e.value

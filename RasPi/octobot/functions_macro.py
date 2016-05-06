@@ -12,77 +12,117 @@ A	|_||_||_||_||_||_||_||_||_|
 B			 |_||_||_|
 C				(_)
 '''
+def Script_Recalage (ser,team):
+	functions.enable_US(ser,'0')
+	sleep(0.1)
+	functions.set_speed(ser,0.2)
+	sleep(0.1)
+	functions.move_speed(ser,0.2,0)
+	sleep(0.1)
+
+    	functions.set_x(ser,-0.07)
+	sleep(0.1)
+    	functions.set_y(ser,team*0.60)
+	sleep(0.1)
+	functions.set_t(ser,team*(135))
+	sleep(0.1)
+
+	functions.move_pos(ser,0.30,0.30*team)
+    	answer = functions.get_ans(ser)
+    	while answer != "$DONE;":
+		answer = functions.get_ans(ser)
+
+	functions.rotate(ser,team*45)
+    	answer = functions.get_ans(ser)
+    	while answer != "$DONE;":
+		answer = functions.get_ans(ser)
+
+	functions.move_pos(ser,0.005,-0.005*team)
+	answer = functions.get_ans(ser)
+	while answer != "$DONE;":
+		answer = functions.get_ans(ser)
+
+	functions.enable_US(ser,'0')
+	functions.set_speed(ser,0.8)
+
 def Prise_Colonne_De_Sable(ser,team,x,y):
-	functions.move_pos(ser,x-0.3,team*y)
+    functions.move_pos(ser,x-0.37,team*(y-0.185))
+    answer = functions.get_ans(ser)
+    while answer != "$DONE;":
         answer = functions.get_ans(ser)
-        while answer != "$DONE;":
-                answer = functions.get_ans(ser)
-	functions.enable_US(ser,'0')
-	functions.move_pos(ser,x+0.04,team*y)
-	answer = functions.get_ans(ser)
-	while answer != "$DONE;":
-		answer = functions.get_ans(ser)
-	functions.move_pos(ser,x,team*y)
+    functions.enable_US(ser,'0')
+    functions.rotate(ser,180)
+    answer = functions.get_ans(ser)
+    while answer != "$DONE;":
         answer = functions.get_ans(ser)
-        while answer != "$DONE;":
-                answer = functions.get_ans(ser)
+    functions.move_pos(ser,x+0.174,team*y)
+    answer = functions.get_ans(ser)
+    while answer != "$DONE;":
+        answer = functions.get_ans(ser)
+    functions.move_pos(ser,x,team*y)
+    answer = functions.get_ans(ser)
+    while answer != "$DONE;":
+        answer = functions.get_ans(ser)
 
-	functions.rotate(ser,team*(-90))
-	answer = functions.get_ans(ser)
-	while answer != "$DONE;":
-		answer = functions.get_ans(ser)
-		
-	functions.enable_pumps(ser)
-	
-	functions.move_speed(ser,-0.2,0)
-	sleep(1)
-	#functions.move_speed(ser,0.01,0)
-	functions.set_speed(ser,0.1)
-	functions.set_speed_ang(ser,1.5)
-	functions.set_acc(ser,0.1)
-	sleep(0.05)
-	
-	#functions.enable_US(ser,'9')
-	functions.move_pos(ser,x,team*(y-0.1))
-	answer = functions.get_ans(ser)
-	while answer != "$DONE;":
-		answer = functions.get_ans(ser)
-	
-	functions.deploy_wings(ser)
-	sleep(1)
-	
-	functions.move_push(ser,0.35,team*(0.1),0.2)
-	answer = functions.get_ans(ser)
-	while answer != "$DONE;":
-		answer = functions.get_ans(ser)
-				
-	functions.move_push(ser,0.60,team*(-0.16),0.2)
-	answer = functions.get_ans(ser)
-	while answer != "$DONE;":
-		answer = functions.get_ans(ser)
-	
-	### On s enfonce dans la zone de construction.
-	functions.enable_US(ser,'0')
-	functions.move_push(ser,x-0.3,team*(y-0.75),0.10)
-	answer = functions.get_ans(ser)
-	while answer != "$DONE;":
-		answer = functions.get_ans(ser)
-		
-	functions.disable_pumps(ser)
-	functions.close_wings(ser)
-	sleep(0.5)
-	functions.set_speed(ser,0)
-	functions.set_speed(ser,3)
-	sleep(0.05)
-	
-	functions.move_push(ser,0.3,team*(0.2),0.15)
-	answer = functions.get_ans(ser)
-	while answer != "$DONE;":
-		answer = functions.get_ans(ser)
-		
-	functions.enable_US(ser,'F')
+    functions.rotate(ser,team*(-90))
+    answer = functions.get_ans(ser)
+    while answer != "$DONE;":
+        answer = functions.get_ans(ser)
 
-	print "Et une colonne de plus ! Une !"
+    functions.enable_pumps(ser)
+
+    functions.move_speed(ser,-0.2,0)
+    sleep(1)
+    #functions.move_speed(ser,0.01,0)
+    functions.set_speed(ser,0.3)
+    functions.set_speed_ang(ser,1.5)
+    functions.set_acc(ser,0.1)
+    sleep(0.05)
+
+    functions.enable_US(ser,'3')
+    functions.move_pos(ser,x,team*(y-0.1))
+    answer = functions.get_ans(ser)
+    while answer != "$DONE;":
+        answer = functions.get_ans(ser)
+
+    functions.deploy_wings(ser)
+    sleep(1)
+
+    functions.move_push(ser,0.20,team*(0.15),0.2)
+    answer = functions.get_ans(ser)
+    while answer != "$DONE;":
+        answer = functions.get_ans(ser)
+
+    functions.move_push(ser,0.60,team*(-0.20),0.2)
+    answer = functions.get_ans(ser)
+    while answer != "$DONE;":
+        answer = functions.get_ans(ser)
+
+    ### On s enfonce dans la zone de construction.
+    functions.enable_US(ser,'0')
+    functions.move_push(ser,x-0.3,team*(y-0.75),0.10)
+    answer = functions.get_ans(ser)
+    while answer != "$DONE;":
+        answer = functions.get_ans(ser)
+        
+    functions.disable_pumps(ser)
+    functions.close_wings(ser)
+    sleep(0.5)
+    functions.set_speed(ser,0)
+    functions.set_speed(ser,3)
+    sleep(0.05)
+
+    functions.move_push(ser,0.3,team*(0.2),0.15)
+    answer = functions.get_ans(ser)
+    while answer != "$DONE;":
+        answer = functions.get_ans(ser)
+        
+    functions.enable_US(ser,'F')
+
+    print "Et une colonne de plus ! Une !"
+
+#def Prise_Sable_Adversaire(ser,team):
+	
 
 def Homologation(ser,team):
 	functions.set_angle(ser,team*45)
