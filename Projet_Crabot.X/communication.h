@@ -2,7 +2,7 @@
 #define	COMMUNICATION_H
 
 
-
+#define SIZE_BUFFER_COM 100
 
 void Init_Communication_RasPi(void);
 
