@@ -431,7 +431,8 @@ void Catch_bras(void)
                             __delay_ms(500);
         PutAX(Bras_C,       AX_GOAL_POSITION,930);
     }
-    __delay_ms(delay_min_ax);
+    __delay_ms(300);
+    SendDone();
 }
 
 void Close_bras(void)
