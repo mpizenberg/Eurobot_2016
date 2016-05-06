@@ -75,6 +75,15 @@ void Faire_Actions_AX12(void)
             case POMPE_ETEINDRE:
                 Eteindre_Pompes();
                 break;
+            case AX12_CLOSE_WINGS_BAS :
+                Close_wings_B();
+                break;
+            case AX12_CLOSE_WINGS_HAUT :
+                Close_wings_H();
+                break;
+            case AX12_CLOSE_WINGS :
+                Close_wings();
+                break;
         }
         Num_Action_Done = num;
     }
