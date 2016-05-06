@@ -180,9 +180,7 @@ def Prise_Grand_Tas_De_Sable(ser,team,configuration):
 
     ### PRISE DES BLOCS
     functions.catch(ser)
-    answer = functions.get_ans(ser)
-    while answer != "$DONE;":
-        answer = functions.get_ans(ser)
+    sleep(1.25)
 
     functions.set_acc(ser,0.4,12,0.9)
     sleep(0.01)
@@ -450,28 +448,28 @@ def Prise_Coquillages_2(ser,team,configuration):
         print "Ce sont pas des moules mais on s en contentera ! +12 points potentiels."
     '''
 
-        if (configuration==2) or (configuration==3):    ### CONFIGURATION 2 ou 3 ###
-            functions.move_push(ser,0.5,team*(-0.5),0.15)
+    if (configuration==2) or (configuration==3):    ### CONFIGURATION 2 ou 3 ###
+        functions.move_push(ser,0.5,team*(-0.5),0.15)
+        answer = functions.get_ans(ser)
+        while answer != "$DONE;":
             answer = functions.get_ans(ser)
-            while answer != "$DONE;":
-                answer = functions.get_ans(ser)
 
-            functions.move_push(ser,0.5,team*(-1),0.2)
+        functions.move_push(ser,0.5,team*(-1),0.2)
+        answer = functions.get_ans(ser)
+        while answer != "$DONE;":
             answer = functions.get_ans(ser)
-            while answer != "$DONE;":
-                answer = functions.get_ans(ser)
 
-            functions.move_push(ser,0.15,team*(-0.7),0)
+        functions.move_push(ser,0.15,team*(-0.7),0)
+        answer = functions.get_ans(ser)
+        while answer != "$DONE;":
             answer = functions.get_ans(ser)
-            while answer != "$DONE;":
-                answer = functions.get_ans(ser)
 
-            functions.move_push(ser,0.12,team*(0.05),0.25)
+        functions.move_push(ser,0.12,team*(0.05),0.25)
+        answer = functions.get_ans(ser)
+        while answer != "$DONE;":
             answer = functions.get_ans(ser)
-            while answer != "$DONE;":
-                answer = functions.get_ans(ser)
 
-            print "Ce sont pas des moules mais on s en contentera ! +10 points potentiels."
+        print "Ce sont pas des moules mais on s en contentera ! +10 points potentiels."
         '''
         if configuration == 2:
         ### On va au fond du board
