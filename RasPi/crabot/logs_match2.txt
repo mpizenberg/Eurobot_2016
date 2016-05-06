@@ -1,0 +1,118 @@
+lancement
+$AXIN;
+$OPFB;
+$CLOB;
+waiting for start
+    $STRT;
+$TEAM;
+    $VIOL;
+$CONF;
+    $CON2;
+Changement de vmax :$VMAX,0.4;
+$OPNB;
+$PUSH,1.1,0,0,0.2;
+$ENSI,0;
+    $DONE;
+$PUSH,1.1,0,0,0;
+    $DONE;
+$OPNB;
+Changement de vmax :$VMAX,0;
+$PUSH,0.6,0,0,0.1;
+    $DONE;
+$ENSI,F;
+$CLOB;
+Prise du Petit Tas fait : +16 points potentiels !
+$PUSH,0.38,-0.58,0,0.3;
+    $DONE;
+Coquillage en place !
+$OPFB;
+$PUSH,0.33,0.79,0,0.3;
+    $DONE;
+$ENSI,0;
+$PUSH,0.33,0.79,0,0;
+    $DONE;
+$SPED,0.2,0.0;
+$PUSH,0.35,0.6,0,0.1;
+    $DONE;
+$ENSI,F;
+$CLOB;
+Les Portes sont fermees, +20 potentiels mon capitaine.
+$PUSH,0.83,0.5,0,0;
+    $DONE;
+$OPNB;
+$ANGL,1.570795;
+    $DONE;
+$MOVE,0.83,0.68,0;
+    $DONE;
+$ANGL,1.570795;
+    $DONE;
+$SPED,0.1,0.0;
+MAJ de coordonnee y=0.71
+$PUSH,0.83,0.71,0,0;
+    $DONE;
+$CATB;
+Chamgement d'accelerations max : 0.4 ,12 ,0.9;
+Changement de vmax :$VMAX,0.2;
+Changement de vt_max :$VTMA,1;
+$PUSH,0.83,0.5,0,0.1;
+    $DONE;
+$PUSH,0.35,0.1,0,0.2;
+    $DONE;
+$ANGL,-0.7853975;
+    $DONE;
+$PUSH,0.6,-0.16,0,0.2;
+    $DONE;
+$PUSH,1.05,-0.4,0,0;
+    $DONE;
+$ANGL,0.872663888889;
+Chamgement d'accelerations max : 0.7 ,20 ,0.8;
+    $DONE;
+$OPNB;
+Changement de vmax :$VMAX,0;
+Changement de vt_max :$VTMA,4;
+$PUSH,0.72,-0.8,0,0.1;
+$PUSH,0.72,-0.8,0,0.1;
+    $DONE;
+$CLOB;
+$PUSH,0.72,-0.8,0,0;
+    $DONE;
+Et un tas de sable en plus! Un ! +24 points potentiels.
+$PUSH,0.3,-0.88,0,0.1;
+    $DONE;
+$PUSH,0.65,-0.895,0,0;
+    $DONE;
+$ANGL,0.0;
+    $DONE;
+$DFIS;
+Changement de vmax :$VMAX,0.2;
+$MOVE,0.85,-0.9,0;
+    $DONE;
+$ANGL,0.0;
+    $DONE;
+$MOVE,0.55,-0.9,0;
+    $DONE;
+$ANGL,0.0;
+    $DONE;
+$UPAV;
+$UPAR;
+Changement de vmax :$VMAX,0;
+$PUSH,0.9,-0.85,0,0.1;
+    $DONE;
+$PUSH,1.1,-0.9,0,0;
+    $DONE;
+$ANGL,0.0;
+    $DONE;
+$RFIS;
+    $DONE;
+Avouons-le, la peche a la moule c est mieux... +40 points potentiels.
+$PUSH,1.6,-0.7,0,0.1;
+    $END9;
+bouton d urgence enfonce
+$OPFB;
+$CLOB;
+waiting for start
+    $STRT;
+$TEAM;
+    $VIOL;
+$CONF;
+    $CON7;

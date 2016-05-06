@@ -37,8 +37,8 @@ def get_ans(ser):
 		Sicks-=8
 	elif chaine=="$RULS;":
 		Sicks-=16
-        elif chaine=="$URGE;":
-                raise UrgenceReleveException("bouton d urgence releve")
+	elif chaine=="$URGE;":
+		raise UrgenceReleveException("bouton d urgence enfonce")
 	print ("    "+chaine)
 	sleep(0.1)
 	return chaine

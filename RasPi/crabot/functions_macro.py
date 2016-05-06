@@ -124,12 +124,12 @@ def Fermeture_Portes(ser,team):
 		answer = functions.get_ans(ser)
 	functions.enable_sicks(ser,'0')
 	
-	functions.move_push(ser,0.35,team*(0.79),0)
+	functions.move_push(ser,0.33,team*(0.79),0) #x=0.35?
 	answer = functions.get_ans(ser)
 	while answer != "$DONE;":
 		answer = functions.get_ans(ser)
 	functions.move_speed(ser,0.2,0)
-	sleep(0.2)
+	sleep(0.5)
 	
 	### RECUL & FERMETURE DES BRAS
 	functions.move_push(ser,0.35,team*0.6,0.1)
@@ -183,8 +183,11 @@ def Prise_Grand_Tas_De_Sable(ser,team,configuration):
 	sleep(1.2)
 
 	functions.set_acc(ser,0.4,12,0.9)
-	functions.set_speed(ser,0.2)  
+	sleep(0.1)
+	functions.set_speed(ser,0.2) 
+ 	sleep(0.1)
         functions.set_speed_ang(ser,1)        
+	sleep(0.1)
 
 	### Recul
 	functions.move_push(ser,0.83,team*0.50,0.1)
@@ -221,14 +224,12 @@ def Prise_Grand_Tas_De_Sable(ser,team,configuration):
 		answer = functions.get_ans(ser)
 	functions.open_bras(ser)
 	sleep(1)
-	print functions.ask_team(ser)
 	
 	### CONTRAINTES DE VITESSE PAR DEFAUT
-        #functions.ask_team(ser)
 	functions.set_speed(ser,0)
+	sleep(0.1)
 	functions.set_speed_ang(ser,4)
 
-	print functions.ask_team(ser)
 	if configuration<4:
 		functions.move_push(ser,0.72,team*(-0.8),0.1)
 		functions.move_push(ser,0.72,team*(-0.8),0.1)
@@ -336,12 +337,12 @@ def Prise_Coquillages_1(ser,team,configuration):
 		while answer != "$DONE;":
 			 answer = functions.get_ans(ser)
 
-		functions.move_push(ser,0.15,team*(-0.7),0)
+		functions.move_push(ser,0.13,team*(-0.7),0)
 		answer = functions.get_ans(ser)
 		while answer != "$DONE;":
 			 answer = functions.get_ans(ser)
 			 
-		functions.move_push(ser,0.1,team*(0.05),0.15)
+		functions.move_push(ser,0.08,team*(0.05),0.15)
 		answer = functions.get_ans(ser)
 		while answer != "$DONE;":
 			 answer = functions.get_ans(ser)
@@ -469,7 +470,7 @@ def Prise_Coquillages_2(ser,team,configuration):
 				answer = functions.get_ans(ser)
 						 
 			print "Ce sont pas des moules mais on s en contentera ! +10 points potentiels."
-	if configuration == 2:
+	'''if configuration == 2:
                 ### On va au fond du board
 		functions.move_push(ser,0.4,team*(-0.8),0.1)
 		answer = functions.get_ans(ser)
@@ -491,7 +492,7 @@ def Prise_Coquillages_2(ser,team,configuration):
 		answer = functions.get_ans(ser)
 		while answer != "$DONE;":
 			answer = functions.get_ans(ser)
-		functions.move_push(ser,0.6,team*(-0.68),0.15)
+        functions.move_push(ser,0.6,team*(-0.68),0.15)
 		answer = functions.get_ans(ser)
 		while answer != "$DONE;":
 			answer = functions.get_ans(ser)
@@ -499,8 +500,8 @@ def Prise_Coquillages_2(ser,team,configuration):
 		answer = functions.get_ans(ser)
 		while answer != "$DONE;":
 			answer = functions.get_ans(ser)
-
-	elif configuration==4:		 ### CONFIGURATION 4 A MODIFIER ###
+'''
+	if configuration==4:		 ### CONFIGURATION 4 A MODIFIER ###
 		functions.move_push(ser,0.35,team*(-0.85),0.2)
 		answer = functions.get_ans(ser)
 		while answer != "$DONE;":
