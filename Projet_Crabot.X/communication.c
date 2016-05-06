@@ -22,6 +22,10 @@
 
 char ReceivedStringFromPi[SIZE_BUFFER_COM] = {0};
 int CharFromPiNumber = 0;
+volatile char Buffer_To_Send[SIZE_BUFFER_COM] = {0};
+volatile char Last_Buffer_To_Send[SIZE_BUFFER_COM] = {0};
+volatile int Buffer_To_Send_TODO = 0, Buffer_To_Send_DONE = 0;
+volatile int try = 1;
 
 void Init_Communication_RasPi(void)
 {
@@ -38,6 +42,11 @@ void Init_Communication_RasPi(void)
     ConfigIntUART1(UART_RX_INT_PR6 & UART_RX_INT_EN
                  & UART_TX_INT_PR6 & UART_TX_INT_DIS);
     
+    Buffer_To_Send_TODO = 0;
+    Buffer_To_Send_DONE = 0;
+    
+    // init
+    //_U1TXIF = 1;
         //Remapage uart 1
     _U1RXR = 18;
     _RP4R = 0b0011;  // RP4 = U1TX (p.167)
@@ -48,12 +57,26 @@ void Init_Communication_RasPi(void)
 void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void){
     // Receive Byte
     char b = ReadUART1();
-    _U1RXIF = 0; // On baisse le FLAG
     AnalyzeCommandFromPi(b);
+    _U1RXIF = 0; // On baisse le FLAG
 }
 
 void __attribute__((__interrupt__, no_auto_psv)) _U1TXInterrupt(void){
-    _U1TXIF = 0; // clear TX interrupt flag
+//    if (try) {
+//        _U1TXIF = 0; // clear TX interrupt flag
+//        U1TXREG = Buffer_To_Send[Buffer_To_Send_DONE];
+//
+//        Buffer_To_Send_DONE ++;
+//        if (Buffer_To_Send_DONE == SIZE_BUFFER_COM)
+//            Buffer_To_Send_DONE = 0;
+//
+//        if (Buffer_To_Send_DONE == Buffer_To_Send_TODO) {
+//            _U1TXIE = 0;    // 
+//        }
+//    }
+//    else {
+        _U1TXIF = 0; // clear TX interrupt flag
+//    }
 }
 
 
@@ -62,7 +85,7 @@ void AnalyzeCommandFromPi (char b)
     // If byte is "$" symbol, the string can be valid
     if (b == '$')
     {
-        ReceivedStringFromPi[0] = b;
+        ReceivedStringFromPi[0] = '$';
         CharFromPiNumber = 1;
     }
     // Here we are collecting all the char from the frame
@@ -70,7 +93,8 @@ void AnalyzeCommandFromPi (char b)
         if (CharFromPiNumber == SIZE_BUFFER_COM) {
             CharFromPiNumber = 0;  // commande trop longue => on la drope, retourne attendre le prochain '$'
         } else if (b == ';') {     // si on a reçu le carractère de fin...
-            ReceivedStringFromPi[CharFromPiNumber] = b;
+            ReceivedStringFromPi[CharFromPiNumber] = ';';
+            CharFromPiNumber = 0;
             SelectActionFromPi();
         } else {
             ReceivedStringFromPi[CharFromPiNumber] = b;
@@ -86,7 +110,7 @@ void SelectActionFromPi(void)
     float valf;
     Position MOVE;
     Speed VITESSE;
-    // uint8_t val8;
+    //uint8_t val8;
     char valc;
     int vali;
     
@@ -364,7 +388,7 @@ void SelectActionFromPi(void)
             // UPAR
             else if(ReceivedStringFromPi[4]=='R')
             {   Add_Action_AX12(AX12_MOVEUP_FISH_AR);   }
-
+        }
     }
     
     // RF   // Release Fish
@@ -534,13 +558,14 @@ void SelectActionFromPi(void)
 //            valc -= '0';
 //            Choose_Enabled_US(valc);
 //        }
-    }
+    
 }
 
 void SendDone(void)
 {
     //__delay_ms(50);
 	Raz_Delay_WatchDone();
+    //Add_String_To_Send_Buff("$DONE;");
     printf("$DONE;");
     //__delay_ms(50);
 }
@@ -548,6 +573,7 @@ void SendDone(void)
 void SendStart(void)
 {
     //__delay_ms(50);
+    //Add_String_To_Send_Buff("$STRT;");
     printf("$STRT;");
     //__delay_ms(50);
 }
@@ -556,6 +582,7 @@ void SendEnd (void)
 {
     //__delay_ms(10);
     printf("$END9;");
+    //Add_String_To_Send_Buff("$END9;");
     //__delay_ms(10);
 }
 
@@ -563,33 +590,45 @@ void SendFailAX12(void)
 {
     //__delay_ms(10);
     printf("$FAAX;");
+    //Add_String_To_Send_Buff("$FAAX;");
     //__delay_ms(10);
 }
 
 void DetectSick(int channel)
 {
+//    char loc_str[20];
+//    sprintf(loc_str, "$DSI%d;", channel);
+//    Add_String_To_Send_Buff(&loc_str[0]);
     printf("$DSI%d;", channel);
 }
 
 void ReleaseSick (int channel)
 {
+//    char loc_str[20];
+//    sprintf(loc_str, "$RSI%d;", channel);
+//    Add_String_To_Send_Buff(&loc_str[0]);
     printf("$RSI%d;", channel);
 }
 
 void SendSick_Status(int val8)
 {
     //__delay_ms(50);
+//    char loc_str[40];
+//    sprintf(loc_str, "$SICK,%d,%d,%d;", val8, Get_Sick(val8), Get_Sick_Sector(val8) );
+//    Add_String_To_Send_Buff(&loc_str[0]);
     printf("$SICK,%d,%d,%d;", val8, Get_Sick(val8), Get_Sick_Sector(val8) );
 	//__delay_ms(50);
 }
 
 void DetectUltrason(void)
 {
+    //Add_String_To_Send_Buff("$DULS;");
     printf("$DULS;");
 }
 
 void ReleaseUltrason(void)
 {
+    //Add_String_To_Send_Buff("$RULS;");
     printf("$RULS;");
 }
 
@@ -597,6 +636,9 @@ void SendUltrason_Status(void)
 {
     //__delay_ms(50);
     //printf("$SULS,%d,%d,%d;", Sector_Ultrason, Mesure_Distance_Ultrason, Mesure_Timer_Ultrason);
+//    char loc_str[30];
+//    sprintf(loc_str, "$SULS,%d,%d,%d;", 0, 0, 0);
+//    Add_String_To_Send_Buff(&loc_str[0]);
     printf("$SULS,%d,%d,%d;", 0, 0, 0);
     //__delay_ms(50);
 }
@@ -604,6 +646,10 @@ void SendUltrason_Status(void)
 void SendTeam (int team)
 {
     //__delay_ms(50);
+//    switch(team) {
+//        case 0 : Add_String_To_Send_Buff("$VERT;");  break;
+//        case 1 : Add_String_To_Send_Buff("$VIOL;");  break;
+//    }
     switch(team) {
         case 0 : printf("$VERT;");  break;
         case 1 : printf("$VIOL;");  break;
@@ -613,9 +659,41 @@ void SendTeam (int team)
 
 void SendNum_Config (void)
 {
-    printf ("$CON%d;", Get_Number_Config());
+//    char loc_str[20];
+    printf("$CON%d;", Get_Number_Config());
+    //Add_String_To_Send_Buff(&loc_str[0]);
+    //sprintf(loc_str, "$CON%d;", Get_Number_Config());
+    //Add_String_To_Send_Buff(&loc_str[0]);
 }
 
 void SendUrge(void){
+    //Add_String_To_Send_Buff ("$URGE;");
     printf ("$URGE;");
+}
+
+
+void Add_String_To_Send_Buff (char *string)
+{
+    /*
+    int sended = 0;
+    int i = 0;
+    _U1TXIE = 0;    // mise en pause de la transmission
+    while (*string) {
+        //Buffer_To_Send_DONE
+        Buffer_To_Send[Buffer_To_Send_TODO] = *string;
+        Last_Buffer_To_Send[i] = *string;
+        i++;
+        Buffer_To_Send_TODO++;
+        if (Buffer_To_Send_TODO == SIZE_BUFFER_COM)
+            Buffer_To_Send_TODO = 0;
+        string++;
+        sended = 1;
+    }
+    if (sended) {
+        sended++;
+        sended++;
+        sended++;
+        _U1TXIE = 1;
+    }
+    */
 }

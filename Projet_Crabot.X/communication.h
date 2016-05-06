@@ -2,7 +2,7 @@
 #define	COMMUNICATION_H
 
 
-#define SIZE_BUFFER_COM 100
+#define SIZE_BUFFER_COM 50
 
 void Init_Communication_RasPi(void);
 
@@ -23,6 +23,8 @@ void DetectUltrason(void);
 void ReleaseUltrason(void);
 void SendUltrason_Status(void);
 void SendUrge(void);
+
+void Add_String_To_Send_Buff (char *string);
 
 
 
