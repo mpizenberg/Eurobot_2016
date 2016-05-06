@@ -46,8 +46,12 @@ while continuer:
             if configuration != 1:
                 functions_macro.Prise_Poissons(ser,team)
                 functions_macro.Prise_Coquillages_1(ser,team,configuration)
-                functions_macro.Prise_Coquillages_2(ser,team,configuration)
-                functions_macro.Prise_Poissons(ser,team)
+                if (configuration == 4) or (configuration == 5):
+                    functions_macro.Prise_Poissons(ser,team)
+                    functions_macro.Prise_Coquillages_2(ser,team,configuration)
+                else :
+                    functions_macro.Prise_Coquillages_2(ser,team,configuration)
+                    functions_macro.Prise_Poissons(ser,team)
             else :
                 functions_macro.Prise_Coquillages_1(ser,team,configuration)
                 functions_macro.Prise_Poissons(ser,team)
