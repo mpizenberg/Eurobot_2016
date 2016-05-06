@@ -6,7 +6,7 @@
 
 void Init_Communication_RasPi(void);
 
-void AnalyzeCommandFromPi (void);
+void AnalyzeCommandFromPi (char b);
 void SelectActionFromPi (void);
 void SendDone(void);
 void SendStart(void);

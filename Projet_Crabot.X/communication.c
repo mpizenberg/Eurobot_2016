@@ -46,8 +46,10 @@ void Init_Communication_RasPi(void)
 
 
 void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void){
+    // Receive Byte
+    char b = ReadUART1();
     _U1RXIF = 0; // On baisse le FLAG
-    AnalyzeCommandFromPi();
+    AnalyzeCommandFromPi(b);
 }
 
 void __attribute__((__interrupt__, no_auto_psv)) _U1TXInterrupt(void){
@@ -56,10 +58,9 @@ void __attribute__((__interrupt__, no_auto_psv)) _U1TXInterrupt(void){
 
 
 
-void AnalyzeCommandFromPi (void)
+void AnalyzeCommandFromPi (char b)
 {
-    // Receive Byte
-    char b = ReadUART1();
+    
 
     // If byte is "$" symbol, the string can be valid
     if (b == '$')
