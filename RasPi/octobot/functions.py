@@ -190,3 +190,10 @@ def disable_pumps(ser): # Active les pompes
 	command = "$POMD;"
 	print command
 	ser.write(command)
+
+def set_distance_ultrasons(ser,distance):# Change la distance des ultrasons
+	command = "$DTUS,"+str(distance)+";"
+	print command
+	ser.write(command)
+
+
