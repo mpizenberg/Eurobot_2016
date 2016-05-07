@@ -149,7 +149,7 @@ void Init_ax12() {
     PutAX(Wing_3,       AX_GOAL_POSITION, 814);
                         __delay_ms(delay_min_ax);
     PutAX(Wing_4,       AX_GOAL_POSITION, 210);
-                        __delay_ms(2000);
+                        __delay_ms(delay_min_ax);
     SendDone();
  }
 
@@ -183,8 +183,29 @@ void Init_ax12() {
  }
 
  void I_Can_Fly(void)		// A vous de jouer !!! ;)
- {
+{
+    PutAX(Wing_1, AX_GOAL_POSITION, 800);
+    __delay_ms(delay_min_ax);
+
+    PutAX(Wing_3, AX_GOAL_POSITION, 819);
+    __delay_ms(500);
     
+    PutAX(Wing_1, AX_GOAL_POSITION, 280);
+    __delay_ms(delay_min_ax);
+
+    PutAX(Wing_3, AX_GOAL_POSITION, 270);
+    __delay_ms(delay_min_ax);
+    
+    PutAX(Wing_2, AX_GOAL_POSITION, 205);
+    __delay_ms(delay_min_ax);
+
+    PutAX(Wing_4, AX_GOAL_POSITION, 210);
+    __delay_ms(500)
+
+    PutAX(Wing_2, AX_GOAL_POSITION, 740);
+    __delay_ms(delay_min_ax);
+
+    PutAX(Wing_4, AX_GOAL_POSITION, 740);
     __delay_ms(delay_min_ax);
  }
 
