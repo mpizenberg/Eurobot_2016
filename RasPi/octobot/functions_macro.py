@@ -100,6 +100,8 @@ def Prise_Colonne_De_Sable(ser,team,x,y):
     answer = functions.get_ans(ser)
     while answer != "$DONE;":
         answer = functions.get_ans(ser)
+
+    sleep(0.5)
     
     functions.rotate(ser,team*210)
     answer = functions.get_ans(ser)
@@ -164,6 +166,41 @@ def Prise_Colonne_De_Sable(ser,team,x,y):
 
 #def Prise_Sable_Adversaire(ser,team):
 	
+def I_can_fly(ser,team):
+	functions.move_pos(ser,0.35,team*0.10)
+	answer = functions.get_ans(ser)
+        while answer != "$DONE;":
+            answer = functions.get_ans(ser)
+            print answer
+        functions.move_pos(ser,1.35,team*0.40)
+	answer = functions.get_ans(ser)
+        while answer != "$DONE;":
+            answer = functions.get_ans(ser)
+            print answer
+        functions.rotate(ser,team*90)
+	answer = functions.get_ans(ser)
+        while answer != "$DONE;":
+            answer = functions.get_ans(ser)
+            print answer
+
+        functions.I_Believe(ser)
+        functions.I_Believe(ser)
+        functions.I_Believe(ser)
+        functions.I_Believe(ser)
+        functions.I_Believe(ser)
+        functions.I_Believe(ser)
+        functions.I_Believe(ser)
+        functions.I_Believe(ser)
+        functions.I_Believe(ser)
+        functions.I_Believe(ser)
+        functions.I_Believe(ser)
+        functions.I_Believe(ser)
+        functions.I_Believe(ser)
+        functions.I_Believe(ser)
+        functions.I_Believe(ser)
+        functions.I_Believe(ser)
+        functions.I_Believe(ser)
+        functions.I_Believe(ser)
 
 def Homologation(ser,team):
 	functions.set_angle(ser,team*45)

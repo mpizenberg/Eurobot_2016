@@ -55,8 +55,11 @@ while continuer:
         ### SCRIPTS DE MATCH ###
 
         functions_macro.Prise_Colonne_De_Sable(ser,team,1.50,0.633)
-	functions_macro.Prise_Colonne_De_Sable(ser,team,1.50,0.691)
-        #functions_macro.Prise_Colonne_De_Sable(ser,team,1.4,0.6)
+	functions_macro.I_can_fly(ser,team)
+
+	#functions_macro.Prise_Colonne_De_Sable(ser,team,1.50,0.691)
+        
+	#functions_macro.Prise_Colonne_De_Sable(ser,team,1.4,0.6)
         #functions_macro.Prise_Colonne_De_Sable(ser,team,1.4,0.6)
         #functions_macro.Prise_Colonne_De_Sable(ser,team,1.4,0.6)
     
