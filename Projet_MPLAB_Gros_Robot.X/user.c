@@ -51,6 +51,11 @@ void Init_All(int callback){
     InitSick_VBat();
     motion_init(); // start asserv
     // Init_Ultrasons();
+    __delay_ms(20);
+    Position Pos0 = {0,0,0};
+    
+    set_position(Pos0);
+    
     
     TRISAbits.TRISA9 = 1;
     
