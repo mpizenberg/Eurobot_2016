@@ -111,9 +111,12 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
         IPC2bits.T3IP = 2;
         Delay_90_Over = 1;
     } else if (Delay_90 == 90001) {
+        motion_free();
         Delay_90 ++;
         SendEnd();
-        Add_Action_AX12(AX12_FUNNY_ACTION);
+    } else if (Delay_90 == 90002) {
+        Delay_90 ++;
+        Funny_action();
     } else {
         motion_free();
         Delay_90_Over = 1;
