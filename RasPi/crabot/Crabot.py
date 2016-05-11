@@ -13,6 +13,7 @@ functions.init_ax(ser)
 continuer = True
 while continuer:
     try:
+	sleep(2)
         # Attente du start
         # on fait coucou avec les bras pour indiquer que c est ok
         functions.open_full_bras(ser)

@@ -182,8 +182,8 @@ def Prise_Grand_Tas_De_Sable(ser,team,configuration):
     functions.catch(ser)
     sleep(1.25)
 
-    functions.set_acc(ser,0.4,12,0.9)
-    sleep(0.01)
+    #functions.set_acc(ser,0.4,12,0.9)
+    #sleep(0.01)
     functions.set_speed(ser,0.2) 
     sleep(0.01)
     functions.set_speed_ang(ser,1)
@@ -200,7 +200,6 @@ def Prise_Grand_Tas_De_Sable(ser,team,configuration):
     answer = functions.get_ans(ser)
     while answer != "$DONE;":
         answer = functions.get_ans(ser)
-
     functions.rotate(ser,team*(-45))
     answer = functions.get_ans(ser)
     while answer != "$DONE;":
@@ -217,8 +216,12 @@ def Prise_Grand_Tas_De_Sable(ser,team,configuration):
         answer = functions.get_ans(ser)
 
     ### LACHER DU SABLE
-    functions.set_acc(ser,0.7,20,0.8)
-    functions.rotate(ser,team*50)
+   # functions.set_acc(ser,0.7,20,0.8)
+    if team ==1 :
+        commandeconnard="$ANGL,0.87;"
+    else:
+        commandeconnard="$ANGL,-0.87;"
+    ser.write(commandeconnard)
     answer = functions.get_ans(ser)
     while answer != "$DONE;":
         answer = functions.get_ans(ser)
