@@ -75,6 +75,7 @@ void AnalyzeCommandFromPi (char b)
         } else if (b == ';') {     // si on a reçu le carractère de fin...
             ReceivedStringFromPi[CharFromPiNumber] = b;
             SelectActionFromPi();
+            //printf(ReceivedStringFromPi);
         } else {
             ReceivedStringFromPi[CharFromPiNumber] = b;
             CharFromPiNumber++;
@@ -367,7 +368,7 @@ void SelectActionFromPi(void)
             // UPAR
             else if(ReceivedStringFromPi[4]=='R')
             {   Add_Action_AX12(AX12_MOVEUP_FISH_AR);   }
-
+        }
     }
     
     // RF   // Release Fish
@@ -537,7 +538,7 @@ void SelectActionFromPi(void)
 //            valc -= '0';
 //            Choose_Enabled_US(valc);
 //        }
-    }
+    
 }
 
 void SendDone(void)
