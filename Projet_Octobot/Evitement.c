@@ -45,7 +45,7 @@ void New_Order_Evitement_Handling(void)
     Can_Restart_Order = 0;  
     Old_Blocked_Front = 0;
     Old_Blocked_Back = 0;
-	Raz_Delay_10();
+	Raz_Delay_WatchDone();
 }
 
 void Must_do_Gestion_Evitement(void)
