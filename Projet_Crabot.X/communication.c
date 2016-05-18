@@ -23,6 +23,9 @@
 char ReceivedStringFromPi[SIZE_BUFFER_COM] = {0};
 int CharFromPiNumber = 0;
 
+volatile char TX_PC_Buff[SIZE_BUFFER_COM];
+volatile int i_TX_PC_Buff = 0;
+
 void Init_Communication_RasPi(void)
 {
         OpenUART1(UART_EN & UART_IDLE_CON & UART_IrDA_DISABLE & UART_MODE_FLOW
@@ -42,6 +45,8 @@ void Init_Communication_RasPi(void)
     _U1RXR = 18;
     _RP4R = 0b0011;  // RP4 = U1TX (p.167)
     
+    IFS0bits.U1TXIF = 1;    // init le flag 
+    
 }
 
 
@@ -52,8 +57,17 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void){
     AnalyzeCommandFromPi(b);
 }
 
-void __attribute__((__interrupt__, no_auto_psv)) _U1TXInterrupt(void){
-    _U1TXIF = 0; // clear TX interrupt flag
+void __attribute__((interrupt, auto_psv)) _U1TXInterrupt(void) {
+    static int i_TX_Transmit = 0;
+
+    IFS0bits.U1TXIF = 0;
+    U1TXREG = TX_PC_Buff[i_TX_Transmit];
+    i_TX_Transmit++;
+    if (i_TX_Transmit == SIZE_BUFFER_COM)
+        i_TX_Transmit = 0;
+
+    if (i_TX_Transmit == i_TX_PC_Buff) // si on a tout transmit, on s'arrete
+        IEC0bits.U1TXIE = 0;
 }
 
 
@@ -620,4 +634,31 @@ void SendNum_Config (void)
 
 void SendUrge(void){
     printf ("$URGE;");
+}
+
+int write(int handle, void *buffer, unsigned int len)
+{
+    unsigned int i;
+    char *buff = buffer;
+ //   if (handle == 0) {    // si on veut séparer les gestions de stdout, stdin, stderr...
+        for (i = 0; i < len; i ++) {
+            Transmit_Char(*buff);
+            buff ++;
+        }
+ //   }
+    
+    //Transmit_Char('c');
+    return len;
+}
+
+void Transmit_Char(char symbol) {
+
+    int i = i_TX_PC_Buff;
+    TX_PC_Buff[i] = symbol;
+    i++;
+    if (i == SIZE_BUFFER_COM) {
+        i = 0;
+    }
+    i_TX_PC_Buff = i;
+    IEC0bits.U1TXIE = 1;
 }

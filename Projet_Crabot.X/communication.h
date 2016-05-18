@@ -24,6 +24,8 @@ void ReleaseUltrason(void);
 void SendUltrason_Status(void);
 void SendUrge(void);
 
+int write(int handle, void *buffer, unsigned int len);
+void Transmit_Char(char symbol);
 
 
 #endif	/* COMMUNICATION_H */
