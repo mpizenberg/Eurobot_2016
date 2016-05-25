@@ -32,7 +32,11 @@
 
 void reglage_asserv(void);
 
+volatile uint8_t VariableChangementAction;
+
 int main(int argc, char** argv) {
+    
+    VariableChangementAction = 0;
     
     Speed SpeedBar;
     SpeedBar.v = 0.5;
@@ -45,19 +49,47 @@ int main(int argc, char** argv) {
 
         Gestion_IO_AU_Loop();
         
-        int DG=0;
-        int DD=0;
+        int aleach;
+        int aleadir;
+        int aleabutter;
         
         motion_free();
 
         while (Get_US_Sector(0) != 0) {
+            
             motion_speed(SpeedBar);
+            
+            aleach = rand() % 5000 + 1000;
+            if (VariableChangementAction == aleach) {
+                motion_free();
+                aleadir = rand() % 360 + 15;
+                motion_angle(aleadir);
+                while (!motion_done());
+                VariableChangementAction = 0;
+            }
+            
+            aleabutter = rand() % 5000 + 1000;
+            if (VariableChangementAction == 5000)
+            {
+                I_Can_Fly();
+                I_Can_Fly();
+                I_Can_Fly();
+                I_Can_Fly();
+                I_Can_Fly();
+                VariableChangementAction = 0;
+            }
+            
+            if (VariableChangementAction == 7000)
+            {
+                VariableChangementAction = 0;
+            }
+            
         }
         
         while (Get_US_Sector(0) != 1) {
             motion_free();
-            int alea = rand() % 360 + 15;
-            motion_angle(alea);
+            aleadir = rand() % 360 + 15;
+            motion_angle(aleadir);
             while(!motion_done());
         }
     }

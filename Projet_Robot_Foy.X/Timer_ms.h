@@ -2,6 +2,7 @@
 #define __TIMER_MS_H
 
 extern volatile char Delay_90_Over;
+extern volatile uint8_t VariableChangementAction;
 
 void Timer_ms_Init(void);
 

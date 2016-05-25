@@ -60,6 +60,9 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
     uint8_t Etat_Pin_Laisse = PIN_LAISSE;
     static char count_Evit = 10;
     
+    
+    VariableChangementAction++;
+    
     if (Etat_Pin_Laisse) {
         if (Count_Laisse < 30)
             Count_Laisse ++;
@@ -126,14 +129,14 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
     } else if (Delay_90 == 90001) {
         Delay_90 ++;
         SendEnd();
-    } else {
+    } /*else {
         Eteindre_Pompes();
         motion_free();
         Delay_90_Over = 1;
         if (!Active_Delay_90) {
             Delay_90 = 0;
         }
-    }
+    }*/
 
    _T3IF = 0;   // on baisse le flag
 }
