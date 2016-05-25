@@ -1,7 +1,8 @@
 '''
     Simple socket server using threads
 '''
- 
+
+import serial
 import socket
 import sys
 from thread import *
@@ -9,6 +10,7 @@ from thread import *
 HOST = ''   # Symbolic name meaning all available interfaces
 PORT = 8888 # Arbitrary non-privileged port
  
+ser = serial.Serial("/dev/ttyAMA0",57600)
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 print 'Socket created'
  
@@ -35,14 +37,10 @@ def clientthread(conn):
          
         #Receiving from client
         data = conn.recv(1024)
-        print(data)
-        reply = 'OK...' + data
+        ser.write(data)
+        print (data)
         if not data: 
             break
-     
-        conn.sendall(reply)
-        #ici envoi de la fonction au pic
-     
     #came out of loop
     conn.close()
  
