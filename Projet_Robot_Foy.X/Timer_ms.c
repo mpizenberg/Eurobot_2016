@@ -22,7 +22,7 @@ void Timer_ms_Init(void)
                 T3_SOURCE_INT, 625 ); // 625 pour 1ms
     // configuration des interruptions
     ConfigIntTimer3(T3_INT_PRIOR_1 & T3_INT_ON);
-    //IPC2bits.T3IP = 7
+    IPC2bits.T3IP = 7;
 	
 }
 
