@@ -1,0 +1,46 @@
+REGLAGE ODO et ASSERVE
+
+!!! Commencer par régler l'odométrie avant l'asserve !!!
+
+REGLAGE ODO
+
+	Il y a deux coefficients à régler (trois en réalité mais il y en a un qui est l'inverse de l'autre) :
+	- le nombre de tics de roue codeuse par mètre
+	- son inverse
+	- la distance entre les roues codeuses en mètre
+
+	!!! Commencer par régler le nombre de tics par mètre !!!
+
+		Réglage du nombre de tics par mètre N
+
+		Première estimation : 
+		- mesurer le diamètre des roues codeuses avec un pied à coulisse et en déduire le périmètre P
+		- on connait le nombre de tics par tour N_tics des roues (2048 pour les CUI AMT10), on fait un petit produit en croix et on a une première estimation : N = N_tics / P
+		- calculer son inverse et rentrer les 2 coeffs dans lib_asserv_default
+
+		Affinage
+		- mettre le pic en mode debug pour pouvoir lire la distance parcourue
+		- coller le robot contre un mur et faire odo_init() pour initialiser l'odo à (0,0,0)
+		- faire parcourir la distance la plus grande possible au robot en ligne droite à la main
+		- la mesurer précisement avec un mètre d_reel
+		- relever la valeur en x de l'odo sur le robot (distance qu'il croit avoir parcourue) d_odo et en déduire le nombre de tics N_tics_odo
+		- encore un petit produit en croix et on rentre les valeurs corrigées : N_tics_corr = d_reel * N_tics_odo / d_odo
+		- itérer jusqu'à avoir la précision voulue
+
+
+		Réglage de la distance entre les roues codeuses d_cod
+
+		Première estimation:
+		- mesurer précisement la distance entre les roues codeuses avec un mètre et la rentrer dans lib_asser_default
+
+		Affinage
+		- mettre le pic en mode debug pour pouvoir lire la distance parcourue
+		- coller le robot contre un mur faire odo_init() pour initialiser l'odo à (0,0,0)
+		- décoller le robot du mur, lui faire faire plusieurs tours sur lui même à la main et le recoller au mur
+		- relever l'angle t_odo de l'odo (angle qu'il croit avoir parcouru en radians)
+		- encore un petit produit en croix et on rentre les valeurs corrigées : d_cod_corr = t_odo * d_cod_odo / t_reel
+		- itérer jusqu'à avoir la précision voulue
+
+
+REGLAGE ASSERV
+
