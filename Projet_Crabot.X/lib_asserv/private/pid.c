@@ -74,5 +74,5 @@ float pid_process(Pid *pid){
 int pid_done(Pid *pid){
     float err     = pid->state.err;     //_moy;
     float err_der = pid->state.err_der; //_moy;
-    return fabs(err) <= pid->eps.err_eps && fabs(err_der) <= pid->eps.der_eps;
+    return fabsf(err) <= pid->eps.err_eps && fabsf(err_der) <= pid->eps.der_eps;
 }

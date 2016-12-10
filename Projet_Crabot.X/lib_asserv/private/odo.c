@@ -42,8 +42,8 @@ void odo_step(Odo *odo, int qei_g, int qei_d){
     float dd = (float)(qei_d-(odo->tics).tics_d)*(odo->coefs).meter_by_tic;
     // distance et angle de déplacement depuis le dernier step
     float d = (dd+dg)/2;
-    float dt = (dd-dg)/(odo->coefs).spacing;
-
+    float dt = atan2f((dd-dg),(odo->coefs).spacing);
+  
     // sauvegarde des anciennes vitesses
     float v = odo->state->speed.v;
     float vt = odo->state->speed.vt;
@@ -51,12 +51,23 @@ void odo_step(Odo *odo, int qei_g, int qei_d){
     // maj des tics
     odo->tics.tics_g = qei_g;
     odo->tics.tics_d = qei_d;
-
-    // maj des positions
-    odo->state->pos.x += d*cos(odo->state->pos.t + 0.5*dt); // calcul centré
-    odo->state->pos.y += d*sin(odo->state->pos.t + 0.5*dt); // calcul centré
+    
+    odo->state->pos.x += d*cos(odo->state->pos.t);
+    odo->state->pos.y += d*sin(odo->state->pos.t);
     odo->state->pos.t += dt;
     odo->state->pos.t = principal_angle(odo->state->pos.t);
+    
+//    // maj des positions
+//    if (dt == 0) {
+//        odo->state->pos.x += d*cos(odo->state->pos.t);
+//        odo->state->pos.y += d*sin(odo->state->pos.t);
+//    } else {
+//        float r = d/dt;
+//        odo->state->pos.x += -r*sin(odo->state->pos.t) + r*sin(odo->state->pos.t + dt);
+//        odo->state->pos.y += r*cos(odo->state->pos.t) - r*cos(odo->state->pos.t + dt);
+//        odo->state->pos.t += dt;
+//        odo->state->pos.t = principal_angle(odo->state->pos.t);
+//    }
 
     // maj des vitesses
     odo->state->speed.v = d/(odo->period);

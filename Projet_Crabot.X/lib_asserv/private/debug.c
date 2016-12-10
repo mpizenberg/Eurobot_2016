@@ -27,8 +27,8 @@ void debug_init(){
     init_debug_table(speedDebug.vt);
     init_debug_table(speedDebug.cons_v);
     init_debug_table(speedDebug.cons_vt);
-    //init_debug_table(posXYDebug.x);
-    //init_debug_table(posXYDebug.y);
+    init_debug_table(speedDebug.pid_v);
+    init_debug_table(speedDebug.pid_vt);
 }
 
 void debug_speed_asserv(){
@@ -37,6 +37,8 @@ void debug_speed_asserv(){
         (speedDebug.vt)[debug_count] = motionState.speed.vt;
         (speedDebug.cons_v)[debug_count] = speed_asserv.speed_order_constrained.v;
         (speedDebug.cons_vt)[debug_count] = speed_asserv.speed_order_constrained.vt;
+        (speedDebug.pid_v)[debug_count] = pid_process((Pid*)&(speed_asserv.pid_delta));
+        (speedDebug.pid_vt)[debug_count] = pid_process((Pid*)&(speed_asserv.pid_alpha));
         debug_count++;
     }
 }

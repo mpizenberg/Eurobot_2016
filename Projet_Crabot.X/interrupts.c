@@ -141,3 +141,254 @@ void __attribute__((interrupt, no_auto_psv)) _SPI2Interrupt(void)
 
 
 
+/* Primary Exception Vector handlers:
+These routines are used if INTCON2bits.ALTIVT = 0.
+All trap service routines in this file simply ensure that device
+continuously executes code within the trap service routine. Users
+may modify the basic framework provided here to suit to the needs
+of their application. */
+//================================================================
+// OSCFAIL: Oscillator Failure Trap Status bit
+void __attribute__((interrupt,no_auto_psv)) _OscillatorFail(void)
+{ 
+    INTCON1bits.OSCFAIL = 0; //Clear the trap flag
+}
+//================================================================
+// ADDRERR: Address Error Trap Status bit
+// DS read access when DSRPAG = 0x000 will force an Address Error trap.
+void __attribute__((interrupt,no_auto_psv)) _AddressError(void)
+{ INTCON1bits.ADDRERR = 0; //Clear the trap flag
+
+}
+//================================================================
+// STKERR: Stack Error Trap Status bit
+void __attribute__((interrupt,no_auto_psv)) _StackError(void)
+{ INTCON1bits.STKERR = 0; //Clear the trap flag
+
+}
+//================================================================
+// MATHERR: Math Error Status bit
+void __attribute__((interrupt,no_auto_psv)) _MathError(void)
+{ INTCON1bits.MATHERR = 0; //Clear the trap flag
+
+}
+//================================================================
+// DMACERR: DMAC Trap Flag bit
+void __attribute__((interrupt,no_auto_psv)) _DMACError(void)
+{ INTCON1bits.DMACERR = 0; //Clear the trap flag
+
+}
+//================================================================
+void __attribute__((interrupt,no_auto_psv)) _ReservedTrap7(void)
+{ INTCON1bits.DMACERR = 0; //Clear the trap flag
+
+}
+//================================================================
+//================================================================
+// Interrupt Vector Not Trap
+//================================================================
+//================================================================
+//===================================================================
+void __attribute__ ((interrupt, no_auto_psv)) _U1ErrInterrupt(void) {
+IFS4bits.U1EIF = 0; // Clear interrupt flag before returning
+}
+//===================================================================
+void __attribute__ ((interrupt, no_auto_psv)) _U2ErrInterrupt(void){
+IFS4bits.U2EIF = 0; // Clear interrupt flag before returning
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _INT0Interrupt(void)
+{
+IFS0bits.INT0IF = 0; //Clear INT0 interrupt flag
+}
+//============================================================================
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _INT1Interrupt(void)
+{
+IFS1bits.INT1IF = 0; //Clear INT1 interrupt flag
+}
+//============================================================================
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _INT2Interrupt(void)
+{
+IFS1bits.INT2IF = 0; //Clear INT2 interrupt flag
+}
+//============================================================================
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _IC1Interrupt(void)
+{
+IFS0bits.IC1IF = 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _IC2Interrupt(void)
+{
+IFS0bits.IC2IF = 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _IC7Interrupt(void)
+{
+IFS1bits.IC7IF = 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _IC8Interrupt(void)
+{
+IFS1bits.IC8IF = 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _OC1Interrupt(void)
+{
+IFS0bits.OC1IF = 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _OC2Interrupt(void)
+{
+IFS0bits.OC2IF = 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _OC3Interrupt(void)
+{
+IFS1bits.OC3IF = 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _OC4Interrupt(void)
+{
+IFS1bits.OC4IF = 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _T1Interrupt(void)
+{
+IFS0bits.T1IF = 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _T5Interrupt(void)
+{
+IFS1bits.T5IF = 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _DMA0Interrupt(void)
+{
+IFS0bits.DMA0IF = 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _DMA1Interrupt(void)
+{
+IFS0bits.DMA1IF = 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _DMA2Interrupt(void)
+{
+IFS1bits.DMA2IF = 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _DMA3Interrupt(void)
+{
+IFS2bits.DMA3IF = 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _DMA4Interrupt(void)
+{
+IFS2bits.DMA4IF= 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _DMA5Interrupt(void)
+{
+IFS3bits.DMA5IF = 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _DMA6Interrupt(void)
+{
+IFS4bits.DMA6IF= 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _DMA7Interrupt(void)
+{
+IFS4bits.DMA7IF = 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _PMPInterrupt(void)
+{
+IFS2bits.PMPIF = 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _SPI1Interrupt(void)
+{
+IFS0bits.SPI1IF = 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _SPI2ErrInterrupt(void)
+{
+IFS2bits.SPI2EIF= 0; //Clear Flag
+}
+
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _C1RxRdyInterrupt(void)
+{
+IFS2bits.C1RXIF = 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _C1Interrupt(void)
+{
+IFS2bits.C1IF = 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _SI2C1Interrupt(void)
+{
+IFS1bits.SI2C1IF= 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _MI2C1Interrupt(void)
+{
+IFS1bits.MI2C1IF= 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _C1TxReqInterrupt(void)
+{
+IFS4bits.C1TXIF = 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _QEI1Interrupt(void)
+{
+// Sources of QEI interrupts:
+// Position counter overflow or underflow event
+// Velocity counter overflow or underflow event
+// Position counter initialization process complete
+// Position counter greater than or equal compare interrupt
+// Position counter less than or equal compare interrupt
+// Index event interrupt
+// Home event interrupt
+//The QEI Status register (QEIxSTAT) contains the individual interrupt enable bits and the
+//corresponding interrupt status bits for each interrupt source. A status bit indicates that an
+//interrupt request has occurred. The module reduces all of the QEI interrupts to a single interrupt
+//signal to the interrupt controller module
+
+IFS3bits.QEI1IF = 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _QEI2Interrupt(void)
+{
+// Sources of QEI interrupts:
+// Position counter overflow or underflow event
+// Velocity counter overflow or underflow event
+// Position counter initialization process complete
+// Position counter greater than or equal compare interrupt
+// Position counter less than or equal compare interrupt
+// Index event interrupt
+// Home event interrupt
+//The QEI Status register (QEIxSTAT) contains the individual interrupt enable bits and the
+//corresponding interrupt status bits for each interrupt source. A status bit indicates that an
+//interrupt request has occurred. The module reduces all of the QEI interrupts to a single interrupt
+//signal to the interrupt controller module
+
+IFS4bits.QEI2IF= 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _RTCCInterrupt(void)
+{
+IFS3bits.RTCIF = 0; //Clear Flag
+}
+//============================================================================
+void __attribute__ (( interrupt, shadow, no_auto_psv )) _CRCInterrupt(void)
+{
+IFS4bits.CRCIF = 0; //Clear Flag
+}
+//=====================================================================

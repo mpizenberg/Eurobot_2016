@@ -24,6 +24,9 @@ typedef struct {
 typedef struct {
     Position pos_order;
     Distance distance;
+    Distance old_distance;
+    Pid pid_delta;
+    Pid pid_alpha;
     float stop_distance;
     float kp; // coef proportionnel qui doit être plus petit que l'accélération max
     MotionState *state;
@@ -40,6 +43,7 @@ typedef struct {
     MotionState *state;
     MotionConstraint *constraint;
     int done;
+    int courbure;
 } SpeedAsserv;
 
 // Un asservissement en angle

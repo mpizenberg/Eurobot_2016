@@ -104,14 +104,14 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
 //    if (Loc_Maxtime)
 //        Loc_Maxtime--;
 	
-	if (asserv_mode != ASSERV_MODE_OFF) {
-		if (Delay_WatchDone >= MAX_DELAY_WATCHDONE){
-            motion_free();
-			SendDone();
-		} else {
-			Delay_WatchDone ++;
-		}
-	}
+//	if (asserv_mode != ASSERV_MODE_OFF) {
+//		if (Delay_WatchDone >= MAX_DELAY_WATCHDONE){
+//            motion_free();
+//			SendDone();
+//		} else {
+//			Delay_WatchDone ++;
+//		}
+//	}
     
     if (Delay_90 < 90000) {
         if (Active_Delay_90) {
@@ -129,7 +129,7 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
         SendEnd();
         Add_Action_AX12(AX12_FUNNY_ACTION);
     } else {
-        motion_free();
+       // motion_free();
         Delay_90_Over = 1;
         if (!Active_Delay_90) {
             Delay_90 = 0;

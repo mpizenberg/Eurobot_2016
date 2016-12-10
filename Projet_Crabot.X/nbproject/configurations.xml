@@ -8,7 +8,6 @@
         <itemPath>motor.h</itemPath>
         <itemPath>lib_asserv/private/motion.h</itemPath>
         <itemPath>lib_asserv/lib_asserv_default.h</itemPath>
-        <itemPath>lib_asserv/lib_asserv.h</itemPath>
         <itemPath>lib_asserv/private/odo.h</itemPath>
         <itemPath>lib_asserv/private/pid.h</itemPath>
         <itemPath>lib_asserv/private/asserv.h</itemPath>
@@ -80,8 +79,8 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>PICkit3PlatformTool</platformTool>
         <languageToolchain>XC16</languageToolchain>
-        <languageToolchainVersion>1.25</languageToolchainVersion>
-        <platform>3</platform>
+        <languageToolchainVersion>1.26</languageToolchainVersion>
+        <platform>2</platform>
       </toolsSet>
       <compileType>
         <linkerTool>
@@ -95,6 +94,8 @@
           <parseOnProdLoad>false</parseOnProdLoad>
           <alternateLoadableFile></alternateLoadableFile>
         </loading>
+        <subordinates>
+        </subordinates>
       </compileType>
       <makeCustomizationType>
         <makeCustomizationPreStepEnabled>false</makeCustomizationPreStepEnabled>
@@ -257,6 +258,7 @@
         <property key="ToolFirmwareOption.UseLatestFirmware" value="true"/>
         <property key="UART 1" value="true"/>
         <property key="UART 2" value="true"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="true"/>

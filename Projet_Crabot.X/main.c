@@ -27,17 +27,59 @@
 
 
 int main(int argc, char** argv) {
+    
+    Position p0 = {0,0,0};
+    
+    Position p1 = {1,0,0};
+    Position p2 = {1,1,0};
+    Position p3 = {0,1,0};
+    Position p4 = {0,2,0};
+    Position p5 = {1,2,0};
+    
+    Position p6 = {0.5,0.2,0};
+    Position p7 = {1,-0.2,0};
+    Position p8 = {1.5,0.2,0};
+    Position p9 = {2,-0.2,0};
+    
+    while (PIN_LAISSE);
     Init_All(0);
+    motion_pos(p1);
+    while (!motion_done());
+//    motion_angle(PI/2);
+//    while (!motion_done());
+    motion_pos(p2);
+    while (!motion_done());
+//    motion_angle(0);
+//    while (!motion_done());
+    motion_pos(p3);
+    while (!motion_done());
+//    motion_angle(PI/2);
+//    while (!motion_done());
+    motion_pos(p4);
+    while (!motion_done());
+//    motion_angle(0);
+//    while (!motion_done());
+    motion_pos(p5);
+    while (!motion_done());
 
-    // __delay_ms(2000);
-    // Code de test qui fait bouger le robot doucement :
-    // Debug_Asserv_Start2();
-    //reglage_asserv();
+    motion_pos(p0);
+    while (!motion_done());
+    
+    motion_pos(p6);
+    while (!motion_done());
+    motion_pos(p7);
+    while (!motion_done());
+    motion_pos(p8);
+    while (!motion_done());
+    motion_pos(p9);
+    while (!motion_done());
+    
     
     while (1) // boucle principale
     {
-        Faire_Actions_AX12();
-        Gestion_IO_AU_Config_Loop();
+//        Faire_Actions_AX12();
+//        Gestion_IO_AU_Config_Loop();
+        
     }
     
 }

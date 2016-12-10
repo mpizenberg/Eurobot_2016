@@ -6,6 +6,11 @@ float fmin(float x, float y){
     else return y;
 }
 
+float fmax(float x, float y){
+    if (x>y) return x;
+    else return y;
+}
+
 // Renvoyer une valeur comprise entre inf et sup
 float limit_float(float valeur, float inf, float sup){
     if (valeur < inf) return inf;
@@ -22,9 +27,9 @@ long int limit_int(long int valeur, long int inf, long int sup){
 // angle principal
 float principal_angle(float angle){
     float alpha;
-    if (fabs(angle)< PI){return angle;}
+    if (fabsf(angle)< PI){return angle;}
     else {
-        alpha = fmod(angle,2*PI);
+        alpha = fmodf(angle,2*PI);
         if (alpha<-PI){alpha += 2*PI;} // décalage de 2PI remarqué par Ken si l'angle est négatif
         if (alpha>PI){alpha -= 2*PI;}
         return alpha;

@@ -15,7 +15,7 @@ void Timer_Asserv_Init(void)
                 T2_IDLE_CON &
                 T2_GATE_OFF &
                 T2_PS_1_64 &
-                T2_SOURCE_INT, 3125 ); // 3125 pour 5ms
+                T2_SOURCE_INT, 6250 ); // 3125 pour 5ms
     // configuration des interruptions
     ConfigIntTimer2(T2_INT_PRIOR_4 & T2_INT_ON);
 }

@@ -203,10 +203,10 @@ int motion_done(){
     return asserv_done();
 }
 
-// v√©rifier qu'on est pas bloqu√© par un obstacle
-// si bloqu√©, annule la consigne de vitesse
+// vÈrifier qu'on est pas bloquÈ par un obstacle
+// si bloquÈ, annule la consigne de vitesse
 void check_blocked(Speed speed,Speed order){
-    if (fabs(speed.v - order.v)>0.1 || fabs(speed.vt - order.vt)>0.4 ){
+    if (fabsf(speed.v - order.v)>0.1 || fabsf(speed.vt - order.vt)>0.4 ){
         if (blocked == BLOCK_LIMIT){
             //motion_free();
         }
@@ -235,7 +235,7 @@ void motion_step(int tics_g, int tics_d, float *commande_g, float *commande_d){
         // indique si on est arriv√©
         if (asserv_done()){
             if (asserv_mode != ASSERV_MODE_OFF){
-                motion_free();
+                //motion_free();
                 SendDone();
             }
         }

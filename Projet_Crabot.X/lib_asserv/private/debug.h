@@ -10,6 +10,8 @@ typedef struct {
     float vt[DEBUG_COUNT_MAX];
     float cons_v[DEBUG_COUNT_MAX];
     float cons_vt[DEBUG_COUNT_MAX];
+    float pid_v[DEBUG_COUNT_MAX];
+    float pid_vt[DEBUG_COUNT_MAX];
 } SpeedDebug;
 
 // pour le réglage de l'asserv (tableaux à récupérer en mode debug)
