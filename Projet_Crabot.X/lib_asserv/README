@@ -44,3 +44,31 @@ REGLAGE ODO
 
 REGLAGE ASSERV
 
+	Commencer par régler les valeurs max des vitesses et différentes accélérations.
+	
+	Déterminer v_max:
+	Mettre les pwm moteurs a 100% et mesurer la vitesse atteinte grâce aux fonctions de debug.
+	Fixer v_max à 90% de la vitesse obtenue pour avoir de la marge au niveau de l'asserve.
+
+	Déterminer vt_max:
+	vt_max = v_max / (distance entre roues codeuses / 2 )
+
+	Déterminer a_max:
+	Elle dépend de l'adhérence entre les roues et le sol, le poids du robot, ...
+	Cf RCVA si on veut un calcul précis.
+	Sinon 2m.s^-2 est une bonne approximation à pas dépasser.
+
+	Déterminer at_max:
+	at_max = a_max / (distance entre roues codeuses / 2 )
+
+	Déterminer v_max*vt_max:
+	Accélération centripète dont dépend la force centrifuge (Fc = ac * masse robot)
+	Si elle est trop grande, le robot glisse perpendiculairement à la direction des roues codeuses et on ne sait plus où on est.
+	Valeur safe : v_max*vt_max = 0.1g = 0.981
+
+	Ces limites sont purement physique et sont les valeurs maximales à ne pas dépasser.
+	Dans la réalité on peut compenser la force centrifuge au niveau de l'odo pour éliminer cette contrainte.
+	On peut bien sur rentrer des valeurs plus petites en fonction des caractéristiques du robot et de ce que l'on veut lui faire faire.
+
+	
+	
