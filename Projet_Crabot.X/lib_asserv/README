@@ -71,4 +71,11 @@ REGLAGE ASSERV
 	On peut bien sur rentrer des valeurs plus petites en fonction des caractéristiques du robot et de ce que l'on veut lui faire faire.
 
 	
+	Ensuite régler les PID de contrôle de la vitesse des moteurs.
+
+	On utilise un PI pour avoir une erreur statique non nulle mais pas de dérivateur qui introduirait de l'instabilité car la consigne (vitesse) est déjà la dérivée de la position.
+
+
+	Enfin, régler les PID de commande de vitesse pour les déplacements.
+
 	
