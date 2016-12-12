@@ -66,6 +66,8 @@ REGLAGE ASSERV
 	Si elle est trop grande, le robot glisse perpendiculairement à la direction des roues codeuses et on ne sait plus où on est.
 	Valeur safe : v_max*vt_max = 0.1g = 0.981
 
+	On utilise un PI pour avoir une erreur statique non nulle mais pas de dérivateur qui introduirait de l'instabilité car la consigne (vitesse) est déjà la dérivée de la position.
+
 	Ces limites sont purement physique et sont les valeurs maximales à ne pas dépasser.
 	Dans la réalité on peut compenser la force centrifuge au niveau de l'odo pour éliminer cette contrainte.
 	On peut bien sur rentrer des valeurs plus petites en fonction des caractéristiques du robot et de ce que l'on veut lui faire faire.
@@ -75,7 +77,19 @@ REGLAGE ASSERV
 
 	On utilise un PI pour avoir une erreur statique non nulle mais pas de dérivateur qui introduirait de l'instabilité car la consigne (vitesse) est déjà la dérivée de la position.
 
+	On commence par la vitesse linaire. On utilise motion_linear_speed. On utilise le mode debug pour récupérer les valeurs des vitesses. On itère en augmentant le coefficient proportionnel jusqu'à atteindre le plateau de convergence. On augmente ensuite le coefficient intégral pour avoir une erreur statique non nulle et un temps de réponse intéressant sans oscillation.
+
+	On passe ensuite à la vitesse angulaire. On utilise motion_angular_speed. On utilise le mode debug pour récupérer les valeurs des vitesses. On itère en augmentant le coefficient proportionnel jusqu'à atteindre le plateau de convergence. On augmente ensuite le coefficient intégral pour avoir une erreur statique non nulle et un temps de réponse intéressant sans oscillation.
+
 
 	Enfin, régler les PID de commande de vitesse pour les déplacements.
+
+	On utilise un PD pour avoir un comportement stable et sans dépassement.
+
+	Le réglage est purement empirique. 
+
+	On active l'asserve seulement en angulaire, on fait faire un demi tour au robot. On itère en augmentant le coefficient proportionnel jusqu'à avoir une oscillation amortie de 1-2 s. On augmente ensuite le coefficient dérivé jusqu'à ne plus avoir de dépassement.
+
+	On active ensuite l'asserve seulement en linéaire, on fait faire 2m au robot. On itère en augmentant le coefficient proportionnel jusqu'à avoir une oscillation amortie de 1-2 s. On augmente ensuite le coefficient dérivé jusqu'à ne plus avoir de dépassement.
 
 	
