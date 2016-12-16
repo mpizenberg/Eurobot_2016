@@ -24,47 +24,45 @@
 
 #include "main.h"
 
-
-
 int main(int argc, char** argv) {
-    
-    Position p0 = {0,0,0};
-    
-    Position p1 = {1,0,0};
-    Position p2 = {1,1,0};
-    Position p3 = {0,1,0};
-    Position p4 = {0,2,0};
-    Position p5 = {1,2,0};
-    
-    Position p6 = {0.5,0.2,0};
-    Position p7 = {1,-0.2,0};
-    Position p8 = {1.5,0.2,0};
-    Position p9 = {2,-0.2,0};
-    
+
+    Position p0 = {0, 0, 0};
+
+    Position p1 = {1, 0, 0};
+    Position p2 = {1, 1, 0};
+    Position p3 = {0, 1, 0};
+    Position p4 = {0, 2, 0};
+    Position p5 = {1, 2, 0};
+
+    Position p6 = {0.5, 0.2, 0};
+    Position p7 = {1, -0.2, 0};
+    Position p8 = {1.5, 0.2, 0};
+    Position p9 = {2, -0.2, 0};
+
     while (PIN_LAISSE);
     Init_All(0);
     motion_pos(p1);
     while (!motion_done());
-//    motion_angle(PI/2);
-//    while (!motion_done());
+    //    motion_angle(PI/2);
+    //    while (!motion_done());
     motion_pos(p2);
     while (!motion_done());
-//    motion_angle(0);
-//    while (!motion_done());
+    //    motion_angle(0);
+    //    while (!motion_done());
     motion_pos(p3);
     while (!motion_done());
-//    motion_angle(PI/2);
-//    while (!motion_done());
+    //    motion_angle(PI/2);
+    //    while (!motion_done());
     motion_pos(p4);
     while (!motion_done());
-//    motion_angle(0);
-//    while (!motion_done());
+    //    motion_angle(0);
+    //    while (!motion_done());
     motion_pos(p5);
     while (!motion_done());
 
     motion_pos(p0);
     while (!motion_done());
-    
+
     motion_pos(p6);
     while (!motion_done());
     motion_pos(p7);
@@ -73,20 +71,18 @@ int main(int argc, char** argv) {
     while (!motion_done());
     motion_pos(p9);
     while (!motion_done());
-    
-    
+
+
     while (1) // boucle principale
     {
-//        Faire_Actions_AX12();
-//        Gestion_IO_AU_Config_Loop();
-        
+        //        Faire_Actions_AX12();
+        //        Gestion_IO_AU_Config_Loop();
+
     }
-    
+
 }
 
-
-void reglage_asserv(void)
-{
+void reglage_asserv(void) {
     Speed speed;
     Position pos;
     speed.v = 0;
@@ -110,23 +106,22 @@ void reglage_asserv(void)
     motion_angle(0);
     debug_count = 0;
 }
-void Debug_Asserv_Start(void)
-{
+
+void Debug_Asserv_Start(void) {
     while (PIN_LAISSE);
-    Position pos1 = {0.40,0,0};
-    Position pos2 = {0.40,0.40,0};
-    motion_push(pos1,0.15);
-    motion_push(pos2,0);
+    Position pos1 = {0.40, 0, 0};
+    Position pos2 = {0.40, 0.40, 0};
+    motion_push(pos1, 0.15);
+    motion_push(pos2, 0);
     //motion_speed(MOVE);
 }
 
-void Debug_Asserv_Start2(void)
-{
+void Debug_Asserv_Start2(void) {
     while (PIN_LAISSE);
-    Position pos1 = {0.40,0,0};
-    Position pos2 = {0.40,0.40,0};
+    Position pos1 = {0.40, 0, 0};
+    Position pos2 = {0.40, 0.40, 0};
     motion_pos(pos1);
-    while(!motion_done());
+    while (!motion_done());
     motion_pos(pos2);
     //motion_speed(MOVE);
 }

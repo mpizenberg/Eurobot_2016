@@ -41,7 +41,7 @@ void Deploy_fish_Ar(void);
 #define AX12_DEPLOY_FISH            4           // Deploiement des 2 bras en meme temps avec envoi de SendDone().
 void Deploy_fish(void);
 #define AX12_MOVEUP_FISH_AV         5		// Levage (sans ranger !) de bras de pêche
-void Moveup_fish_Av(void);				// pour evacuer le poisson de l'eau.
+void Moveup_fish_Av(void); // pour evacuer le poisson de l'eau.
 #define AX12_MOVEUP_FISH_AR         6		// idem
 void Moveup_fish_Ar(void);
 #define AX12_RLZ_FISH_AV            7		// lacher les poissons a l'avant

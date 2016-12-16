@@ -6,17 +6,17 @@
 
 void Init_Communication_RasPi(void);
 
-void AnalyzeCommandFromPi (char b);
-void SelectActionFromPi (void);
+void AnalyzeCommandFromPi(char b);
+void SelectActionFromPi(void);
 void SendDone(void);
 void SendStart(void);
-void SendEnd (void);
+void SendEnd(void);
 void SendFailAX12(void);
-void SendTeam (int team);
-void SendNum_Config (void);
+void SendTeam(int team);
+void SendNum_Config(void);
 
 void DetectSick(int channel);
-void ReleaseSick (int channel);
+void ReleaseSick(int channel);
 void SendSick_Status(int val8);
 
 void DetectUltrason(void);

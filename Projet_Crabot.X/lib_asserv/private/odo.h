@@ -7,6 +7,7 @@
 /*****************************    Structures    *******************************/
 
 // Coefficients de l'odométrie (relations tic/mètre et entraxe
+
 typedef struct {
     int tic_by_meter;
     float meter_by_tic;
@@ -14,12 +15,14 @@ typedef struct {
 } OdoCoefs;
 
 // Enregistre les tics des encodeurs gauche et droit pour se repérer
+
 typedef struct {
     int tics_g;
     int tics_d;
 } OdoTics;
 
 // Une odométrie constituée de coefs et associée à un état du robot
+
 typedef struct {
     OdoCoefs coefs;
     OdoTics tics;
@@ -35,7 +38,7 @@ typedef struct {
 void odo_init();
 
 // assigner des valeurs aux coefs (relations tic/mètre et entraxe)
-void odo_set_coefs (Odo *odo, OdoCoefs coefs);
+void odo_set_coefs(Odo *odo, OdoCoefs coefs);
 void odo_set_tic_by_meter(Odo *odo, int tic_by_meter);
 void odo_set_spacing(Odo *odo, float spacing);
 

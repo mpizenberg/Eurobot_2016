@@ -4,6 +4,7 @@
 #define DEBUG_COUNT_MAX 400
 
 // pour le réglage de l'asserv (tableaux à récupérer en mode debug)
+
 typedef struct {
     // consignes en vitesse et vitesse angulaire du robot
     float v[DEBUG_COUNT_MAX];

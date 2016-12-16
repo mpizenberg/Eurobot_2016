@@ -6,6 +6,7 @@
 #define ANGLE_ORDER     2
 /*****************************    Structures    *******************************/
 // Position absolue du robot (x, y, et theta)
+
 typedef struct {
     float x; // en metre
     float y; // en metre
@@ -13,12 +14,14 @@ typedef struct {
 } Position;
 
 // Vitesse et vitesse angulaire du robot
+
 typedef struct {
     float v; // en m/s
     float vt; // en rad/s
 } Speed;
 
 // accélération du robot (dv/dt,  d2theta/dt2   et   v*(dtheta/dt))
+
 typedef struct {
     float a; // en m/s2
     float at; // en rad/s2
@@ -26,6 +29,7 @@ typedef struct {
 } Acceleration;
 
 // état du robot (position, vitesse et accélération)
+
 typedef struct {
     Position pos;
     Speed speed;
@@ -33,12 +37,14 @@ typedef struct {
 } MotionState;
 
 // contraintes de déplacement du robot (sur les vitesses et accélérations max)
+
 typedef struct {
     Speed v_max;
     Acceleration a_max;
 } MotionConstraint;
 
 // sequence de 2 consignes en position
+
 typedef struct {
     Position pos_seq[2];
     float stop_distance[2];
@@ -47,10 +53,11 @@ typedef struct {
 } MotionSequence;
 
 // Sauvegarde du dernier ordre demande par la PI.
+
 typedef struct {
     int mode;
-    Position pos;           
-    float stop_distance;    // Distance d'arret dans le cas d'un motion push
+    Position pos;
+    float stop_distance; // Distance d'arret dans le cas d'un motion push
 } PositionOrder;
 /******************************    Fonctions    *******************************/
 
@@ -103,7 +110,7 @@ int motion_done();
 void done(); // callback
 
 // vérifier qu'on est pas bloqué par un obstacle
-void check_blocked(Speed speed,Speed order);
+void check_blocked(Speed speed, Speed order);
 // Deblocage apres release de sick/ultrason/evitement
 void load_last_order(void);
 

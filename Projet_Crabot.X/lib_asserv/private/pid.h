@@ -5,6 +5,7 @@
 /*****************************    Structures    *******************************/
 
 // Coefficients du PID (proportionnel, integrale, derivée) et leurs coefs de moyennage
+
 typedef struct {
     float kp;
     float ki;
@@ -13,6 +14,7 @@ typedef struct {
 } PidCoefs;
 
 // Etat des valeurs du PID (erreur, intégrale de l'erreur, dérivée de l'erreur) et borne de l'intégrale
+
 typedef struct {
     float err;
     float err_moy; // erreur moyennee
@@ -24,12 +26,14 @@ typedef struct {
 } PidState;
 
 // Valeurs de l'erreur et de sa dérivée permettant de considérer que le robot est arrivé
+
 typedef struct {
     float err_eps;
     float der_eps;
 } PidEps;
 
 // Un PID est constitué de coefs, de valeurs d'état et d'une consigne
+
 typedef struct {
     PidCoefs coefs;
     PidState state;

@@ -144,28 +144,28 @@ void constrain_speed(
     // contraintes liees a l'acceleration et vitesse angulaires
     *vt_constrained = limit_float(vt, vt_c_old - at_max * period, vt_c_old + at_max * period);
     *vt_constrained = limit_float(*vt_constrained, -vt_max, vt_max);
-    
+
     if ((asserv_mode == ASSERV_MODE_POS || asserv_mode == ASSERV_MODE_SEQUENCE) && speed_asserv.courbure != 0) {
         // contraintes liees a l'acceleration absolue
-//        *v_constrained = limit_float(v, v_c_old - a_max * period, v_c_old + a_max * period);
-//        // contraintes liees a l'acceleration angulaire
-//        *v_constrained = limit_float(*v_constrained, -fabsf(vt_c_old - at_max * period) / speed_asserv.courbure,
-//                                                    fabsf(vt_c_old + at_max * period) / speed_asserv.courbure);
-//        // contraintes liees a la vitesse absolue
-//        *v_constrained = limit_float(*v_constrained, -v_max, v_max);
-//        // contraintes liees a la vitesse angulaire
-//        *v_constrained = limit_float(*v_constrained, -vt_max / speed_asserv.courbure, vt_max / speed_asserv.courbure);
-//        
-//        // contrainte vitesse des roues en courbe
-//        *v_constrained = limit_float(*v_constrained, -v_max * 2 / (2 + odo.coefs.spacing * speed_asserv.courbure),
-//                                                    v_max * 2 / (2 + odo.coefs.spacing * speed_asserv.courbure));
-        
+        //        *v_constrained = limit_float(v, v_c_old - a_max * period, v_c_old + a_max * period);
+        //        // contraintes liees a l'acceleration angulaire
+        //        *v_constrained = limit_float(*v_constrained, -fabsf(vt_c_old - at_max * period) / speed_asserv.courbure,
+        //                                                    fabsf(vt_c_old + at_max * period) / speed_asserv.courbure);
+        //        // contraintes liees a la vitesse absolue
+        //        *v_constrained = limit_float(*v_constrained, -v_max, v_max);
+        //        // contraintes liees a la vitesse angulaire
+        //        *v_constrained = limit_float(*v_constrained, -vt_max / speed_asserv.courbure, vt_max / speed_asserv.courbure);
+        //
+        //        // contrainte vitesse des roues en courbe
+        //        *v_constrained = limit_float(*v_constrained, -v_max * 2 / (2 + odo.coefs.spacing * speed_asserv.courbure),
+        //                                                    v_max * 2 / (2 + odo.coefs.spacing * speed_asserv.courbure));
+
         // contrainte accelération centripète
         *v_constrained = limit_float(*v_constrained, -sqrtf(v_vt_max / speed_asserv.courbure),
-                                                    sqrtf(v_vt_max / speed_asserv.courbure)); 
-        
+                sqrtf(v_vt_max / speed_asserv.courbure));
+
         *vt_constrained = speed_asserv.courbure * fabsf(*v_constrained);
-   }
+    }
 }
 
 // contraint la consigne de vitesse avec la fonction precedente constrain_speed
@@ -314,7 +314,7 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d) {
     float x = odo->state->pos.x;
     float y = odo->state->pos.y;
     float v = odo->state->speed.v;
-    
+
     float v_max = motionConstraint.v_max.v;
     float vt_max = motionConstraint.v_max.vt;
     float a_max = motionConstraint.a_max.a;
@@ -335,7 +335,7 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d) {
     // hysteresis pour eviter les allers retours
     float epsi = 0.1571; // 9deg
     int derriere = 0;
-    
+
     // maj de la distance à la consigne
     pos_asserv.old_distance.d = old_d;
     pos_asserv.old_distance.dt = old_dt;
@@ -366,7 +366,7 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d) {
             d = -d;
             dt = principal_angle(dt + PI);
         }
- 
+
         // maj des consignes des PID
         pid_set_order((Pid*)&(pos_asserv.pid_delta), d);
         //pid_set_order((Pid*)&(pos_asserv.pid_alpha), dt);
@@ -374,12 +374,12 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d) {
         // maj des valeurs des PID
         pid_maj((Pid*)&(pos_asserv.pid_delta), 0);
         //pid_maj((Pid*)&(pos_asserv.pid_alpha), 0);
-        
+
         // calcul des sorties des PID
         v_o = pid_process((Pid*)&(pos_asserv.pid_delta));
         //vt_o = pid_process((Pid*)&(pos_asserv.pid_alpha));
-        
-        courbure = 4 * (2 * sin(dt/2) / fabsf(d));
+
+        courbure = 4 * (2 * sin(dt / 2) / fabsf(d));
         vt_o = courbure * fabsf(v_o);
 
         // appel de l'asserve en vitesse avec les bonnes consignes
@@ -387,15 +387,15 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d) {
         speed_asserv.speed_order.v = v_o;
         speed_asserv.speed_order.vt = vt_o;
         speed_asserv.courbure = courbure;
-//        if (fabsf(d) < 0.05) { // stabilité
-//            motionConstraint.v_max.v = v_max/10; 
-//            motionConstraint.v_max.vt = vt_max/10;
-//        }
-        speed_asserv_step(odo,commande_g,commande_d);
-//        if (fabsf(d) < 0.05) {
-//            motionConstraint.v_max.v = v_max;
-//            motionConstraint.v_max.vt = vt_max;
-//        }
+        //        if (fabsf(d) < 0.05) { // stabilité
+        //            motionConstraint.v_max.v = v_max/10;
+        //            motionConstraint.v_max.vt = vt_max/10;
+        //        }
+        speed_asserv_step(odo, commande_g, commande_d);
+        //        if (fabsf(d) < 0.05) {
+        //            motionConstraint.v_max.v = v_max;
+        //            motionConstraint.v_max.vt = vt_max;
+        //        }
     }
 }
 

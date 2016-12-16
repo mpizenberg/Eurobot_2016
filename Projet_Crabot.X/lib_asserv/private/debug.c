@@ -12,15 +12,20 @@ volatile SpeedDebug speedDebug;
 //volatile PosDebug posDebug;
 //volatile PosXYDebug posXYDebug;
 
-
 /******************************    Fonctions    *******************************/
 
-void set_debug_mode(int mode){debug_mode = mode;}
-void init_debug_table(volatile float *table){
-    int i;
-    for (i=0; i<DEBUG_COUNT_MAX; i++){table[i]=0;}
+void set_debug_mode(int mode) {
+    debug_mode = mode;
 }
-void debug_init(){
+
+void init_debug_table(volatile float *table) {
+    int i;
+    for (i = 0; i < DEBUG_COUNT_MAX; i++) {
+        table[i] = 0;
+    }
+}
+
+void debug_init() {
     debug_mode = DEFAULT_DEBUG_MODE;
     debug_count = 0;
     init_debug_table(speedDebug.v);
@@ -31,8 +36,8 @@ void debug_init(){
     init_debug_table(speedDebug.pid_vt);
 }
 
-void debug_speed_asserv(){
-    if (debug_count < DEBUG_COUNT_MAX){
+void debug_speed_asserv() {
+    if (debug_count < DEBUG_COUNT_MAX) {
         (speedDebug.v)[debug_count] = motionState.speed.v;
         (speedDebug.vt)[debug_count] = motionState.speed.vt;
         (speedDebug.cons_v)[debug_count] = speed_asserv.speed_order_constrained.v;
@@ -43,7 +48,7 @@ void debug_speed_asserv(){
     }
 }
 
-void debug_pos_asserv(){/*
+void debug_pos_asserv() {/*
     if (debug_count < DEBUG_COUNT_MAX){
         (posDebug.d)[debug_count] = pos_asserv.distance.d;
         (posDebug.dt)[debug_count] = pos_asserv.distance.dt;
@@ -53,7 +58,7 @@ void debug_pos_asserv(){/*
     }*/
 }
 
-void debug_pos_xy_asserv(){/*
+void debug_pos_xy_asserv() {/*
     if (debug_count < DEBUG_COUNT_MAX){
         (posXYDebug.x)[debug_count] = motionState.pos.x;
         (posXYDebug.y)[debug_count] = motionState.pos.y;

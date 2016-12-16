@@ -3,7 +3,7 @@
 #define __ULTRASON
 
 
-void Init_Ultrasons (void);
+void Init_Ultrasons(void);
 
 #define NUMBER_OF_US                2
 #define ULTRASON_THRESOLD           250      // seuil d'alarme en mm

@@ -22,7 +22,7 @@ void motion_angle(float abs_angle); // tourner pour Ãªtre Ã  un angle (absolu) a
 int motion_done();
 
 int Is_Asserv_Mode_Pos(void); // répond 1 si vraiment position (ou séquence de position)
-int Sens_Vitesse_Deplacement (void);    // 1 si vitesse positive -1 si negative, 0 si moins que 3 cm/sec
+int Sens_Vitesse_Deplacement(void); // 1 si vitesse positive -1 si negative, 0 si moins que 3 cm/sec
 
 
 // renvoie les commandes des roues gauche et droite (appelÃ© par l'interruption toutes les 10 ms)

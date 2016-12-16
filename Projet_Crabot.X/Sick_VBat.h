@@ -1,16 +1,16 @@
 /*
-* Sick
-* Compiler : Microchip xC16
-* �C : 33FJ64MC804
-* Mai 2014
-*    ____________      _           _
-*   |___  /| ___ \    | |         | |
-*      / / | |_/ /___ | |__   ___ | |_
-*     / /  |    // _ \| '_ \ / _ \| __|
-*    / /   | |\ \ (_) | |_) | (_) | |_
-*   /_/    |_| \_\___/|____/ \___/'\__|
-*			      7robot.fr
-*/
+ * Sick
+ * Compiler : Microchip xC16
+ * �C : 33FJ64MC804
+ * Mai 2014
+ *    ____________      _           _
+ *   |___  /| ___ \    | |         | |
+ *      / / | |_/ /___ | |__   ___ | |_
+ *     / /  |    // _ \| '_ \ / _ \| __|
+ *    / /   | |\ \ (_) | |_) | (_) | |_
+ *   /_/    |_| \_\___/|____/ \___/'\__|
+ *			      7robot.fr
+ */
 
 #ifndef __SICK_H
 #define	__SICK_H
@@ -47,7 +47,7 @@
 #define SICK_AR_GAUCHE  1   //sick 2
 #define SICK_AV_DROIT   2   //sick 3
 #define SICK_AV_GAUCHE  3   //sick 4
-*/
+ */
 
 
 #define DEFAULT_THRESHOLD 420 // 300 ~> 16 cm //420 pas assez homolo1
@@ -68,7 +68,7 @@
 void InitSick_VBat();
 
 unsigned int Get_Sick(int Sick_Voulu);
-char Get_Sick_Sector (int Sick_Voulu);
+char Get_Sick_Sector(int Sick_Voulu);
 extern volatile char Sick_Sector[];
 
 void Start_Stop_Debug_Sick(void);

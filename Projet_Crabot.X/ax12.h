@@ -113,6 +113,7 @@ typedef struct {
  * Public global variables.
  */
 extern volatile int responseReadyAX;
+
 typedef volatile struct {
     byte id;
     byte len;
@@ -122,7 +123,7 @@ typedef volatile struct {
 extern responseAXtype responseAX;
 
 
-void Init_IT_AX12 (void);
+void Init_IT_AX12(void);
 
 
 /*
@@ -155,9 +156,9 @@ char PutAX(byte id, byte address, int value);
 extern volatile int Delay_TimeOut_AX12;
 
 char PutAX_Check(byte id, byte address, int value);
-char GetAX_Check (byte id, byte address);
+char GetAX_Check(byte id, byte address);
 
-int GetAX_Pos (byte id);
+int GetAX_Pos(byte id);
 
 
 

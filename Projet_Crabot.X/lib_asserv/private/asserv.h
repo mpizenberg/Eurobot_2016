@@ -21,6 +21,7 @@ typedef struct {
 } Distance;
 
 // Un asservissement en position connait les asserv en vitesse des roues gauche et droite
+
 typedef struct {
     Position pos_order;
     Distance distance;
@@ -35,6 +36,7 @@ typedef struct {
 } PositionAsserv;
 
 // Un asservissement en vitesse
+
 typedef struct {
     Speed speed_order;
     Speed speed_order_constrained;
@@ -47,6 +49,7 @@ typedef struct {
 } SpeedAsserv;
 
 // Un asservissement en angle
+
 typedef struct {
     float angle_order;
     Pid pid_alpha;
