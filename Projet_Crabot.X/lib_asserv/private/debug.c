@@ -30,20 +30,26 @@ void debug_init() {
     debug_count = 0;
     init_debug_table(speedDebug.v);
     init_debug_table(speedDebug.vt);
-    init_debug_table(speedDebug.cons_v);
-    init_debug_table(speedDebug.cons_vt);
-    init_debug_table(speedDebug.pid_v);
-    init_debug_table(speedDebug.pid_vt);
+    //    init_debug_table(speedDebug.cons_v);
+    //    init_debug_table(speedDebug.cons_vt);
+    //    init_debug_table(speedDebug.pid_v);
+    //    init_debug_table(speedDebug.pid_vt);
 }
 
 void debug_speed_asserv() {
     if (debug_count < DEBUG_COUNT_MAX) {
         (speedDebug.v)[debug_count] = motionState.speed.v;
         (speedDebug.vt)[debug_count] = motionState.speed.vt;
-        (speedDebug.cons_v)[debug_count] = speed_asserv.speed_order_constrained.v;
-        (speedDebug.cons_vt)[debug_count] = speed_asserv.speed_order_constrained.vt;
-        (speedDebug.pid_v)[debug_count] = pid_process((Pid*)&(speed_asserv.pid_delta));
-        (speedDebug.pid_vt)[debug_count] = pid_process((Pid*)&(speed_asserv.pid_alpha));
+        //        (speedDebug.cons_v)[debug_count] = speed_asserv.speed_order_constrained.v;
+        //        (speedDebug.cons_vt)[debug_count] = speed_asserv.speed_order_constrained.vt;
+        //        (speedDebug.pid_v)[debug_count] = pid_process((Pid*)&(speed_asserv.pid_delta));
+        //        (speedDebug.pid_vt)[debug_count] = pid_process((Pid*)&(speed_asserv.pid_alpha));
+        (speedDebug.c)[debug_count] = speed_asserv.courbure;
+        (speedDebug.ac)[debug_count] = motionState.speed.v + motionConstraint.a_max.a * 0.01;
+        (speedDebug.atc)[debug_count] = motionState.speed.vt + motionConstraint.a_max.at * 0.01;
+        (speedDebug.vcc)[debug_count] = motionConstraint.v_max.v * 2 / (2 + odo.coefs.spacing * fabsf(speed_asserv.courbure));
+        (speedDebug.vac)[debug_count] = sqrtf(motionConstraint.a_max.v_vt / fabsf(speed_asserv.courbure));
+
         debug_count++;
     }
 }

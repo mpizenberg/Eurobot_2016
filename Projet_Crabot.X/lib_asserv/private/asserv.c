@@ -147,22 +147,25 @@ void constrain_speed(
 
     if ((asserv_mode == ASSERV_MODE_POS || asserv_mode == ASSERV_MODE_SEQUENCE) && speed_asserv.courbure != 0) {
         // contraintes liees a l'acceleration absolue
-        //        *v_constrained = limit_float(v, v_c_old - a_max * period, v_c_old + a_max * period);
+        *v_constrained = limit_float(v, v_c_old - a_max * period, v_c_old + a_max * period);
+
         //        // contraintes liees a l'acceleration angulaire
-        //        *v_constrained = limit_float(*v_constrained, -fabsf(vt_c_old - at_max * period) / speed_asserv.courbure,
-        //                                                    fabsf(vt_c_old + at_max * period) / speed_asserv.courbure);
-        //        // contraintes liees a la vitesse absolue
-        //        *v_constrained = limit_float(*v_constrained, -v_max, v_max);
-        //        // contraintes liees a la vitesse angulaire
-        //        *v_constrained = limit_float(*v_constrained, -vt_max / speed_asserv.courbure, vt_max / speed_asserv.courbure);
-        //
+        //        *v_constrained = limit_float(*v_constrained, -fabsf(vt_c_old) - at_max * period / fabsf(speed_asserv.courbure),
+        //                fabsf(vt_c_old) + at_max * period / fabsf(speed_asserv.courbure));
+
+        // contraintes liees a la vitesse absolue
+        *v_constrained = limit_float(*v_constrained, -v_max, v_max);
+
+        // contraintes liees a la vitesse angulaire
+        *v_constrained = limit_float(*v_constrained, -vt_max / fabsf(speed_asserv.courbure), vt_max / fabsf(speed_asserv.courbure));
+
         //        // contrainte vitesse des roues en courbe
-        //        *v_constrained = limit_float(*v_constrained, -v_max * 2 / (2 + odo.coefs.spacing * speed_asserv.courbure),
-        //                                                    v_max * 2 / (2 + odo.coefs.spacing * speed_asserv.courbure));
+        //        *v_constrained = limit_float(*v_constrained, -v_max * 2 / (2 + odo.coefs.spacing * fabsf(speed_asserv.courbure)),
+        //                v_max * 2 / (2 + odo.coefs.spacing * fabsf(speed_asserv.courbure)));
 
         // contrainte accelération centripète
-        *v_constrained = limit_float(*v_constrained, -sqrtf(v_vt_max / speed_asserv.courbure),
-                sqrtf(v_vt_max / speed_asserv.courbure));
+        *v_constrained = limit_float(*v_constrained, -sqrtf(v_vt_max / fabsf(speed_asserv.courbure)),
+                sqrtf(v_vt_max / fabsf(speed_asserv.courbure)));
 
         *vt_constrained = speed_asserv.courbure * fabsf(*v_constrained);
     }
@@ -173,6 +176,7 @@ void constrain_speed(
 void constrain_speed_order() {
 
     // vitesse consigne(o comme order) et consigne contrainte(oc)
+
     float v_o = speed_asserv.speed_order.v;
     float vt_o = speed_asserv.speed_order.vt;
     float v_oc = speed_asserv.speed_order_constrained.v;
@@ -207,7 +211,7 @@ void asserv_step(Odo *odo, float *commande_g, float *commande_d) {
             // si on est en asservissement en position
         case ASSERV_MODE_POS:
             if (debug_mode) {
-                debug_pos_asserv();
+                debug_speed_asserv();
             }
             pos_asserv_step(odo, commande_g, commande_d);
             break;
@@ -232,12 +236,14 @@ void asserv_step(Odo *odo, float *commande_g, float *commande_d) {
                 debug_speed_asserv();
             }
             linear_speed_asserv_step(odo, commande_g, commande_d);
+
             break;
     }
 }
 
 void speed_asserv_step(Odo *odo, float *commande_g, float *commande_d) {
     // commandes des PID en vitesse absolue (delta) et angulaire (alpha)
+
     float commande_delta, commande_alpha;
 
     // verifier qu'on est pas bloque par un obstacle
@@ -272,6 +278,7 @@ void speed_asserv_step(Odo *odo, float *commande_g, float *commande_d) {
 
 void linear_speed_asserv_step(Odo *odo, float *commande_g, float *commande_d) {
     // commandes des PID en vitesse absolue (delta)
+
     float commande_delta;
 
     // verifier qu'on est pas bloque par un obstacle
@@ -363,6 +370,7 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d) {
         }
 
         if (derriere) {
+
             d = -d;
             dt = principal_angle(dt + PI);
         }
@@ -379,7 +387,7 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d) {
         v_o = pid_process((Pid*)&(pos_asserv.pid_delta));
         //vt_o = pid_process((Pid*)&(pos_asserv.pid_alpha));
 
-        courbure = 4 * (2 * sin(dt / 2) / fabsf(d));
+        courbure = 2 * (2 * sin(dt / 2) / fabsf(d));
         vt_o = courbure * fabsf(v_o);
 
         // appel de l'asserve en vitesse avec les bonnes consignes
@@ -387,15 +395,11 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d) {
         speed_asserv.speed_order.v = v_o;
         speed_asserv.speed_order.vt = vt_o;
         speed_asserv.courbure = courbure;
-        //        if (fabsf(d) < 0.05) { // stabilité
-        //            motionConstraint.v_max.v = v_max/10;
-        //            motionConstraint.v_max.vt = vt_max/10;
-        //        }
+        // limite vt pour stabilité
+        //motionConstraint.v_max.vt = 1.57;
         speed_asserv_step(odo, commande_g, commande_d);
-        //        if (fabsf(d) < 0.05) {
-        //            motionConstraint.v_max.v = v_max;
-        //            motionConstraint.v_max.vt = vt_max;
-        //        }
+        //motionConstraint.v_max.vt = vt_max;
+
     }
 }
 
@@ -416,6 +420,7 @@ void angle_asserv_step(Odo *odo, float *commande_g, float *commande_d) {
         commande_d = 0;
     } else {
         // maj des consignes des PID
+
         pid_set_order((Pid*)&(pos_asserv.pid_alpha), dt);
 
         // maj des valeurs des PID
@@ -445,6 +450,7 @@ void seq_asserv_step(Odo *odo, float *commande_g, float *commande_d) {
         pos_asserv_step(odo, commande_g, commande_d);
         // si cette etape est finie, passer a la suivante
         if (pos_asserv.done) {
+
             pid_reset((Pid*)&(speed_asserv.pid_alpha));
             pid_reset((Pid*)&(speed_asserv.pid_delta));
             pos_asserv.done = 0;
@@ -470,6 +476,7 @@ int asserv_done() {
     } else if (asserv_mode == ASSERV_MODE_LINEAR_SPEED) {
         return speed_asserv.done;
     } else {
+
         return 0;
     }
 }
@@ -477,6 +484,7 @@ int asserv_done() {
 int Is_Asserv_Mode_Pos(void) {
     if ((asserv_mode == ASSERV_MODE_POS) || (asserv_mode == ASSERV_MODE_SEQUENCE))
         return 1;
+
     else
         return 0;
 }

@@ -45,7 +45,7 @@ typedef struct {
     MotionState *state;
     MotionConstraint *constraint;
     int done;
-    int courbure;
+    float courbure;
 } SpeedAsserv;
 
 // Un asservissement en angle

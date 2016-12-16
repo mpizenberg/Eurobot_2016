@@ -1,7 +1,7 @@
 #ifndef _DEBUG_H_
 #define _DEBUG_H_
 
-#define DEBUG_COUNT_MAX 400
+#define DEBUG_COUNT_MAX 500
 
 // pour le réglage de l'asserv (tableaux à récupérer en mode debug)
 
@@ -9,10 +9,15 @@ typedef struct {
     // consignes en vitesse et vitesse angulaire du robot
     float v[DEBUG_COUNT_MAX];
     float vt[DEBUG_COUNT_MAX];
-    float cons_v[DEBUG_COUNT_MAX];
-    float cons_vt[DEBUG_COUNT_MAX];
-    float pid_v[DEBUG_COUNT_MAX];
-    float pid_vt[DEBUG_COUNT_MAX];
+    //    float cons_v[DEBUG_COUNT_MAX];
+    //    float cons_vt[DEBUG_COUNT_MAX];
+    //    float pid_v[DEBUG_COUNT_MAX];
+    //    float pid_vt[DEBUG_COUNT_MAX];
+    float c[DEBUG_COUNT_MAX];
+    float ac[DEBUG_COUNT_MAX];
+    float atc[DEBUG_COUNT_MAX];
+    float vcc[DEBUG_COUNT_MAX];
+    float vac[DEBUG_COUNT_MAX];
 } SpeedDebug;
 
 // pour le réglage de l'asserv (tableaux à récupérer en mode debug)
