@@ -8,10 +8,12 @@
 // mode de l'asservissement
 #define ASSERV_MODE_OFF 0
 #define ASSERV_MODE_POS 1
-#define ASSERV_MODE_SPEED 2
-#define ASSERV_MODE_ANGLE 3
-#define ASSERV_MODE_SEQUENCE 4
-#define ASSERV_MODE_LINEAR_SPEED 5
+#define ASSERV_MODE_ANGLE 2
+#define ASSERV_MODE_SPEED 3
+#define ASSERV_MODE_LINEAR_SPEED 4
+#define ASSERV_MODE_ANGULAR_SPEED 5
+#define ASSERV_MODE_SEQUENCE 6
+#define ASSERV_MODE_POS_SEGMENT 7
 
 /*****************************    Structures    *******************************/
 
@@ -67,10 +69,12 @@ void asserv_init();
 // choisir le mode d'asservissement (désactivé, en position, en vitesse)
 void set_asserv_off();
 void set_asserv_pos_mode();
+void set_asserv_angle_mode();
 void set_asserv_speed_mode();
 void set_asserv_linear_speed_mode();
-void set_asserv_angle_mode();
+void set_asserv_angular_speed_mode();
 void set_asserv_seq_mode();
+void set_asserv_pos_segment_mode();
 
 // contraindre les vitesses et accélérations autorisées
 void constrain_speed(
@@ -78,19 +82,29 @@ void constrain_speed(
         float *v_constrained, float *vt_constrained,
         float v_max, float vt_max,
         float a_max, float at_max, float v_vt_max);
+
 // contraint la consigne de vitesse avec la fonction precedente constrain_speed
 void constrain_speed_order();
 
 // effectue un pas d'asservissement
 void asserv_step(Odo *odo, float *commande_g, float *commande_d);
+
+// fonctions de calcul des commandes en fonction du mode
+void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d);
+void pos_segment_asserv_step(Odo *odo, float *commande_g, float *commande_d);
+void angle_asserv_step(Odo *odo, float *commande_g, float *commande_d);
 void speed_asserv_step(Odo *odo, float *commande_g, float *commande_d);
 void linear_speed_asserv_step(Odo *odo, float *commande_g, float *commande_d);
-void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d);
-void angle_asserv_step(Odo *odo, float *commande_g, float *commande_d);
+void angular_speed_asserv_step(Odo *odo, float *commande_g, float *commande_d);
 void seq_asserv_step(Odo *odo, float *commande_g, float *commande_d);
 
 // indique si l'asservissement en cours a terminé
 int asserv_done();
 
+// renvoit true si asserve en mode pos et seq
+int Is_Asserv_Mode_Pos(void);
+
+// renvoit 1 si la vitesse >1cm/s, -1 si <1cm/s, 0 sinon
+int Sens_Vitesse_Deplacement(void);
 
 #endif // _ASSERV_H_

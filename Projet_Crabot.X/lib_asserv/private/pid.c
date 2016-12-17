@@ -2,9 +2,6 @@
 #include "tools.h"
 #include <math.h>
 
-/******************************    Variables    *******************************/
-
-
 
 /******************************    Fonctions    *******************************/
 
@@ -71,12 +68,12 @@ void pid_set_eps_der(Pid *pid, float der) {
 void pid_reset(Pid *pid) {
     pid_set_err_int(pid, 0);
 }
+
 // assigner une valeur de consigne
 
 void pid_set_order(Pid *pid, float order) {
     pid->order = order;
 }
-
 
 // maj du PID avec une valeur "value"
 

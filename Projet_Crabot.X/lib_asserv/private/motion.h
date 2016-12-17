@@ -64,6 +64,7 @@ typedef struct {
 // initialiser la lib d'asservissement
 void motion_init();
 void reset_last_order();
+
 // assigner des valeurs à la position (x, y et theta)
 void set_position(Position pos);
 void set_position_x(float x);
@@ -72,6 +73,7 @@ void set_position_t(float t);
 
 // ajout pepino
 void set_Constraint_vitesse_max(float vl_max);
+
 // ajout Daniel
 void set_Constraint_vt_max(float vt_max);
 void set_Constraint_acceleration_max(float al_max, float at_max, float a_max);
@@ -99,23 +101,25 @@ float get_vd();
 // consignes de déplacements du robot
 void motion_free(); // passer en roue libre
 void motion_pos(Position pos); // aller à cette position
-void motion_sequence(Position pos1, Position pos2); // sequence de 2 positions
-void motion_push(Position pos, float stop_distance); // ajoute ou remplace le prochain ordre de la sequence
+void motion_pos_segment(Position pos); // aller à cette position sans courbe
+void motion_angle(float abs_angle); // tourner pour être à un angle (absolu) alpha
 void motion_speed(Speed speed); // avancer à cette vitesse
 void motion_linear_speed(Speed speed); // avancer à cette vitesse, sans s'occuper de l'angle
-void motion_angle(float abs_angle); // tourner pour être à un angle (absolu) alpha
+void motion_angular_speed(Speed speed); // avancer à cette vitesse, sans s'occuper de la distance
+void motion_sequence(Position pos1, Position pos2); // sequence de 2 positions
+void motion_push(Position pos, float stop_distance); // ajoute ou remplace le prochain ordre de la sequence
+
 
 // checker si le déplacement est terminé
 int motion_done();
-void done(); // callback
 
 // vérifier qu'on est pas bloqué par un obstacle
 void check_blocked(Speed speed, Speed order);
+
 // Deblocage apres release de sick/ultrason/evitement
 void load_last_order(void);
 
 // renvoie les commandes des roues gauche et droite (appelé par l'interruption toutes les 5 ms)
 void motion_step(int tics_g, int tics_d, float *commande_g, float *commande_d);
-
 
 #endif // _MOTION_H_

@@ -33,6 +33,7 @@ void motion_init(void) {
     // initialiser les contraintes avant le reste (utile par exemple dans l'initialisation de l'asserve)
     motionConstraint.v_max = v_max;
     motionConstraint.a_max = a_max;
+
     // initialiser la séquence de déplacement
     motionSequence.in_progress = 0;
     motionSequence.waiting = 0;
@@ -189,6 +190,61 @@ void motion_pos(Position pos) {
     set_asserv_pos_mode();
 }
 
+void motion_pos_segment(Position pos) {
+    pos_asserv.stop_distance = DEFAULT_STOP_DISTANCE;
+    pos_asserv.done = 0;
+    pos_asserv.pos_order = pos;
+
+    lastPosOrder.mode = POSITION_ORDER;
+    lastPosOrder.pos = pos;
+    lastPosOrder.stop_distance = DEFAULT_STOP_DISTANCE;
+    New_Order_Evitement_Handling();
+
+    set_asserv_pos_segment_mode();
+}
+
+// tourner pour être à un angle (absolu) alpha
+
+void motion_angle(float abs_angle) {
+    angle_asserv.done = 0;
+    angle_asserv.angle_order = abs_angle;
+
+    lastPosOrder.mode = NO_ORDER;
+    New_Order_Evitement_Handling();
+
+    set_asserv_angle_mode();
+}
+
+void motion_speed(Speed speed) {
+    speed_asserv.done = 0;
+    speed_asserv.speed_order = speed;
+
+    lastPosOrder.mode = NO_ORDER;
+    New_Order_Evitement_Handling();
+
+    set_asserv_speed_mode();
+}
+
+void motion_linear_speed(Speed speed) {
+    speed_asserv.done = 0;
+    speed_asserv.speed_order = speed;
+
+    lastPosOrder.mode = NO_ORDER;
+    New_Order_Evitement_Handling();
+
+    set_asserv_linear_speed_mode();
+}
+
+void motion_angular_speed(Speed speed) {
+    speed_asserv.done = 0;
+    speed_asserv.speed_order = speed;
+
+    lastPosOrder.mode = NO_ORDER;
+    New_Order_Evitement_Handling();
+
+    set_asserv_angular_speed_mode();
+}
+
 void motion_sequence(Position pos1, Position pos2) {
     pos_asserv.done = 0;
     motionSequence.in_progress = 0;
@@ -226,37 +282,6 @@ void motion_push(Position pos, float stop_distance) {
     set_asserv_seq_mode();
 }
 
-void motion_speed(Speed speed) {
-    speed_asserv.done = 0;
-    speed_asserv.speed_order = speed;
-
-    lastPosOrder.mode = NO_ORDER;
-    New_Order_Evitement_Handling();
-
-    set_asserv_speed_mode();
-}
-
-void motion_linear_speed(Speed speed) {
-    speed_asserv.done = 0;
-    speed_asserv.speed_order = speed;
-
-    lastPosOrder.mode = NO_ORDER;
-    New_Order_Evitement_Handling();
-
-    set_asserv_linear_speed_mode();
-}
-// tourner pour être à un angle (absolu) alpha
-
-void motion_angle(float abs_angle) {
-    angle_asserv.done = 0;
-    angle_asserv.angle_order = abs_angle;
-
-    lastPosOrder.mode = NO_ORDER;
-    New_Order_Evitement_Handling();
-
-    set_asserv_angle_mode();
-}
-
 // checker si le déplacement est terminé
 
 int motion_done() {
@@ -268,12 +293,10 @@ int motion_done() {
 
 void check_blocked(Speed speed, Speed order) {
     if (fabsf(speed.v - order.v) > 0.1 || fabsf(speed.vt - order.vt) > 0.4) {
-        if (blocked == BLOCK_LIMIT) {
-            //motion_free();
+        if (blocked >= BLOCK_LIMIT) {
+            motion_free();
         }
-        if (blocked < BLOCK_LIMIT + 1) {
-            blocked++;
-        }
+        blocked++;
     } else {
         blocked = 0;
     }
