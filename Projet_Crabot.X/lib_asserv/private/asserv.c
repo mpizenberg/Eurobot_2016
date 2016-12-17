@@ -377,8 +377,6 @@ void pos_segment_asserv_step(Odo *odo, float *commande_g, float *commande_d) {
     float y = odo->state->pos.y;
     float v = odo->state->speed.v;
 
-    float vt_max = motionConstraint.v_max.vt;
-
     // calcul de la distance a la consigne en position
     float d = sqrtf((x_o - x)*(x_o - x) + (y_o - y)*(y_o - y));
     // calcul de la deviation angulaire par rapport a la consigne en position
@@ -449,13 +447,7 @@ void pos_segment_asserv_step(Odo *odo, float *commande_g, float *commande_d) {
             speed_asserv.speed_order.vt = vt_o;
         }
 
-        // limite vt pour stabilité si proche du point
-        if (fabsf(d) < 0.05) motionConstraint.v_max.vt = 1.57;
-
         speed_asserv_step(odo, commande_g, commande_d);
-
-        if (fabsf(d) < 0.05) motionConstraint.v_max.vt = vt_max;
-
     }
 }
 
@@ -598,14 +590,18 @@ int asserv_done() {
         return 1;
     } else if (asserv_mode == ASSERV_MODE_POS) {
         return pos_asserv.done;
-    } else if (asserv_mode == ASSERV_MODE_SPEED) {
-        return speed_asserv.done;
+    } else if (asserv_mode == ASSERV_MODE_POS_SEGMENT) {
+        return pos_asserv.done;
     } else if (asserv_mode == ASSERV_MODE_ANGLE) {
         return angle_asserv.done;
-    } else if (asserv_mode == ASSERV_MODE_SEQUENCE) {
-        return !(motionSequence.waiting);
+    } else if (asserv_mode == ASSERV_MODE_SPEED) {
+        return speed_asserv.done;
     } else if (asserv_mode == ASSERV_MODE_LINEAR_SPEED) {
         return speed_asserv.done;
+    } else if (asserv_mode == ASSERV_MODE_ANGULAR_SPEED) {
+        return speed_asserv.done;
+    } else if (asserv_mode == ASSERV_MODE_SEQUENCE) {
+        return !(motionSequence.waiting);
     } else {
         return 0;
     }
