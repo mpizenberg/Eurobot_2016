@@ -321,11 +321,13 @@ void motion_step(int tics_g, int tics_d, float *commande_g, float *commande_d) {
         // on appelle la bonne fonction d'asservissement
         asserv_step((Odo*) (&odo), commande_g, commande_d);
         // indique si on est arriv√©
-        if (asserv_done()) {
-            if (asserv_mode != ASSERV_MODE_OFF) {
-                //motion_free();
-                SendDone();
-            }
-        }
+        // A REVOIR, TRES SALE !!!!
+        //        if (asserv_done()) {
+        //            if (asserv_mode != ASSERV_MODE_OFF) {
+        //                // DÈcommenter la ligne suivante si on ne veut pas que le robot reste asservi en position.
+        //                //motion_free();
+        //                SendDone();
+        //            }
+        //        }
     }
 }

@@ -166,7 +166,7 @@ void constrain_speed(
         // contraintes liees a l'acceleration absolue
         *v_constrained = limit_float(v, v_c_old - a_max * period, v_c_old + a_max * period);
 
-        //        // contraintes liees a l'acceleration angulaire !!DANGER, A DEBUGUGER!!s
+        //        // contraintes liees a l'acceleration angulaire !!DANGER, A DEBUGUGER!!
         //        *v_constrained = limit_float(*v_constrained, vt_c_old - at_max * period / speed_asserv.courbure,
         //                vt_c_old + at_max * period / speed_asserv.courbure);
 
@@ -349,12 +349,12 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d) {
         speed_asserv.speed_order.vt = vt_o;
         speed_asserv.courbure = courbure;
 
-        // limite vt pour stabilité si proche du point
-        if (fabsf(d) < 0.05) motionConstraint.v_max.vt = 1.57;
+        // limite vt pour stabilité si proche du point (10 cm))
+        if (fabsf(d) < 0.1) motionConstraint.v_max.vt = 1.57;
 
         speed_asserv_step(odo, commande_g, commande_d);
 
-        if (fabsf(d) < 0.05) motionConstraint.v_max.vt = vt_max;
+        if (fabsf(d) < 0.1) motionConstraint.v_max.vt = vt_max;
     }
 }
 
@@ -587,7 +587,7 @@ void seq_asserv_step(Odo *odo, float *commande_g, float *commande_d) {
 
 int asserv_done() {
     if (asserv_mode == ASSERV_MODE_OFF) {
-        return 1;
+        return 0;
     } else if (asserv_mode == ASSERV_MODE_POS) {
         return pos_asserv.done;
     } else if (asserv_mode == ASSERV_MODE_POS_SEGMENT) {
@@ -603,7 +603,7 @@ int asserv_done() {
     } else if (asserv_mode == ASSERV_MODE_SEQUENCE) {
         return !(motionSequence.waiting);
     } else {
-        return 0;
+        return -1;
     }
 }
 
