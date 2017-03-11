@@ -97,12 +97,12 @@ void __attribute__((__interrupt__, no_auto_psv)) _U2TXInterrupt(void)
         _U2TXIF = 0; // clear TX interrupt flag
     } else {
         // desactive l'IT TX, passe en RX, active l'IT RX
+        Time_Since_Last_AX12_Received = 0;
         Com_AX12_Status = COM_AX12_WAIT_ANSWER;
         IEC1bits.U2TXIE = 0;
         Set_AX12_RX();
         ReadUART2();        // juste pour vider les buffer
         AX12_Receive_Ptr = 0;
-        Time_Since_Last_AX12_Received = 0;
         _U2RXIF = 0;
         IEC1bits.U2RXIE = 1;
     }
@@ -131,8 +131,10 @@ void AX12_Every_ms (void)
     uint8_t i, val8, error;
     if (Com_AX12_Status == COM_AX12_IDDLE) {        // si au repos
         if (Command_AX12_TODO != Command_AX12_DONE) {       // si nouvel ordre à faire
-            if ((Liste_Command_AX12[Command_AX12_DONE].Command == AX_INST_READ_DATA) || // si ce nouvel ordre est supporté (read ou write)
+            if ( ((Liste_Command_AX12[Command_AX12_DONE].Command == AX_INST_READ_DATA) && 
+                  (Liste_Command_AX12[Command_AX12_DONE].AX12_Addr != AX_BROADCAST)       )    || // si ce nouvel ordre est supporté (read ou write)
                 (Liste_Command_AX12[Command_AX12_DONE].Command == AX_INST_WRITE_DATA) ) {
+                
                 AX12_Transmit_Tab [0] = 0xFF;
                 AX12_Transmit_Tab [1] = 0xFF;
                 AX12_Transmit_Tab [2] = Liste_Command_AX12[Command_AX12_DONE].AX12_Addr;
@@ -179,16 +181,21 @@ void AX12_Every_ms (void)
         Time_Since_Last_AX12_Received ++;
         if (Time_Since_Last_AX12_Received > 5) {            // on attend 5 ms pour considerer la fin de la liaison
             error = 1;  // on dit que c'est en erreur
-            if ( (AX12_Receive_Ptr > 6)  &&                 //si on a recu assez pour faire un paquet
-                 (AX12_Receive_Tab[3] == (AX12_Receive_Ptr - 4) ) ) {    // et que la longeur est cohérente
-                // calcul du checksum
-                val8 = 0;
-                for (i = 2; i < (AX12_Receive_Tab[3] + 2); i++)
-                    val8 += AX12_Receive_Tab[i];
-                // vérif si checksum est bon
-                if (val8 == !AX12_Receive_Tab[AX12_Receive_Ptr-1])
-                    error = 0;
+            if (AX12_Receive_Ptr > 6) {                 //si on a recu assez pour faire un paquet
+                if (AX12_Receive_Tab[3] == (AX12_Receive_Ptr - 4) ) {    // et que la longeur est cohérente
+                    // calcul du checksum
+                    val8 = 0;
+                    for (i = 2; i < (AX12_Receive_Tab[3] + 2); i++)
+                        val8 += AX12_Receive_Tab[i];
+                    // vérif si checksum est bon
+                    if (val8 == !AX12_Receive_Tab[AX12_Receive_Ptr-1])
+                        error = 0;
+                }
+            } else if (Liste_Command_AX12[Command_AX12_DONE].AX12_Addr == AX_BROADCAST) {
+                AX12_Receive_Tab[4] = 0;
+                error = 0;                      // si broadcast, on considère que c'est bon quoi qu'il arrive
             }
+            
             if (!error) {   // si le transfert s'est bien passé
                 if (Liste_Command_AX12[Command_AX12_DONE].Command == AX_INST_READ_DATA) {   // en cas de lecture, on transfere la donnée là ou c'est demandé
                     for (i = 0; i < Liste_Command_AX12[Command_AX12_DONE].Nb_Data; i++)
