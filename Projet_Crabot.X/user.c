@@ -45,7 +45,7 @@ void Init_All(int callback){
     __delay_ms(200);
     Init_PWM();
     Init_QEI();
-    Init_IT_AX12();
+    Init_Com_AX12();
     Gestion_IO_AU_Config_Init();
     __delay_ms(500);
     Init_ax12();

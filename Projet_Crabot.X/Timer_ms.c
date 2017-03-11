@@ -13,6 +13,7 @@ volatile char Delay_90_Over = 0;
 volatile long Delay_WatchDone = 0;
 
 
+
 void Timer_ms_Init(void)
 {
 	// activation du Timer3
@@ -29,7 +30,7 @@ void Timer_ms_Init(void)
 
 
 
-//volatile unsigned int Maxtime_Seq_AX12 = 0;
+
 //volatile unsigned int Loc_Maxtime = 0;
 //
 //unsigned int Get_Maxtime_Seq_AX12(void)
@@ -94,10 +95,9 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
         Must_do_Gestion_Evitement();
         count_Evit = 10;
     }
-            
-    if (Delay_TimeOut_AX12) {
-        Delay_TimeOut_AX12 --;
-    }
+    
+    AX12_Every_ms();
+    
 //    if (Maxtime_Seq_AX12) {
 //        Maxtime_Seq_AX12 --;
 //    }

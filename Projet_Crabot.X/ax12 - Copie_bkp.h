@@ -97,36 +97,69 @@ typedef unsigned char byte;
  * Stucture to decode error fields used in the return status, address17 and
  * address18, where each bit has a different meaning.
  */
-
-#define AX12_CMD_NB_MAX_TRY_SEND 5
-
-typedef struct
-{
-    uint8_t AX12_Addr;
-    uint8_t Command;
-    uint8_t Reg_Addr;
-    uint8_t *Data;
-    uint8_t Nb_Data;
-    uint8_t *Status;
-    uint8_t *Done;
-} AX12_Command;
+typedef struct {
+    unsigned input_voltage : 1;
+    unsigned angle_limit : 1;
+    unsigned overheating : 1;
+    unsigned range : 1;
+    unsigned cheksum : 1;
+    unsigned overload : 1;
+    unsigned instruction : 1;
+    unsigned : 1;
+} errorAX;
 
 
-void Init_Com_AX12 (void);
+/*
+ * Public global variables.
+ */
+extern volatile int responseReadyAX;
+typedef volatile struct {
+    byte id;
+    byte len;
+    errorAX error;
+    byte params[10]; // Could be larger.
+} responseAXtype;
+extern responseAXtype responseAX;
 
 
-void Set_AX12_TX(void);
-void Set_AX12_RX(void);
+void Init_IT_AX12 (void);
 
 
-void AX12_Every_ms (void);
+/*
+ * Function prototypes.
+ */
+void SetTX(void);
+void SetRX(void);
+void PushUART(byte b);
+void InterruptAX(void);
 
-void Add_AX12_Cmd (uint8_t AX12_Addr, uint8_t Command, uint8_t Reg_Addr, uint8_t *Data, uint8_t Nb_Data, uint8_t *Status, uint8_t *Done);
+void PushHeaderAX(byte id, byte len, byte inst);
+void PushBufferAX(byte len, byte* buf);
+void PushFooterAX(void);
 
+void PingAX(byte id);
+void ReadAX(byte id, byte address, byte len);
+void WriteAX(byte id, byte address, byte len, byte* buf);
+void RegWriteAX(byte id, byte address, byte len, byte* buf);
+void ActionAX(byte id);
+void ResetAX(byte id);
+//void SyncWriteAX(byte id, ...);
 
 byte RegisterLenAX(byte address);
+char GetAX(byte id, byte address);
+//void PutAX(byte id, byte address, int value);
 
-void Send_AX(uint8_t id, uint8_t Reg, uint16_t Data);
+
+char PutAX(byte id, byte address, int value);
+
+extern volatile int Delay_TimeOut_AX12;
+
+char PutAX_Check(byte id, byte address, int value);
+char GetAX_Check (byte id, byte address);
+
+int GetAX_Pos (byte id);
+
+
 
 
 

@@ -23,17 +23,28 @@
 /******************************************************************************
  * Global Variables
  ******************************************************************************/
-byte checksumAX;
-volatile int posAX = -5;
+
+#define COM_AX12_IDDLE           0x00
+#define COM_AX12_SENDING         0x01
+#define COM_AX12_WAIT_ANSWER     0x02
+
+volatile uint8_t Com_AX12_Status = COM_AX12_IDDLE;
+volatile uint8_t Time_Since_Last_AX12_Received = 0;
+
+uint8_t AX12_Transmit_Tab[20] = {0xFF, 0xFF, 0};
+uint8_t AX12_Transmit_Goal = 0, AX12_Transmit_Ptr = 0;
+uint8_t AX12_Receive_Tab[20];
+uint8_t AX12_Receive_Ptr = 0;
 
 
 
-volatile int Delay_TimeOut_AX12 = 0;
+AX12_Command Liste_Command_AX12[20];
+uint8_t Command_AX12_TODO = 0, Command_AX12_DONE = 0;
+uint8_t AX12_Cmd_Nb_Try = 0;
 
 
-void Init_IT_AX12 (void)
+void Init_Com_AX12 (void)
 {
-    
     TRISBbits.TRISB7=1; //Pin RB7 en entrée pour les AX12
     _ODCB7 = 1; // Open drain sur la pin RB7(pour les AX12)
     
@@ -47,9 +58,14 @@ void Init_IT_AX12 (void)
         & UART_ADR_DETECT_DIS & UART_RX_OVERRUN_CLEAR,
           BRGVALAX12);
 
-    ConfigIntUART2(UART_RX_INT_PR5 & UART_RX_INT_EN
-                 & UART_TX_INT_PR5 & UART_TX_INT_DIS);
-
+    ConfigIntUART2(UART_RX_INT_PR2 & UART_RX_INT_DIS
+                 & UART_TX_INT_PR2 & UART_TX_INT_DIS);
+    
+    _U2TXIF = 1;    // mise à 1 du flag en prévision
+    Com_AX12_Status = COM_AX12_IDDLE;
+    AX12_Cmd_Nb_Try = 0;
+    Time_Since_Last_AX12_Received = 0;
+    
     TRIS_PIN_REMAPABLE_AX12 = 1;    // pin AX12 en IN pour remapable IN
     OPEN_DRAIN_PIN_REMAPABLE_AX12 = 1; 
     
@@ -60,25 +76,37 @@ void Init_IT_AX12 (void)
 /*************************************************
 * TX et RX Interrupt *
 *************************************************/
-void __attribute__((__interrupt__, no_auto_psv)) _U2RXInterrupt(void){
-    InterruptAX();          // RX des AX12
+void __attribute__((__interrupt__, no_auto_psv)) _U2RXInterrupt(void)
+{
+    uint8_t valrx = ReadUART2();
+    if (Com_AX12_Status == COM_AX12_WAIT_ANSWER) {
+        Time_Since_Last_AX12_Received = 0;
+        AX12_Receive_Tab[AX12_Receive_Ptr] = valrx;
+        if (AX12_Receive_Ptr < 19)
+            AX12_Receive_Ptr ++;
+    }
     _U2RXIF = 0; // On baisse le FLAG
 }
 
-void __attribute__((__interrupt__, no_auto_psv)) _U2TXInterrupt(void){
-   _U2TXIF = 0; // clear TX interrupt flag
+void __attribute__((__interrupt__, no_auto_psv)) _U2TXInterrupt(void)
+{
+    // tant qu'il y a des trucs à mettre
+    if (AX12_Transmit_Goal != AX12_Transmit_Ptr) {
+        WriteUART2(AX12_Transmit_Tab[AX12_Transmit_Ptr]);
+        AX12_Transmit_Ptr ++;
+        _U2TXIF = 0; // clear TX interrupt flag
+    } else {
+        // desactive l'IT TX, passe en RX, active l'IT RX
+        Com_AX12_Status = COM_AX12_WAIT_ANSWER;
+        IEC1bits.U2TXIE = 0;
+        Set_AX12_RX();
+        ReadUART2();        // juste pour vider les buffer
+        AX12_Receive_Ptr = 0;
+        Time_Since_Last_AX12_Received = 0;
+        _U2RXIF = 0;
+        IEC1bits.U2RXIE = 1;
+    }
 }
-
-
-
-
-
-
-/*
- * Public global variables, which have to be declared volatile.
- */
-volatile int responseReadyAX = 0;
-responseAXtype responseAX;
 
 /******************************************************************************
  * Wiring dependent functions, that you should customize
@@ -86,144 +114,107 @@ responseAXtype responseAX;
 
 // du coup, le bit IOLOCK est à 0 au reset du pic,
 // donc on va pas y toucher, ça permet de tout faire marcher facile....
-
-void SetTX() {
-    //__builtin_write_OSCCONL(0x46);
-    //__builtin_write_OSCCONL(0x57);
-    //__builtin_write_OSCCONL(OSCCON & 0xBF);
+void Set_AX12_TX() {
     _U2RXR = 31;                        // disable RX
     PIN_REMAPABLE_AX12_OUT = 0b00101;   // RP10 = U2TX (p.167)      TX => RP10
-    //__builtin_write_OSCCONL(OSCCON | 0x40);
 }
 
-void SetRX() {
-    //__builtin_write_OSCCONL(0x46);
-    //__builtin_write_OSCCONL(0x57);
-    //__builtin_write_OSCCONL(OSCCON & 0xBF);     // IOLOCK = 0
+void Set_AX12_RX() {
     _U2RXR = PIN_REMAPABLE_AX12_IN;     // RP10 = U2RX (p.165)      RX <= RP10
     PIN_REMAPABLE_AX12_OUT = 0;         // disable TX
-    // __builtin_write_OSCCONL(OSCCON | 0x40);
 
 }
 
-/******************************************************************************
- * Functions to read and write command and return packets
- ******************************************************************************/
+// fonction a mettre dans le timer ms
+void AX12_Every_ms (void)
+{
+    uint8_t i, val8, error;
+    if (Com_AX12_Status == COM_AX12_IDDLE) {        // si au repos
+        if (Command_AX12_TODO != Command_AX12_DONE) {       // si nouvel ordre à faire
+            if ((Liste_Command_AX12[Command_AX12_DONE].Command == AX_INST_READ_DATA) || // si ce nouvel ordre est supporté (read ou write)
+                (Liste_Command_AX12[Command_AX12_DONE].Command == AX_INST_WRITE_DATA) ) {
+                AX12_Transmit_Tab [0] = 0xFF;
+                AX12_Transmit_Tab [1] = 0xFF;
+                AX12_Transmit_Tab [2] = Liste_Command_AX12[Command_AX12_DONE].AX12_Addr;
+                // la longueur du packet, dans le 3, après :
 
-void PushUART(byte b) {
-    while (U2STAbits.UTXBF); // UART2 TX Buffer Full
-    WriteUART2(b);
-    checksumAX += b;
-}
-
-/*
- * Write the first bytes of a command packet, assuming a <len> parameters will
- * follow.
- */
-void PushHeaderAX(byte id, byte len, byte inst) {
-    SetTX();
-
-    PushUART(0xFF);
-    PushUART(0xFF);
-
-    checksumAX = 0; // The first two bytes don't count.
-    PushUART(id);
-    PushUART(len + 2); // Bytes to go : instruction + buffer (len) + checksum.
-    PushUART(inst);
-}
-
-/* Write a buffer of given length to the body of a command packet. */
-void PushBufferAX(byte len, byte* buf) {
-    byte i;
-    for (i = 0; i < len; i++) {
-        PushUART(buf[i]);
+                AX12_Transmit_Tab [4] = Liste_Command_AX12[Command_AX12_DONE].Command;
+                AX12_Transmit_Tab [5] = Liste_Command_AX12[Command_AX12_DONE].Reg_Addr;
+                
+                if (Liste_Command_AX12[Command_AX12_DONE].Command == AX_INST_WRITE_DATA) {
+                    for (i = 0; i < Liste_Command_AX12[Command_AX12_DONE].Nb_Data; i++) {
+                        AX12_Transmit_Tab [6+i] = Liste_Command_AX12[Command_AX12_DONE].Data[i];
+                    }
+                    AX12_Transmit_Tab [3] = Liste_Command_AX12[Command_AX12_DONE].Nb_Data + 3;  // ID + CMD + REG + x*datas
+                    
+                } else if (Liste_Command_AX12[Command_AX12_DONE].Command == AX_INST_READ_DATA) {
+                    AX12_Transmit_Tab [6] = Liste_Command_AX12[Command_AX12_DONE].Nb_Data;
+                    AX12_Transmit_Tab [3] = 4;             // ID + CMD + Addr_Reg + Nb data to read
+                }
+                
+                AX12_Transmit_Goal = AX12_Transmit_Tab [3] + 4; //  2*FF + Len + [] + chksum
+                
+                val8 = 0;
+                for (i = 2; i < AX12_Transmit_Goal-2; i++) {
+                    val8 += AX12_Transmit_Tab[i];
+                }
+                AX12_Transmit_Tab[AX12_Transmit_Goal-1] = !val8;
+                
+                AX12_Transmit_Ptr = 0;
+                Set_AX12_TX();
+                Com_AX12_Status = COM_AX12_SENDING;
+                AX12_Cmd_Nb_Try = 0;
+                _U2TXIF = 0;
+                WriteUART2(AX12_Transmit_Tab[AX12_Transmit_Ptr++]);
+                IEC1bits.U2TXIE = 1;
+                
+            } else {    // si la commande n'est pas suportée par le système
+                *Liste_Command_AX12[Command_AX12_DONE].Done = 1;
+                Command_AX12_DONE ++;
+                if (Command_AX12_DONE == 20)
+                    Command_AX12_DONE = 0;
+            }
+        }
+    } else if (Com_AX12_Status == COM_AX12_WAIT_ANSWER) {        // si en reception
+        Time_Since_Last_AX12_Received ++;
+        if (Time_Since_Last_AX12_Received > 5) {            // on attend 5 ms pour considerer la fin de la liaison
+            error = 1;  // on dit que c'est en erreur
+            if ( (AX12_Receive_Ptr > 6)  &&                 //si on a recu assez pour faire un paquet
+                 (AX12_Receive_Tab[3] == (AX12_Receive_Ptr - 4) ) ) {    // et que la longeur est cohérente
+                // calcul du checksum
+                val8 = 0;
+                for (i = 2; i < (AX12_Receive_Tab[3] + 2); i++)
+                    val8 += AX12_Receive_Tab[i];
+                // vérif si checksum est bon
+                if (val8 == !AX12_Receive_Tab[AX12_Receive_Ptr-1])
+                    error = 0;
+            }
+            if (!error) {   // si le transfert s'est bien passé
+                if (Liste_Command_AX12[Command_AX12_DONE].Command == AX_INST_READ_DATA) {   // en cas de lecture, on transfere la donnée là ou c'est demandé
+                    for (i = 0; i < Liste_Command_AX12[Command_AX12_DONE].Nb_Data; i++)
+                        Liste_Command_AX12[Command_AX12_DONE].Data[i] = AX12_Receive_Tab[i+5];
+                }
+                *Liste_Command_AX12[Command_AX12_DONE].Status = AX12_Receive_Tab[4];
+                *Liste_Command_AX12[Command_AX12_DONE].Done = 1;
+                AX12_Cmd_Nb_Try = 0;
+            } else {
+                AX12_Cmd_Nb_Try++;
+                if (AX12_Cmd_Nb_Try > AX12_CMD_NB_MAX_TRY_SEND) {
+                    *Liste_Command_AX12[Command_AX12_DONE].Status = 0x80;   // code d'erreur
+                    *Liste_Command_AX12[Command_AX12_DONE].Done = 1;
+                    error = 0;  // pour forcer à passer à la suite
+                }
+            }
+            
+            // traitement fait
+            Com_AX12_Status = COM_AX12_IDDLE;
+            if (!error) {
+                Command_AX12_DONE ++;
+                if (Command_AX12_DONE == 20)
+                    Command_AX12_DONE = 0;
+            }
+        }
     }
-}
-
-/* Finish a command packet by sending the checksum. */
-void PushFooterAX() {
-    PushUART(~checksumAX);
-    while (BusyUART2()); // UART1 Transmit Shift Register Empty
-    SetRX();
-}
-
-/**/
-void InterruptAX() {
-    while(DataRdyUART2()) {
-        byte b = ReadUART2();
-
-        if(posAX == -5 && b == 0xFF)
-            posAX = -4;
-        else if(posAX == -4 && b == 0xFF) {
-            posAX = -3;
-            checksumAX = 0;
-            responseAX.len = 1;
-        }
-        else if(posAX == -3) {
-            posAX = -2;
-            responseAX.id = b;
-        }
-        else if(posAX == -2 && b < 2 + 4 /*taille de ax.parameters*/) {
-            posAX = -1;
-            checksumAX = responseAX.id + b;
-            responseAX.len = b - 2;
-        }
-        else if(posAX == -1) {
-            posAX = 0;
-            responseAX.error = *((errorAX*)&b);
-        }
-        else if(0 <= posAX && posAX < responseAX.len) {
-            ((byte*)&responseAX.params)[posAX++] = b;
-            checksumAX += b;
-        }
-        else if(posAX == responseAX.len && (b & checksumAX) == 0) {
-            responseReadyAX = 1;
-            posAX = -5;
-        }
-        else
-            posAX = -5; // Erreur.
-    }
-}
-
-
-/******************************************************************************
- * Instructions Implementation
- ******************************************************************************/
-
-void PingAX(byte id) {
-    PushHeaderAX(id, 2, AX_INST_PING);
-    PushFooterAX();
-}
-
-void ReadAX(byte id, byte address, byte len) {
-    PushHeaderAX(id, 2, AX_INST_READ_DATA);
-    PushUART(address);
-    PushUART(len);
-    PushFooterAX();
-}
-
-void WriteAX(byte id, byte address, byte len, byte* buf) {
-    PushHeaderAX(id, 1 + len, AX_INST_WRITE_DATA);
-    PushUART(address);
-    PushBufferAX(len, buf);
-    PushFooterAX();
-}
-
-void RegWriteAX(byte id, byte address, byte len, byte* buf) {
-    PushHeaderAX(id, 1 + len, AX_INST_REG_WRITE);
-    PushUART(address);
-    PushBufferAX(len, buf);
-    PushFooterAX();
-}
-
-void ActionAX(byte id) {
-    PushHeaderAX(id, 0, AX_INST_ACTION);
-    PushFooterAX();
-}
-
-void ResetAX(byte id) {
-    PushHeaderAX(id, 0, AX_INST_RESET);
-    PushFooterAX();
 }
 
 
@@ -246,128 +237,28 @@ byte RegisterLenAX(byte address) {
     return 0; // Unexpected.
 }
 
-// old version :
-/* Write a value to a registry, guessing its width. 
-void PutAX(byte id, byte address, int value) {
-    responseReadyAX = 0;
-    WriteAX(id, address, RegisterLenAX(address), (byte*)&value);
-}
- * */
-
-/* Read a value from a registry, guessing its width. */
-char GetAX(byte id, byte address) {
-#ifdef TEST_RECEPTION_AX12
-    char i = 0;
-    char OK = 0;
-    while (i < 10 && !OK) {
-        OK = GetAX_Check(id, address);
-        i++;
-    }
-    return (OK == 0);
-#else
-    responseReadyAX = 0;
-    ReadAX(id, address, RegisterLenAX(address));
-    return 0;
-#endif
-}
-
-
-char PutAX(byte id, byte address, int value) {
-#ifdef DOUBLE_COMMANDE_AX12
-    WriteAX(id, address, RegisterLenAX(address), (byte*)&value);
-    __delay_ms(7);
-    WriteAX(id, address, RegisterLenAX(address), (byte*)&value);
-    return 0;
-#else
-#ifdef TEST_RECEPTION_AX12
-    char i = 0;
-    char OK = 0;
-    while (i < 10 && !OK) {
-        OK = PutAX_Check(id, address, value);
-        i++;
-    }
-    return (OK == 0);
-#else
-    responseReadyAX = 0;
-    WriteAX(id, address, RegisterLenAX(address), (byte*)&value);
-    return 0;
-#endif
-#endif
-
-
-}
-
-
-// Write a value to a registry, guessing its width.
-// écoute ensuite la réponse, timeout à 10ms
-// si réponse pas bonne, on retente
-char PutAX_Check(byte id, byte address, int value) {
-    char Reponse_Ok = 1;
+void Add_AX12_Cmd (uint8_t AX12_Addr, uint8_t Command, uint8_t Reg_Addr, uint8_t *Data, uint8_t Nb_Data, uint8_t *Status, uint8_t *Done)
+{
+    Liste_Command_AX12[Command_AX12_TODO].AX12_Addr = AX12_Addr;
+    Liste_Command_AX12[Command_AX12_TODO].Command   = Command;
+    Liste_Command_AX12[Command_AX12_TODO].Reg_Addr  = Reg_Addr;
+    Liste_Command_AX12[Command_AX12_TODO].Data      = Data;
+    Liste_Command_AX12[Command_AX12_TODO].Nb_Data   = Nb_Data;
+    Liste_Command_AX12[Command_AX12_TODO].Status    = Status;
+    Liste_Command_AX12[Command_AX12_TODO].Done      = Done;
     
-    responseReadyAX = 0;    // reset la reception
-    posAX = -5;             // reset BIS
-
-    WriteAX(id, address, RegisterLenAX(address), (byte*)&value );
-    Delay_TimeOut_AX12 = 10;
-
-    // tant que le timer 10ms a pas déclenché, et que l'on a pas reçu la réponse de l'AX
-    while (Delay_TimeOut_AX12 && !responseReadyAX);
-
-    if (responseReadyAX) {      // si on a eu une réponse, on l'analyse
-        if (responseAX.id != id) {
-            Reponse_Ok = 0;
-        }else if (    responseAX.error.input_voltage  || responseAX.error.angle_limit     ||
-                responseAX.error.overheating    || responseAX.error.range           ||
-                responseAX.error.cheksum        || responseAX.error.overload        ||
-                responseAX.error.instruction        ) {
-            Reponse_Ok = 0;
-        }
-    } else {    // si pas de réponse
-        Reponse_Ok = 0;
-    }
-
-    return Reponse_Ok;
+    Command_AX12_TODO ++;
+    if (Command_AX12_TODO == 20)
+        Command_AX12_TODO = 0;
 }
 
-char GetAX_Check (byte id, byte address)
+void Send_AX(uint8_t id, uint8_t Reg, uint16_t Data)
 {
-    char Reponse_Ok = 1;
-    responseReadyAX = 0;    // reset la reception
-    posAX = -5;             // reset BIS
-    ReadAX(id, address, RegisterLenAX(address));
-
-    Delay_TimeOut_AX12 = 10;
-
-    // tant que le timer 10ms a pas d?clench?, et que l'on a pas re?u la r?ponse de l'AX
-    while (Delay_TimeOut_AX12 && !responseReadyAX);
-
-    if (responseReadyAX) {      // si on a eu une r?ponse, on l'analyse
-        if (responseAX.id != id) {
-            Reponse_Ok = 0;
-        }else if (    responseAX.error.input_voltage  || responseAX.error.angle_limit     ||
-                responseAX.error.overheating    || responseAX.error.range           ||
-                responseAX.error.cheksum        || responseAX.error.overload        ||
-                responseAX.error.instruction        ) {
-            Reponse_Ok = 0;
-        }
-    } else {    // si pas de r?ponse
-        Reponse_Ok = 0;
-    }
-
-    return Reponse_Ok;
-}
-
-
-
-int GetAX_Pos (byte id)
-{
-    char OK = 0;
-    OK = GetAX(id, AX_PRESENT_POSITION);
-
-    if (OK) {
-        return responseAX.params[0] + 256*responseAX.params[1];
-    } else {
-        return -1;
-    }
+    uint8_t Done = 0, Status;
+    uint8_t Data_tab[2];
+    Data_tab[0] = Data & 0xFF;
+    Data_tab[1] = Data >> 8;
+    Add_AX12_Cmd (id, AX_INST_WRITE_DATA, Reg, &Data_tab[0], RegisterLenAX(Reg), &Status, &Done);
+    while(!Done);
 }
 
