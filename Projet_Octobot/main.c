@@ -53,9 +53,9 @@ void reglage_asserv(void)
 {
     //while (PIN_LAISSE);
     Position pos0 = {0, 0, 0};
-    Position pos1 = {0.3, 0, 0};
+    Position pos1 = {0.4, 0, 0};
     Speed speed0 = {0, 0};
-    Speed speed1 = {0,3};
+    Speed speed1 = {0,1};
     //motion_angular_speed(4);
     debug_count = 0;
     //motion_pwm_angle(10);

@@ -298,7 +298,7 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d){
         // Pour pouvoir freiner suffisament vite il faut que la deceleration
         // autorisee par ce calcul de vitesse ne depasse pas la deceleration
         // maximale autorisee
-        v_o  = 1 * deceleration_max * d;
+        v_o  = 1.8 * deceleration_max * d;
 
         // Pour ne pas tourner autour de la position, il faut corriger plus rapidement
         // l'ecart angulaire que l'ecart de distance.
@@ -313,7 +313,10 @@ void pos_asserv_step(Odo *odo, float *commande_g, float *commande_d){
         //     r = d / (2*sin(dt))
         // Pour une trajectoire avec la moitie de ce rayon de courbure:
         //     vt = 4*sin(dt)/d * v
-        courbure = 3 * sin(dt) / fabs(d);
+        if (fabs(dt)<0.1)
+            courbure = 0;
+        else
+            courbure = 4 * sin(dt) / fabs(d);
         vt_o = courbure * fabs(v_o);
 
         // appel de l'asserve en vitesse avec les bonnes consignes
